@@ -10,6 +10,11 @@ import com.github.dhaval2404.imagepicker.ImagePicker
 
 class MainActivity : AppCompatActivity() {
 
+    //TODO: Sette opp FAN (https://github.com/amitshekhariitbhu/Fast-Android-Networking)
+    //      Teste endpoints i Postman
+    //      Sette opp SQLite (bruke Room: https://developer.android.com/training/data-storage/room)
+    //      Håndtere alle lifecycle-states
+
     lateinit var imageFromGallery:ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {

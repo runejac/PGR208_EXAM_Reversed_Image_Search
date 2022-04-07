@@ -6,36 +6,34 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <Button
+        android:id="@+id/galleryBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="84dp"
+        android:layout_marginBottom="16dp"
+        android:text="Gallery"
+        app:layout_constraintBottom_toTopOf="@+id/addedImage"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/cameraBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="84dp"
+        android:layout_marginBottom="16dp"
+        android:text="Camera"
+        app:layout_constraintBottom_toTopOf="@+id/addedImage"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <ImageView
         android:id="@+id/addedImage"
         android:layout_width="match_parent"
         android:layout_height="400dp"
         android:contentDescription="@string/added_image"
         tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="5dp"
-        tools:layout_editor_absoluteY="130dp" />
-
-    <Button
-        android:id="@+id/cameraBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="80dp"
-        android:layout_marginBottom="16dp"
-        android:text="Camera"
-        app:layout_constraintBottom_toTopOf="@+id/addedImage"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/galleryBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="80dp"
-        android:layout_marginBottom="16dp"
-        android:text="Gallery"
-        app:layout_constraintBottom_toTopOf="@+id/addedImage"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="195dp" />
 
     <Button
         android:id="@+id/searchBtn"
