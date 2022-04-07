@@ -34,7 +34,7 @@ android {
 dependencies {
 
     def lifecycle_version = "2.4.1"
-    def glide_version = "4.13.0"
+    def glide_version = "4.13.1"
 
     // Lifecycle components
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
@@ -50,7 +50,7 @@ dependencies {
     implementation 'com.github.florent37:inline-activity-result-kotlin:1.0.4'
 
     // ImagePicker
-    implementation 'com.github.dhaval2404:imagepicker-support:1.7.1'
+    implementation 'com.github.dhaval2404:imagepicker:2.1'
 
     // Glide
     implementation "com.github.bumptech.glide:glide:$glide_version"

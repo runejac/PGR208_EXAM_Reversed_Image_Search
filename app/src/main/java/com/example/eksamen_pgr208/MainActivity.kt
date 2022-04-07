@@ -14,6 +14,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
+import com.bumptech.glide.Glide
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.github.dhaval2404.imagepicker.util.FileUriUtils
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -22,7 +23,7 @@ import java.io.InputStream
 class MainActivity : AppCompatActivity() {
 
     private lateinit var floatingActionButton : ImageView
-    private lateinit var imageFromCameraOrGallery : ImageView
+    private var imageFromCameraOrGallery : ImageView? = null
 
     private lateinit var title : TextView
     //TODO: Sette opp FAN (https://github.com/amitshekhariitbhu/Fast-Android-Networking)
@@ -56,15 +57,18 @@ class MainActivity : AppCompatActivity() {
 
 
 
+
+
+
         when (resultCode) {
             Activity.RESULT_OK -> {
                 val uri : Uri = data?.data!!
-
                 val filePath = FileUriUtils.getRealPath(this, uri)
 
-                imageFromCameraOrGallery.setImageURI(filePath?.toUri())
-                println(uri.toString())
-                Uri.parse(uri.toString())
+                Glide.with(this)
+                    .load(filePath)
+                    .into(imageFromCameraOrGallery!!)
+
             }
             ImagePicker.RESULT_ERROR -> {
                 Toast.makeText(this, ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
@@ -74,10 +78,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        /*if (resultCode == Activity.RESULT_OK && requestCode == ImagePicker.REQUEST_CODE) {
-            imageFromCameraOrMemory.setImageURI(data?.data)
-            println(data?.data)
-        }*/
     }
 
 
