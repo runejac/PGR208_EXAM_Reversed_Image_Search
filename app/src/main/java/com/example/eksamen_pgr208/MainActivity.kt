@@ -10,11 +10,15 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.net.toUri
 import com.github.dhaval2404.imagepicker.ImagePicker
+import com.github.dhaval2404.imagepicker.util.FileUriUtils
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var imageFromCameraOrMemory : ImageView
+    private lateinit var floatingActionButton : ImageView
+    private lateinit var imageFromCameraOrGallery : ImageView
+
     private lateinit var title : TextView
     //TODO: Sette opp FAN (https://github.com/amitshekhariitbhu/Fast-Android-Networking)
     //      Teste endpoints i Postman
@@ -27,9 +31,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        imageFromCameraOrMemory = findViewById(R.id.fab)
+        floatingActionButton = findViewById(R.id.fab)
+        imageFromCameraOrGallery = findViewById(R.id.addedImageFromEitherCameraOrMemory)
 
-        imageFromCameraOrMemory.setOnClickListener {
+        floatingActionButton.setOnClickListener {
             showCameraAndGalleryDialog()
         }
 
@@ -43,8 +48,12 @@ class MainActivity : AppCompatActivity() {
         when (resultCode) {
             Activity.RESULT_OK -> {
                 val uri : Uri = data?.data!!
+
+                val filePath = FileUriUtils.getRealPath(this, uri)
+
+                imageFromCameraOrGallery.setImageURI(filePath?.toUri())
                 println(uri.toString())
-                imageFromCameraOrMemory.setImageURI(uri)
+                Uri.parse(uri.toString())
             }
             ImagePicker.RESULT_ERROR -> {
                 Toast.makeText(this, ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
@@ -77,7 +86,7 @@ class MainActivity : AppCompatActivity() {
                 .galleryOnly()
                 .galleryMimeTypes(arrayOf("image/*"))
                 .maxResultSize(400, 400)
-                .crop()
+                //.crop()
                 .start()
 
             camOrGallDialog.dismiss()
