@@ -14,6 +14,14 @@
 
     </TextView>
 
+    <ImageView
+        android:id="@+id/testImage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="TEST"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="137dp"
+        tools:layout_editor_absoluteY="84dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

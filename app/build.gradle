@@ -34,6 +34,10 @@ android {
 dependencies {
 
     implementation 'com.amitshekhar.android:android-networking:1.0.2'
+
+    implementation 'com.github.florent37:inline-activity-result-kotlin:1.0.4'
+    implementation 'com.github.dhaval2404:imagepicker-support:1.7.1'
+
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.4.1'
     implementation 'com.google.android.material:material:1.4.0'
