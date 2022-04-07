@@ -41,10 +41,12 @@ class MainActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
 
 
+
         when (resultCode) {
             Activity.RESULT_OK -> {
                 val uri : Uri = data?.data!!
                 println(uri.toString())
+                imageFromCameraOrMemory.setImageURI(uri)
             }
             ImagePicker.RESULT_ERROR -> {
                 Toast.makeText(this, ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
@@ -56,6 +58,7 @@ class MainActivity : AppCompatActivity() {
 
         /*if (resultCode == Activity.RESULT_OK && requestCode == ImagePicker.REQUEST_CODE) {
             imageFromCameraOrMemory.setImageURI(data?.data)
+            println(data?.data)
         }*/
     }
 
