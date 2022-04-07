@@ -5,8 +5,8 @@
         android:icon="@drawable/ic_baseline_home_white" />
 
     <item android:id="@+id/miCamera"
-        android:title="Camera"
-        android:icon="@drawable/ic_baseline_folder" />
+        android:title="Results"
+        android:icon="@drawable/ic_baseline_format_list_bulleted" />
 
 </menu>
 
