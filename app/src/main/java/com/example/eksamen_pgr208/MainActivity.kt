@@ -4,21 +4,22 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import com.github.dhaval2404.imagepicker.ImagePicker
 
 class MainActivity : AppCompatActivity() {
 
-    lateinit var imageFromGallery:ImageView
+    private lateinit var imageFromGallery:ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         imageFromGallery = findViewById(R.id.addedImage)
-        val galleryBtn = findViewById<Button>(R.id.galleryBtn)
-        val cameraBtn = findViewById<Button>(R.id.cameraBtn)
+        val galleryBtn = findViewById<ImageButton>(R.id.galleryBtn)
+        val cameraBtn = findViewById<ImageButton>(R.id.cameraBtn)
 
         galleryBtn.setOnClickListener {
             ImagePicker.with(this)
