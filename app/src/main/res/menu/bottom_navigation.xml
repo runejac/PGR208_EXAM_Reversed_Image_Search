@@ -6,5 +6,7 @@
 
     <item android:id="@+id/miCamera"
         android:title="Camera"
-        android:icon="@drawable/ic_baseline_camera_white" />
+        android:icon="@drawable/ic_baseline_folder" />
+
 </menu>
+

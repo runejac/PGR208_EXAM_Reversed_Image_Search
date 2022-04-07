@@ -2,7 +2,10 @@ package com.example.eksamen_pgr208
 
 import android.app.Activity
 import android.app.Dialog
+import android.content.ContentResolver
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.widget.ImageButton
@@ -13,6 +16,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.github.dhaval2404.imagepicker.util.FileUriUtils
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import java.io.InputStream
 
 class MainActivity : AppCompatActivity() {
 
@@ -30,6 +35,12 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        // Get bottom navigation shadow be gone
+        var nav : BottomNavigationView = findViewById(R.id.bottomNavigationView)
+        nav.background = null
+        nav.menu.getItem(1).isEnabled = false
+
 
         floatingActionButton = findViewById(R.id.fab)
         imageFromCameraOrGallery = findViewById(R.id.addedImageFromEitherCameraOrMemory)
