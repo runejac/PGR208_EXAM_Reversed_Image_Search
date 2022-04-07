@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">eksamen_pgr208</string>
     <string name="added_image">Added image</string>
+    <string name="camera_button">camera button</string>
+    <string name="gallery_button">gallery button</string>
 </resources>

@@ -14,27 +14,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_margin="5dp"
-            android:padding="10dp">
+            android:padding="0dp">
 
         <ImageButton
-                android:id="@+id/cameraBtn"
+                android:id="@+id/btn_gallery_or_camera"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_baseline_camera_white"
+                android:src="@drawable/ic_baseline_add_a_photo_white"
                 android:layout_weight="1"
                 android:backgroundTint="#353535"/>
 
-        <ImageButton
-                android:id="@+id/galleryBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_baseline_gallery_white"
-                android:layout_weight="1"
-                android:backgroundTint="#353535"/>
 
         <ImageButton
-                android:id="@+id/searchBtn"
+                android:id="@+id/btn_show_result"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_baseline_search_white"
@@ -49,18 +41,13 @@
 
 
     <ImageView
-            android:id="@+id/addedImage"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:id="@+id/addedImageFromEitherCameraOrMemory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:contentDescription="@string/added_image"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteX="5dp"
-            tools:layout_editor_absoluteY="130dp"
-            android:background="#9E9E9E"
             android:layout_margin="5dp"
-            tools:text="DummyImage"/>
-
-
+            tools:src="@drawable/browndress"
+            />
 
 
 
