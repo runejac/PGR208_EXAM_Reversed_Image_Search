@@ -20,6 +20,8 @@ class MainActivity : AppCompatActivity() {
     //      Sette opp SQLite (bruke Room: https://developer.android.com/training/data-storage/room)
     //      Håndtere alle lifecycle-states
 
+
+    // Good to be join ya -Stian Ihlr
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
