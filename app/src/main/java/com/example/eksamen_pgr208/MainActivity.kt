@@ -3,6 +3,7 @@ package com.example.eksamen_pgr208
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import com.github.dhaval2404.imagepicker.ImagePicker
@@ -15,11 +16,23 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        imageFromGallery = findViewById(R.id.testImage)
-        imageFromGallery.setOnClickListener {
+        imageFromGallery = findViewById(R.id.addedImage)
+        val galleryBtn = findViewById<Button>(R.id.galleryBtn)
+        val cameraBtn = findViewById<Button>(R.id.cameraBtn)
+
+        galleryBtn.setOnClickListener {
             ImagePicker.with(this)
                 .galleryOnly()
                 .galleryMimeTypes(arrayOf("image/*"))
+                .maxResultSize(400, 400)
+                .crop()
+                .start()
+        }
+
+        cameraBtn.setOnClickListener {
+            ImagePicker.with(this)
+                .cameraOnly()
+                .maxResultSize(400, 400)
                 .crop()
                 .start()
         }
