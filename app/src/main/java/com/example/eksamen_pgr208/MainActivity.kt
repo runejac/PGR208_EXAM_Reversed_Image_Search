@@ -13,6 +13,11 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var imageFromGallery:ImageView
 
+    //TODO: Sette opp FAN (https://github.com/amitshekhariitbhu/Fast-Android-Networking)
+    //      Teste endpoints i Postman
+    //      Sette opp SQLite (bruke Room: https://developer.android.com/training/data-storage/room)
+    //      Håndtere alle lifecycle-states
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
