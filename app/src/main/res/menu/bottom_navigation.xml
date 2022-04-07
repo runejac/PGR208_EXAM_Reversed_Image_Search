@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/miHome"
+        android:title="Home"
+        android:icon="@drawable/ic_baseline_home_white" />
+
+    <item android:id="@+id/miCamera"
+        android:title="Camera"
+        android:icon="@drawable/ic_baseline_camera_white" />
+</menu>
