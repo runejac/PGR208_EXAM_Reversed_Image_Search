@@ -52,18 +52,17 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
-
-
-
 
 
         when (resultCode) {
             Activity.RESULT_OK -> {
                 val uri : Uri = data?.data!!
                 val filePath = FileUriUtils.getRealPath(this, uri)
+
+                println(filePath)
 
                 Glide.with(this)
                     .load(filePath)
