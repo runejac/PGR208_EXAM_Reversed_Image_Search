@@ -11,21 +11,25 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.androidnetworking.AndroidNetworking
-import com.androidnetworking.error.ANError
-import com.androidnetworking.interfaces.JSONArrayRequestListener
-import com.androidnetworking.interfaces.ParsedRequestListener
-import com.androidnetworking.interfaces.StringRequestListener
-import com.androidnetworking.interfaces.UploadProgressListener
 import com.bumptech.glide.Glide
-import com.bumptech.glide.Priority
+import com.example.eksamen_pgr208.data.APIService
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.github.dhaval2404.imagepicker.util.FileUriUtils
 import com.github.dhaval2404.imagepicker.util.FileUtil
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.gson.GsonBuilder
 import com.google.gson.JsonParser
-import org.json.JSONArray
-import org.json.JSONObject
-import org.json.JSONStringer
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
+import retrofit2.Retrofit
 import java.io.File
 
 class MainActivity : AppCompatActivity() {
@@ -85,7 +89,10 @@ class MainActivity : AppCompatActivity() {
 
                 val uploadUrl = "http://api-edu.gtl.ai/api/v1/imagesearch/upload"
 
+
+                formData(filePath!!)
                 //uploadImage(uploadUrl, filePath!!)
+
 
             }
             ImagePicker.RESULT_ERROR -> {
@@ -93,6 +100,39 @@ class MainActivity : AppCompatActivity() {
             }
             else -> {
                 Toast.makeText(this, "Task Cancelled", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun formData(imagePath: String) {
+
+        //private const val BASE_URL = "http://api-edu.gtl.ai/api/v1/imagesearch"
+
+        val retrofit = Retrofit.Builder()
+            .baseUrl("http://api-edu.gtl.ai/api/v1/imagesearch/")
+            .build()
+
+        val service = retrofit.create(APIService::class.java)
+
+        imagePath.toRequestBody("image/png".toMediaTypeOrNull())
+
+        CoroutineScope(Dispatchers.IO).launch {
+            // todo imagePath MÅ vistnok være requestBody, men får det ikke fra type String
+            val response = service.uploadImage(imagePath)
+            withContext(Dispatchers.Main) {
+                if (response.isSuccessful) {
+                    val gson = GsonBuilder().setPrettyPrinting().create()
+                    val prettyJson = gson.toJson(
+                        JsonParser.parseString(
+                            response.body()
+                        )
+                    )
+                    //Log.d("Pretty Printed JSON :", prettyJson)
+                    println("Hello from response$prettyJson")
+                } else {
+                    //Log.e("RETROFIR_ERROR: ", response.code().toString())
+                    println("Hello from Error" + response.code().toString())
+                }
             }
         }
     }

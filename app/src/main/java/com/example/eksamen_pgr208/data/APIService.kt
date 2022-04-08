@@ -1,15 +1,17 @@
 package com.example.eksamen_pgr208.data
 
+
 import okhttp3.RequestBody
-import okhttp3.Response
+import retrofit2.Response
 import retrofit2.http.Body
-import retrofit2.http.Headers
+import retrofit2.http.Multipart
 import retrofit2.http.POST
+import retrofit2.http.PartMap
 
 interface APIService {
-    @Headers(
-        "connection-type: image/png"
-    )
+
+    @Multipart
     @POST("upload")
-    suspend fun postImage(@Body requestBody: RequestBody): Response<String>
+    suspend fun uploadImage(@Body string: RequestBody): Response<String?>
 }
+
