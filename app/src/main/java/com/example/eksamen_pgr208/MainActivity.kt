@@ -12,7 +12,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.androidnetworking.AndroidNetworking
 import com.androidnetworking.error.ANError
-import com.androidnetworking.interfaces.JSONObjectRequestListener
 import com.androidnetworking.interfaces.StringRequestListener
 import com.androidnetworking.interfaces.UploadProgressListener
 import com.bumptech.glide.Glide
@@ -21,7 +20,9 @@ import com.github.dhaval2404.imagepicker.ImagePicker
 import com.github.dhaval2404.imagepicker.util.FileUriUtils
 import com.github.dhaval2404.imagepicker.util.FileUtil
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.gson.JsonParser
 import org.json.JSONObject
+import org.json.JSONStringer
 import java.io.File
 
 class MainActivity : AppCompatActivity() {
@@ -30,6 +31,8 @@ class MainActivity : AppCompatActivity() {
     private var imageFromCameraOrGallery : ImageView? = null
 
     private lateinit var title : TextView
+
+
     //TODO: Sette opp FAN (https://github.com/amitshekhariitbhu/Fast-Android-Networking)
     //      Teste endpoints i Postman
     //      Sette opp SQLite (bruke Room: https://developer.android.com/training/data-storage/room)
@@ -54,6 +57,8 @@ class MainActivity : AppCompatActivity() {
             showCameraAndGalleryDialog()
         }
 
+        AndroidNetworking.initialize(this)
+
     }
 
 
@@ -65,7 +70,7 @@ class MainActivity : AppCompatActivity() {
             Activity.RESULT_OK -> {
                 val uri : Uri = data?.data!!
                 val filePath = FileUriUtils.getRealPath(this, uri)
-                //val fileName = FileUtil.getDocumentFile(this, uri)?.name
+                val fileName = FileUtil.getDocumentFile(this, uri)?.name
 
                 println(filePath)
                 //println(fileName)
@@ -76,12 +81,7 @@ class MainActivity : AppCompatActivity() {
 
                 val uploadUrl = "http://api-edu.gtl.ai/api/v1/imagesearch/upload"
 
-                /*fileName as File*/
-                // TODO ettersom AndroidNetworking.upload() må ha inn en File så blir filepath gjort om til en fil her
-                // men funker ikke
-                val file = File(filePath!!)
-                uploadImage(uploadUrl, file)
-
+                uploadImage(uploadUrl, filePath!!)
 
             }
             ImagePicker.RESULT_ERROR -> {
@@ -91,22 +91,22 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, "Task Cancelled", Toast.LENGTH_SHORT).show()
             }
         }
-
     }
 
-    private fun uploadImage(uploadUrl: String, imageFile: File) {
-
-        AndroidNetworking.initialize(this)
+    private fun uploadImage(uploadUrl: String, imageFile: String) {
 
         // TODO får en com.androidnetworking.error.ANError når jeg prøver å poste bildet
         //
-        AndroidNetworking.upload(uploadUrl)
+        AndroidNetworking.post(uploadUrl)
+            .addHeaders("content-type", "image/png")
+            .addHeaders("content-disposition", "multipart/form-data")
+            .addBodyParameter("image", imageFile)
             .setPriority(com.androidnetworking.common.Priority.HIGH)
-            .addMultipartFile("image", imageFile)
             .build()
-            .getAsString(object : StringRequestListener {
-                override fun onResponse(response: String) {
-                    println(response)
+            .getAsString(object : StringRequestListener{
+                override fun onResponse(response: String?) {
+                    val result = JsonParser()
+                    println("FROM RESPONSE: $result")
                 }
 
                 override fun onError(anError: ANError?) {
@@ -115,9 +115,7 @@ class MainActivity : AppCompatActivity() {
 
             })
 
-
-
-
+        //println(postRequest)
     }
 
 
