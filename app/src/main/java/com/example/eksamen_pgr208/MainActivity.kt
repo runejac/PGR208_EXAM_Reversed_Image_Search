@@ -2,10 +2,7 @@ package com.example.eksamen_pgr208
 
 import android.app.Activity
 import android.app.Dialog
-import android.content.ContentResolver
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.widget.ImageButton
@@ -13,12 +10,19 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.net.toUri
+import com.androidnetworking.AndroidNetworking
+import com.androidnetworking.error.ANError
+import com.androidnetworking.interfaces.JSONObjectRequestListener
+import com.androidnetworking.interfaces.StringRequestListener
+import com.androidnetworking.interfaces.UploadProgressListener
 import com.bumptech.glide.Glide
+import com.bumptech.glide.Priority
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.github.dhaval2404.imagepicker.util.FileUriUtils
+import com.github.dhaval2404.imagepicker.util.FileUtil
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import java.io.InputStream
+import org.json.JSONObject
+import java.io.File
 
 class MainActivity : AppCompatActivity() {
 
@@ -61,12 +65,23 @@ class MainActivity : AppCompatActivity() {
             Activity.RESULT_OK -> {
                 val uri : Uri = data?.data!!
                 val filePath = FileUriUtils.getRealPath(this, uri)
+                //val fileName = FileUtil.getDocumentFile(this, uri)?.name
 
                 println(filePath)
+                //println(fileName)
 
                 Glide.with(this)
                     .load(filePath)
                     .into(imageFromCameraOrGallery!!)
+
+                val uploadUrl = "http://api-edu.gtl.ai/api/v1/imagesearch/upload"
+
+                /*fileName as File*/
+                // TODO ettersom AndroidNetworking.upload() må ha inn en File så blir filepath gjort om til en fil her
+                // men funker ikke
+                val file = File(filePath!!)
+                uploadImage(uploadUrl, file)
+
 
             }
             ImagePicker.RESULT_ERROR -> {
@@ -76,6 +91,32 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, "Task Cancelled", Toast.LENGTH_SHORT).show()
             }
         }
+
+    }
+
+    private fun uploadImage(uploadUrl: String, imageFile: File) {
+
+        AndroidNetworking.initialize(this)
+
+        // TODO får en com.androidnetworking.error.ANError når jeg prøver å poste bildet
+        //
+        AndroidNetworking.upload(uploadUrl)
+            .setPriority(com.androidnetworking.common.Priority.HIGH)
+            .addMultipartFile("image", imageFile)
+            .build()
+            .getAsString(object : StringRequestListener {
+                override fun onResponse(response: String) {
+                    println(response)
+                }
+
+                override fun onError(anError: ANError?) {
+                    println(anError.toString())
+                }
+
+            })
+
+
+
 
     }
 
@@ -96,7 +137,7 @@ class MainActivity : AppCompatActivity() {
                 .galleryOnly()
                 .galleryMimeTypes(arrayOf("image/*"))
                 .maxResultSize(400, 400)
-                //.crop()
+                .crop()
                 .start()
 
             camOrGallDialog.dismiss()
