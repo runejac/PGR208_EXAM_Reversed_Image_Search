@@ -12,6 +12,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.androidnetworking.AndroidNetworking
 import com.androidnetworking.error.ANError
+import com.androidnetworking.interfaces.JSONArrayRequestListener
+import com.androidnetworking.interfaces.ParsedRequestListener
 import com.androidnetworking.interfaces.StringRequestListener
 import com.androidnetworking.interfaces.UploadProgressListener
 import com.bumptech.glide.Glide
@@ -21,6 +23,7 @@ import com.github.dhaval2404.imagepicker.util.FileUriUtils
 import com.github.dhaval2404.imagepicker.util.FileUtil
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.gson.JsonParser
+import org.json.JSONArray
 import org.json.JSONObject
 import org.json.JSONStringer
 import java.io.File
@@ -99,14 +102,14 @@ class MainActivity : AppCompatActivity() {
         //
         AndroidNetworking.post(uploadUrl)
             .addHeaders("content-type", "image/png")
-            .addHeaders("content-disposition", "multipart/form-data")
+            //.addHeaders("content-disposition", "multipart/form-data")
             .addBodyParameter("image", imageFile)
             .setPriority(com.androidnetworking.common.Priority.HIGH)
             .build()
             .getAsString(object : StringRequestListener{
                 override fun onResponse(response: String?) {
-                    val result = JsonParser()
-                    println("FROM RESPONSE: $result")
+                    var result =
+                    println("FROM RESPONSE:rightBEFORE${response}rightAFTER")
                 }
 
                 override fun onError(anError: ANError?) {
