@@ -75,8 +75,9 @@ class MainActivity : AppCompatActivity() {
                 val filePath = FileUriUtils.getRealPath(this, uri)
                 val fileName = FileUtil.getDocumentFile(this, uri)?.name
 
-                println(filePath)
-                //println(fileName)
+                println("filePath: $filePath")
+                println("fileName: $fileName")
+                println("uri: $uri")
 
                 Glide.with(this)
                     .load(filePath)
@@ -84,7 +85,7 @@ class MainActivity : AppCompatActivity() {
 
                 val uploadUrl = "http://api-edu.gtl.ai/api/v1/imagesearch/upload"
 
-                uploadImage(uploadUrl, filePath!!)
+                //uploadImage(uploadUrl, filePath!!)
 
             }
             ImagePicker.RESULT_ERROR -> {
@@ -96,30 +97,32 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun uploadImage(uploadUrl: String, imageFile: String) {
-
-        // TODO får en com.androidnetworking.error.ANError når jeg prøver å poste bildet
-        //
+    // Not in use ATM
+/*    private fun uploadImage(uploadUrl: String, imageFile: String) {
         AndroidNetworking.post(uploadUrl)
-            .addHeaders("content-type", "image/png")
+            .addHeaders("content-type", "multipart/form-data")
             //.addHeaders("content-disposition", "multipart/form-data")
             .addBodyParameter("image", imageFile)
             .setPriority(com.androidnetworking.common.Priority.HIGH)
             .build()
             .getAsString(object : StringRequestListener{
                 override fun onResponse(response: String?) {
-                    var result =
-                    println("FROM RESPONSE:rightBEFORE${response}rightAFTER")
-                }
 
+                    if (response == "") {
+                        println("response is string")
+                    } else {
+                        var result = response
+                        println("FROM RESPONSE:rightBEFORE${result}rightAFTER")
+                    }
+
+                }
                 override fun onError(anError: ANError?) {
                     println(anError.toString())
                 }
-
             })
 
         //println(postRequest)
-    }
+    }*/
 
 
     // shows dialog (modal) to prompt the user to either choose camera or gallery
