@@ -11,26 +11,19 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.androidnetworking.AndroidNetworking
+import com.androidnetworking.common.Priority
 import com.bumptech.glide.Glide
-import com.example.eksamen_pgr208.data.APIService
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.github.dhaval2404.imagepicker.util.FileUriUtils
 import com.github.dhaval2404.imagepicker.util.FileUtil
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.gson.GsonBuilder
-import com.google.gson.JsonParser
+import com.androidnetworking.error.ANError
+import com.androidnetworking.interfaces.StringRequestListener
+import com.androidnetworking.interfaces.UploadProgressListener
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
-import okhttp3.RequestBody
-import okhttp3.RequestBody.Companion.asRequestBody
-import okhttp3.RequestBody.Companion.toRequestBody
-import retrofit2.Retrofit
-import java.io.File
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -64,14 +57,12 @@ class MainActivity : AppCompatActivity() {
             showCameraAndGalleryDialog()
         }
 
-        AndroidNetworking.initialize(this)
+        AndroidNetworking.initialize(this@MainActivity)
 
     }
 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
 
         when (resultCode) {
             Activity.RESULT_OK -> {
@@ -87,82 +78,72 @@ class MainActivity : AppCompatActivity() {
                     .load(filePath)
                     .into(imageFromCameraOrGallery!!)
 
-                val uploadUrl = "http://api-edu.gtl.ai/api/v1/imagesearch/upload"
 
-
-                formData(filePath!!)
-                //uploadImage(uploadUrl, filePath!!)
-
+                //uploadFile(uri)
+                uploadImage(filePath!!)
 
             }
             ImagePicker.RESULT_ERROR -> {
                 Toast.makeText(this, ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
             }
             else -> {
+                super.onActivityResult(requestCode, resultCode, data)
                 Toast.makeText(this, "Task Cancelled", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
-    private fun formData(imagePath: String) {
+    private fun uploadImage(filePath: String) {
 
-        //private const val BASE_URL = "http://api-edu.gtl.ai/api/v1/imagesearch"
 
-        val retrofit = Retrofit.Builder()
-            .baseUrl("http://api-edu.gtl.ai/api/v1/imagesearch/")
-            .build()
+        // fixme: jeg får ikke altså.. kommer nærmest med POST og ikke upload, da er det onResponse som trigges i hvert fall
+        // Upload koden er under
 
-        val service = retrofit.create(APIService::class.java)
+        val uploadApiUrl = "http://api-edu.gtl.ai/api/v1/imagesearch/upload"
 
-        imagePath.toRequestBody("image/png".toMediaTypeOrNull())
+        CoroutineScope(Dispatchers.Main).launch {
 
-        CoroutineScope(Dispatchers.IO).launch {
-            // todo imagePath MÅ vistnok være requestBody, men får det ikke fra type String
-            val response = service.uploadImage(imagePath)
-            withContext(Dispatchers.Main) {
-                if (response.isSuccessful) {
-                    val gson = GsonBuilder().setPrettyPrinting().create()
-                    val prettyJson = gson.toJson(
-                        JsonParser.parseString(
-                            response.body()
-                        )
-                    )
-                    //Log.d("Pretty Printed JSON :", prettyJson)
-                    println("Hello from response$prettyJson")
-                } else {
-                    //Log.e("RETROFIR_ERROR: ", response.code().toString())
-                    println("Hello from Error" + response.code().toString())
+            AndroidNetworking.post(uploadApiUrl)
+                .addHeaders("content-type", "image/jpeg")
+                .addBodyParameter("image", filePath)
+                .setPriority(Priority.HIGH)
+                .build()
+                .setUploadProgressListener { bytesUploaded, totalBytes ->
+                    println("bytesUploaded: $bytesUploaded")
+                    println("totalBytes: $totalBytes")
                 }
-            }
-        }
-    }
-
-    // Not in use ATM
-/*    private fun uploadImage(uploadUrl: String, imageFile: String) {
-        AndroidNetworking.post(uploadUrl)
-            .addHeaders("content-type", "multipart/form-data")
-            //.addHeaders("content-disposition", "multipart/form-data")
-            .addBodyParameter("image", imageFile)
-            .setPriority(com.androidnetworking.common.Priority.HIGH)
-            .build()
-            .getAsString(object : StringRequestListener{
-                override fun onResponse(response: String?) {
-
-                    if (response == "") {
-                        println("response is string")
-                    } else {
-                        var result = response
-                        println("FROM RESPONSE:rightBEFORE${result}rightAFTER")
+                .getAsString(object : StringRequestListener {
+                    override fun onResponse(response: String) {
+                        println("From response: ${response.length}")
                     }
 
-                }
-                override fun onError(anError: ANError?) {
-                    println(anError.toString())
-                }
-            })
+                    override fun onError(error: ANError) {
+                        println("From error: $error")
+                    }
+                })
 
-        //println(postRequest)
-    }*/
+            /*AndroidNetworking.upload(uploadApiUrl)
+                .addMultipartFile("image", filePath)
+                .addMultipartParameter("content-type", "image/jpeg")
+                .setPriority(Priority.HIGH)
+                .build()
+                .setUploadProgressListener { bytesUploaded, totalBytes ->
+                    println("bytesUploaded: $bytesUploaded")
+                    println("totalBytes: $totalBytes")
+                    //fixme: her kan man faktisk se at det blir lastet opp bytes i terminal, filter på "System.out"
+                }
+                .getAsString(object : StringRequestListener {
+                    override fun onResponse(response: String) {
+                        println("From response: $response")
+                    }
+
+                    override fun onError(error: ANError) {
+                        println("From error: $error")
+                    }
+                })*/
+        }
+
+    }
 
 
     // shows dialog (modal) to prompt the user to either choose camera or gallery
