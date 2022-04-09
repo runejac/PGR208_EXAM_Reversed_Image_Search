@@ -46,7 +46,8 @@ class MainActivity : AppCompatActivity() {
     //      Håndtere alle lifecycle-states
 
 
-    // Good to be join ya -Stian Ihlr
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
