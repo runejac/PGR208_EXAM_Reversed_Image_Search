@@ -33,7 +33,6 @@ class MainActivity : AppCompatActivity() {
     private var uploadProgressbar : ProgressBar? = null
     var liveData : MutableLiveData<String> = MutableLiveData<String>()
     var liveDataGet : MutableLiveData<ImageModelResult> = MutableLiveData<ImageModelResult>()
-    var liveDataBytesUploaded : MutableLiveData<Long> = MutableLiveData<Long>()
 
     private lateinit var binding: ActivityMainBinding
 
@@ -111,10 +110,7 @@ class MainActivity : AppCompatActivity() {
                             ApiServices.uploadImage(this@MainActivity, filePath!!)
                             ApiServices.getImages(this@MainActivity)
 
-                            liveDataBytesUploaded.observe( this@MainActivity){ bytes ->
-                                uploadProgressbar?.visibility = View.VISIBLE
-                                uploadProgressbar?.progress = bytes.toInt()
-                            }
+                            uploadProgressbar?.visibility = View.VISIBLE
 
                             Toast.makeText(
                                 this@MainActivity,

@@ -30,7 +30,6 @@ class ApiServices {
                 .build()
                 .setUploadProgressListener { bytesUploaded, totalBytes ->
                     println("bytesUploaded: $bytesUploaded")
-                    mainActivity.liveDataBytesUploaded.postValue(bytesUploaded)
                 }
                 .getAsString(object : StringRequestListener {
                     override fun onResponse(response: String) {
