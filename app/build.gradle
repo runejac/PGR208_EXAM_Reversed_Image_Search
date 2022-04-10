@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-kapt'
+    id 'kotlin-android-extensions'
 }
 
 android {
@@ -80,6 +81,9 @@ dependencies {
 
     // ImagePicker
     implementation 'com.github.dhaval2404:imagepicker:2.1'
+
+    // Picasso
+    implementation 'com.squareup.picasso:picasso:2.71828'
 
     // Glide
     implementation "com.github.bumptech.glide:glide:$glide_version"

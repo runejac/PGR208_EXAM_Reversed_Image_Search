@@ -16,10 +16,9 @@ import com.github.dhaval2404.imagepicker.util.FileUriUtils
 import com.github.dhaval2404.imagepicker.util.FileUtil
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.androidnetworking.error.ANError
-import com.androidnetworking.interfaces.JSONArrayRequestListener
 import com.androidnetworking.interfaces.StringRequestListener
 import com.example.eksamen_pgr208.common.Constants
-import com.example.eksamen_pgr208.data.api.ImageResultModel
+import com.example.eksamen_pgr208.data.api.ImageModelResult
 import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.google.gson.GsonBuilder
 import kotlinx.coroutines.CoroutineScope
@@ -29,8 +28,6 @@ import java.io.File
 import okhttp3.OkHttpClient
 import java.util.*
 import com.google.gson.Gson
-import org.json.JSONArray
-import org.json.JSONObject
 
 
 class MainActivity : AppCompatActivity() {
@@ -39,6 +36,7 @@ class MainActivity : AppCompatActivity() {
     private var imageFromCameraOrGallery : ImageView? = null
     private var getImages : Button? = null
     private var liveData : MutableLiveData<String> = MutableLiveData<String>()
+    private var liveDataGet : MutableLiveData<ImageModelResult> = MutableLiveData<ImageModelResult>()
 
     private lateinit var title : TextView
 
@@ -62,6 +60,14 @@ class MainActivity : AppCompatActivity() {
 
         getImages?.setOnClickListener {
             getImages()
+
+            liveDataGet.observe(this){item ->
+
+                val imagesArray = Intent(this, ResultActivity::class.java)
+                imagesArray.putExtra("images", item)
+                startActivity(imagesArray)
+
+            }
         }
 
 
@@ -131,7 +137,6 @@ class MainActivity : AppCompatActivity() {
                         println("From POST error: ${error.errorBody}")
                     }
                 })
-
         }
 
     }
@@ -154,19 +159,10 @@ class MainActivity : AppCompatActivity() {
                     .setTag("image")
                     .setPriority(Priority.HIGH)
                     .build()
-                    .getAsJSONArray(object : JSONArrayRequestListener {
-                        override fun onResponse(response: JSONArray?) {
-
-                            //val converted : JSONObject? = response?.toJSONObject(response)
-
-                            /*val responseArray: List<ImageResultModel> = listOf(
-                                gson.fromJson(
-                                    response?.toJSONObject(response),
-                                    Array<ImageResultModel>::class.java
-                                )
-                            )*/
-
-                            println("Response from GET request: ${response}")
+                    .getAsString(object : StringRequestListener {
+                        override fun onResponse(response: String?) {
+                            val testModel = gson.fromJson(response, ImageModelResult::class.java)
+                            liveDataGet.postValue(testModel)
                         }
 
                         override fun onError(anError: ANError?) {
@@ -174,7 +170,6 @@ class MainActivity : AppCompatActivity() {
                             println("ErrorCode from GET request: ${anError?.errorCode}")
                             println("ErrorDetail from GET request: ${anError?.errorDetail}")
                         }
-
                     })
             }
         }

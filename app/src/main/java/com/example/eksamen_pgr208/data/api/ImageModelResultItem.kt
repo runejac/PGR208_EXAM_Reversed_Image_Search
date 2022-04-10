@@ -1,6 +1,10 @@
 package com.example.eksamen_pgr208.data.api
 
-data class ImageResultModel(
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
+data class ImageModelResultItem(
     val current_date: String,
     val description: String,
     val domain: String,
@@ -10,4 +14,4 @@ data class ImageResultModel(
     val store_link: String,
     val thumbnail_link: String,
     val tracking_id: String
-)
+) : Parcelable
