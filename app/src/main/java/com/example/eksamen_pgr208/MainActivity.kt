@@ -1,10 +1,11 @@
 package com.example.eksamen_pgr208
 
-import android.app.Activity
 import android.app.Dialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.view.Menu
+import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MutableLiveData
@@ -39,11 +40,17 @@ class MainActivity : AppCompatActivity() {
         floatingActionButton = findViewById(R.id.fab)
         imageFromCameraOrGallery = findViewById(R.id.addedImageFromEitherCameraOrMemory)
         btnUpload = findViewById(R.id.btn_upload)
+        // hides upload button until image is chosen
+        btnUpload?.visibility = View.GONE
+        // old way to hide it
+        // FIXME pull og sifra til Stian, dette er gammel måte å hide button på
+        btnUpload?.setVisibility(View.GONE)
 
         // Get bottom navigation shadow be gone
         var nav : BottomNavigationView = findViewById(R.id.bottomNavigationView)
         nav.background = null
         nav.menu.getItem(1).isEnabled = false
+
 
 
         floatingActionButton.setOnClickListener {
@@ -58,15 +65,20 @@ class MainActivity : AppCompatActivity() {
             startActivity(imagesArray)
 
         }
-
     }
 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        imageChooser(resultCode, data)
+    }
 
+    private fun imageChooser(resultCode: Int, data: Intent?) {
         when (resultCode) {
-            Activity.RESULT_OK -> {
-                val uri : Uri = data?.data!!
+            RESULT_OK -> {
+                btnUpload?.visibility = View.VISIBLE
+
+                val uri: Uri = data?.data!!
                 val filePath = FileUriUtils.getRealPath(this, uri)
                 val fileName = FileUtil.getDocumentFile(this, uri)?.name
 
@@ -78,11 +90,25 @@ class MainActivity : AppCompatActivity() {
                     .load(filePath)
                     .into(imageFromCameraOrGallery!!)
 
-                CoroutineScope(Dispatchers.Main).launch {
-                    btnUpload?.setOnClickListener {
-                        ApiServices.uploadImage(this@MainActivity, filePath!!)
-                        ApiServices.getImages(this@MainActivity)
+                try {
+                    CoroutineScope(Dispatchers.Main).launch {
+                        btnUpload?.setOnClickListener {
+                            ApiServices.uploadImage(this@MainActivity, filePath!!)
+                            ApiServices.getImages(this@MainActivity)
+                            Toast.makeText(
+                                this@MainActivity,
+                                "Please wait, searching for similar images...",
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
                     }
+                    Toast.makeText(this, "Image: $fileName chosen", Toast.LENGTH_SHORT).show()
+                } catch (e: Exception) {
+                    Toast.makeText(
+                        this,
+                        "Exception thrown when trying to choose image: ${e.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
 
             }
@@ -90,7 +116,6 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
             }
             else -> {
-                super.onActivityResult(requestCode, resultCode, data)
                 Toast.makeText(this, "Task Cancelled", Toast.LENGTH_SHORT).show()
             }
         }
