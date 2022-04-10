@@ -50,10 +50,10 @@
 
     <Button
             android:layout_margin="5dp"
-            android:id="@+id/btn_get_images"
+            android:id="@+id/btn_upload"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Get images" />
+            android:text="Search this image" />
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
