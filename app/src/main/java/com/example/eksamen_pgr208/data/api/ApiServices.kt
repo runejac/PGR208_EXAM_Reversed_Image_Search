@@ -17,6 +17,7 @@ class ApiServices {
     companion object {
 
         fun uploadImage(mainActivity: MainActivity, filePath: String) {
+
             val okHttpClient = OkHttpClient.Builder()
                 .addNetworkInterceptor(StethoInterceptor())
                 .build()
@@ -29,7 +30,7 @@ class ApiServices {
                 .build()
                 .setUploadProgressListener { bytesUploaded, totalBytes ->
                     println("bytesUploaded: $bytesUploaded")
-                    println("totalBytes: $totalBytes")
+                    mainActivity.liveDataBytesUploaded.postValue(bytesUploaded)
                 }
                 .getAsString(object : StringRequestListener {
                     override fun onResponse(response: String) {
@@ -41,6 +42,7 @@ class ApiServices {
                         println("From POST error: ${error.errorBody}")
                     }
                 })
+
         }
 
         fun getImages(mainActivity: MainActivity) {

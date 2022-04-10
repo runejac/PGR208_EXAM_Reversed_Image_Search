@@ -30,8 +30,10 @@ class MainActivity : AppCompatActivity() {
     private lateinit var floatingActionButton : ImageView
     private var imageFromCameraOrGallery : ImageView? = null
     private var btnUpload : Button? = null
+    private var uploadProgressbar : ProgressBar? = null
     var liveData : MutableLiveData<String> = MutableLiveData<String>()
     var liveDataGet : MutableLiveData<ImageModelResult> = MutableLiveData<ImageModelResult>()
+    var liveDataBytesUploaded : MutableLiveData<Long> = MutableLiveData<Long>()
 
     private lateinit var binding: ActivityMainBinding
 
@@ -52,9 +54,11 @@ class MainActivity : AppCompatActivity() {
         floatingActionButton = binding.fab
         imageFromCameraOrGallery = binding.addedImageFromEitherCameraOrMemory
         btnUpload = binding.btnUpload
+        uploadProgressbar = binding.uploadProgressBar
 
-        // hides upload button until image is chosen
+        // hiding elements
         btnUpload?.visibility = View.GONE
+        uploadProgressbar?.visibility = View.GONE
 
 
         // Get bottom navigation shadow be gone
@@ -106,6 +110,12 @@ class MainActivity : AppCompatActivity() {
                         btnUpload?.setOnClickListener {
                             ApiServices.uploadImage(this@MainActivity, filePath!!)
                             ApiServices.getImages(this@MainActivity)
+
+                            liveDataBytesUploaded.observe( this@MainActivity){ bytes ->
+                                uploadProgressbar?.visibility = View.VISIBLE
+                                uploadProgressbar?.progress = bytes.toInt()
+                            }
+
                             Toast.makeText(
                                 this@MainActivity,
                                 "Please wait, searching for similar images...",

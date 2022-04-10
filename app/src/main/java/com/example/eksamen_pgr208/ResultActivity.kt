@@ -33,11 +33,12 @@ class ResultActivity : AppCompatActivity() {
 
 
         // livedata ikke i bruk ennå
-        liveDataImagesList.postValue(images!!)
+        // liveDataImagesList.postValue(images!!)
+
 
 
         rvImage.layoutManager = StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
-        rvImage.adapter = ResultsAdapter(this, images = ArrayList<ImageModelResultItem>(images))
+        rvImage.adapter = ResultsAdapter(this, images = ArrayList<ImageModelResultItem>(images!!))
 
         btnDeleteList?.setOnClickListener{
             goesHomeAndClearOldSearch(images)
@@ -51,6 +52,7 @@ class ResultActivity : AppCompatActivity() {
         }*/
 
     }
+
 
     private fun goesHomeAndClearOldSearch(list: ArrayList<ImageModelResultItem>) {
         list.clear()

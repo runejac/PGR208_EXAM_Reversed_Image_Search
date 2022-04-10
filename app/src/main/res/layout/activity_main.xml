@@ -49,11 +49,22 @@
             />
 
     <Button
-            android:layout_margin="5dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="10dp"
             android:id="@+id/btn_upload"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Search this image" />
+
+    <ProgressBar
+            android:id="@+id/upload_progress_bar"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:max="100"
+            />
+
+
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
