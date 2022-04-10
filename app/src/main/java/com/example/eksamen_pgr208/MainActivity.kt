@@ -5,10 +5,7 @@ import android.app.Dialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MutableLiveData
 import com.androidnetworking.AndroidNetworking
@@ -19,34 +16,31 @@ import com.github.dhaval2404.imagepicker.util.FileUriUtils
 import com.github.dhaval2404.imagepicker.util.FileUtil
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.androidnetworking.error.ANError
+import com.androidnetworking.interfaces.JSONArrayRequestListener
 import com.androidnetworking.interfaces.StringRequestListener
-import com.androidnetworking.interfaces.UploadProgressListener
-import com.facebook.stetho.Stetho
+import com.example.eksamen_pgr208.common.Constants
+import com.example.eksamen_pgr208.data.api.ImageResultModel
 import com.facebook.stetho.okhttp3.StethoInterceptor
+import com.google.gson.GsonBuilder
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import okhttp3.Interceptor
 import java.io.File
 import okhttp3.OkHttpClient
+import java.util.*
+import com.google.gson.Gson
+import org.json.JSONArray
+import org.json.JSONObject
 
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var floatingActionButton : ImageView
     private var imageFromCameraOrGallery : ImageView? = null
+    private var getImages : Button? = null
     private var liveData : MutableLiveData<String> = MutableLiveData<String>()
 
     private lateinit var title : TextView
-
-
-    //TODO: Sette opp FAN (https://github.com/amitshekhariitbhu/Fast-Android-Networking)
-    //      Teste endpoints i Postman
-    //      Sette opp SQLite (bruke Room: https://developer.android.com/training/data-storage/room)
-    //      Håndtere alle lifecycle-states
-
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,12 +54,19 @@ class MainActivity : AppCompatActivity() {
 
         floatingActionButton = findViewById(R.id.fab)
         imageFromCameraOrGallery = findViewById(R.id.addedImageFromEitherCameraOrMemory)
+        getImages = findViewById(R.id.btn_get_images)
 
         floatingActionButton.setOnClickListener {
             showCameraAndGalleryDialog()
         }
 
+        getImages?.setOnClickListener {
+            getImages()
+        }
 
+
+
+        AndroidNetworking.initialize(this@MainActivity)
 
 
     }
@@ -90,6 +91,7 @@ class MainActivity : AppCompatActivity() {
                 //uploadFile(uri)
                 uploadImage(filePath!!)
 
+
             }
             ImagePicker.RESULT_ERROR -> {
                 Toast.makeText(this, ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
@@ -101,24 +103,15 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun uploadImage(filePath: String) {
-
-        println("filePath fra uploadImage function: $filePath")
-
-        val uploadApiUrl = "http://api-edu.gtl.ai/api/v1/imagesearch/upload"
+    private fun uploadImage(filePath: String) {
 
         CoroutineScope(Dispatchers.Main).launch {
-
-
-
-            AndroidNetworking.initialize(this@MainActivity)
 
             val okHttpClient = OkHttpClient.Builder()
                 .addNetworkInterceptor(StethoInterceptor())
                 .build()
 
-
-            AndroidNetworking.upload(uploadApiUrl)
+            AndroidNetworking.upload(Constants.API_UPLOAD_URL)
                 .addMultipartFile("image", File(filePath))
                 .addMultipartParameter("content-type", "image/png")
                 .setPriority(Priority.HIGH)
@@ -130,28 +123,66 @@ class MainActivity : AppCompatActivity() {
                 }
                 .getAsString(object : StringRequestListener {
                     override fun onResponse(response: String) {
-                        println("From response: $response")
+                        println("From POST response: $response")
                         liveData.postValue(response)
                     }
 
                     override fun onError(error: ANError) {
-                        println("From error: ${error.errorBody}")
+                        println("From POST error: ${error.errorBody}")
                     }
                 })
-
-
-            liveData.observe(this@MainActivity){ res ->
-                println("result from post:$res")
-            }
 
         }
 
     }
 
+    private fun getImages() {
 
-    // shows dialog (modal) to prompt the user to either choose camera or gallery
+        // parsing response
+        val gson: Gson
+        val gsonBuilder = GsonBuilder()
+        gson = gsonBuilder.create()
+
+        liveData.observe(this@MainActivity) { res ->
+
+            if (res.isEmpty()) {
+                Toast.makeText(this@MainActivity, "No images found OR ERROR!", Toast.LENGTH_SHORT).show()
+            } else {
+
+                AndroidNetworking.get(Constants.API_GET_BING)
+                    .addQueryParameter("url", res)
+                    .setTag("image")
+                    .setPriority(Priority.HIGH)
+                    .build()
+                    .getAsJSONArray(object : JSONArrayRequestListener {
+                        override fun onResponse(response: JSONArray?) {
+
+                            //val converted : JSONObject? = response?.toJSONObject(response)
+
+                            /*val responseArray: List<ImageResultModel> = listOf(
+                                gson.fromJson(
+                                    response?.toJSONObject(response),
+                                    Array<ImageResultModel>::class.java
+                                )
+                            )*/
+
+                            println("Response from GET request: ${response}")
+                        }
+
+                        override fun onError(anError: ANError?) {
+                            println("ErrorBody from GET request: ${anError?.errorBody}")
+                            println("ErrorCode from GET request: ${anError?.errorCode}")
+                            println("ErrorDetail from GET request: ${anError?.errorDetail}")
+                        }
+
+                    })
+            }
+        }
+    }
+
+
     private fun showCameraAndGalleryDialog() {
-     
+        // shows dialog (modal) to prompt the user to either choose camera or gallery
         val camOrGallDialog = Dialog(this)
         camOrGallDialog.setContentView(R.layout.dialog_camera_or_gallery)
         camOrGallDialog.setTitle("Choose source: ")
@@ -159,13 +190,11 @@ class MainActivity : AppCompatActivity() {
         val btnGallery : ImageButton = camOrGallDialog.findViewById(R.id.btn_gallery)
         val btnCamera : ImageButton = camOrGallDialog.findViewById(R.id.btn_camera)
 
-
         btnGallery.setOnClickListener {
             ImagePicker.with(this)
                 .galleryOnly()
                 .galleryMimeTypes(arrayOf("image/*"))
                 .maxResultSize(400, 400)
-                //CROP endrer faktisk denne til JPG, FYYY CROP .crop()
                 .start()
 
             camOrGallDialog.dismiss()
@@ -177,17 +206,13 @@ class MainActivity : AppCompatActivity() {
             ImagePicker.with(this)
                 .cameraOnly()
                 .maxResultSize(400, 400)
-                .crop()
                 .start()
 
             camOrGallDialog.dismiss()
-
 
             println("camera clicked")
         }
 
         camOrGallDialog.show()
     }
-
-
 }

@@ -25,7 +25,11 @@
             android:background="@color/transparent"
 
             app:menu="@menu/bottom_navigation"/>
+
+
     </com.google.android.material.bottomappbar.BottomAppBar>
+
+
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
@@ -33,6 +37,7 @@
         android:layout_height="wrap_content"
         android:src="@drawable/ic_baseline_add_a_photo_white"
         app:layout_anchor="@id/bottomAppBar" />
+
 
     <ImageView
             android:id="@+id/addedImageFromEitherCameraOrMemory"
@@ -42,5 +47,13 @@
             android:layout_margin="5dp"
             tools:src="@drawable/browndress"
             />
+
+    <Button
+            android:layout_margin="5dp"
+            android:id="@+id/btn_get_images"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Get images" />
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

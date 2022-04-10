@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
+/*
 class ResultsAdapter(val image: List<String>) : RecyclerView.Adapter<ResultsAdapter.ResultsViewHolder>() {
 
     inner class ResultsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
@@ -25,4 +26,4 @@ class ResultsAdapter(val image: List<String>) : RecyclerView.Adapter<ResultsAdap
     override fun getItemCount(): Int {
         TODO("Not yet implemented")
     }
-}
+}*/
