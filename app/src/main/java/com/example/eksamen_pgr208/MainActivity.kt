@@ -17,6 +17,8 @@ import com.github.dhaval2404.imagepicker.util.FileUtil
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.example.eksamen_pgr208.data.api.ImageModelResult
 import com.example.eksamen_pgr208.data.api.ApiServices
+import com.example.eksamen_pgr208.databinding.ActivityMainBinding
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -31,20 +33,29 @@ class MainActivity : AppCompatActivity() {
     var liveData : MutableLiveData<String> = MutableLiveData<String>()
     var liveDataGet : MutableLiveData<ImageModelResult> = MutableLiveData<ImageModelResult>()
 
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         AndroidNetworking.initialize(this@MainActivity)
 
-        floatingActionButton = findViewById(R.id.fab)
-        imageFromCameraOrGallery = findViewById(R.id.addedImageFromEitherCameraOrMemory)
-        btnUpload = findViewById(R.id.btn_upload)
+        binding.bottomNavigationView.setOnItemSelectedListener {
+            when(it.itemId){
+                R.id.item_results -> println("Results")
+                R.id.item_home -> println("Home")
+            }
+            return@setOnItemSelectedListener true
+        }
+
+        floatingActionButton = binding.fab
+        imageFromCameraOrGallery = binding.addedImageFromEitherCameraOrMemory
+        btnUpload = binding.btnUpload
+
         // hides upload button until image is chosen
         btnUpload?.visibility = View.GONE
-        // old way to hide it
-        // FIXME pull og sifra til Stian, dette er gammel måte å hide button på
-        btnUpload?.setVisibility(View.GONE)
+
 
         // Get bottom navigation shadow be gone
         var nav : BottomNavigationView = findViewById(R.id.bottomNavigationView)
