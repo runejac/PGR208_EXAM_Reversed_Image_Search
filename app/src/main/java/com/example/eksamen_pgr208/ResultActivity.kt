@@ -45,6 +45,8 @@ class ResultActivity : AppCompatActivity() {
         }
 
 
+        // Vil vi her ha det sånn at når vi klikker på et bilde, så kommer det en popup
+        // med typ "Add image to database?" - Joachim
 
         /*imageResult?.setOnClickListener {
             println("image clicked")
