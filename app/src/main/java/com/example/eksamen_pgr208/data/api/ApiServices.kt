@@ -10,6 +10,9 @@ import com.example.eksamen_pgr208.common.Constants
 import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import java.io.File
 
@@ -22,26 +25,26 @@ class ApiServices {
                 .addNetworkInterceptor(StethoInterceptor())
                 .build()
 
-            AndroidNetworking.upload(Constants.API_UPLOAD_URL)
-                .addMultipartFile("image", File(filePath))
-                .addMultipartParameter("content-type", "image/png")
-                .setPriority(Priority.HIGH)
-                .setOkHttpClient(okHttpClient)
-                .build()
-                .setUploadProgressListener { bytesUploaded, totalBytes ->
-                    println("bytesUploaded: $bytesUploaded")
-                }
-                .getAsString(object : StringRequestListener {
-                    override fun onResponse(response: String) {
-                        println("From POST response: $response")
-                        mainActivity.liveData.postValue(response)
+            CoroutineScope(Dispatchers.IO).launch {
+                AndroidNetworking.upload(Constants.API_UPLOAD_URL)
+                    .addMultipartFile("image", File(filePath))
+                    .addMultipartParameter("content-type", "image/png")
+                    .setPriority(Priority.HIGH)
+                    .setOkHttpClient(okHttpClient)
+                    .build()
+                    .setUploadProgressListener { bytesUploaded, totalBytes ->
+                        println("bytesUploaded: $bytesUploaded")
                     }
-
-                    override fun onError(error: ANError) {
-                        println("From POST error: ${error.errorBody}")
-                    }
-                })
-
+                    .getAsString(object : StringRequestListener {
+                        override fun onResponse(response: String) {
+                            println("From POST response: $response")
+                            mainActivity.liveData.postValue(response)
+                        }
+                        override fun onError(error: ANError) {
+                            println("From POST error: ${error.errorBody}")
+                        }
+                    })
+            }
         }
 
         fun getImages(mainActivity: MainActivity) {
@@ -57,26 +60,27 @@ class ApiServices {
                     Toast.makeText(mainActivity, "No images found OR ERROR!", Toast.LENGTH_SHORT).show()
                 } else {
 
-                    AndroidNetworking.get(Constants.API_GET_BING)
-                        .addQueryParameter("url", res)
-                        .setTag("image")
-                        .setPriority(Priority.HIGH)
-                        .build()
-                        .getAsString(object : StringRequestListener {
-                            override fun onResponse(response: String?) {
-                                val convertedResponse = gson.fromJson(response, ImageModelResult::class.java)
-                                mainActivity.liveDataGet.postValue(convertedResponse)
-                            }
+                    CoroutineScope(Dispatchers.IO).launch {
+                        AndroidNetworking.get(Constants.API_GET_BING)
+                                .addQueryParameter("url", res)
+                                .setTag("image")
+                                .setPriority(Priority.HIGH)
+                                .build()
+                                .getAsString(object : StringRequestListener {
+                                    override fun onResponse(response: String?) {
+                                        val convertedResponse = gson.fromJson(response, ImageModelResult::class.java)
+                                        mainActivity.liveDataGet.postValue(convertedResponse)
+                                    }
 
-                            override fun onError(anError: ANError?) {
-                                println("ErrorBody from GET request: ${anError?.errorBody}")
-                                println("ErrorCode from GET request: ${anError?.errorCode}")
-                                println("ErrorDetail from GET request: ${anError?.errorDetail}")
-                            }
-                        })
+                                    override fun onError(anError: ANError?) {
+                                        println("ErrorBody from GET request: ${anError?.errorBody}")
+                                        println("ErrorCode from GET request: ${anError?.errorCode}")
+                                        println("ErrorDetail from GET request: ${anError?.errorDetail}")
+                                    }
+                                })
+                    }
                 }
             }
         }
     }
-
 }

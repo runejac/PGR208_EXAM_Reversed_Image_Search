@@ -105,19 +105,17 @@ class MainActivity : AppCompatActivity() {
                     .into(imageFromCameraOrGallery!!)
 
                 try {
-                    CoroutineScope(Dispatchers.Main).launch {
-                        btnUpload?.setOnClickListener {
-                            ApiServices.uploadImage(this@MainActivity, filePath!!)
-                            ApiServices.getImages(this@MainActivity)
+                    btnUpload?.setOnClickListener {
+                        ApiServices.uploadImage(this@MainActivity, filePath!!)
+                        ApiServices.getImages(this@MainActivity)
 
-                            uploadProgressbar?.visibility = View.VISIBLE
+                        uploadProgressbar?.visibility = View.VISIBLE
 
-                            Toast.makeText(
-                                this@MainActivity,
-                                "Please wait, searching for similar images...",
-                                Toast.LENGTH_LONG
-                            ).show()
-                        }
+                        Toast.makeText(
+                            this@MainActivity,
+                            "Please wait, searching for similar images...",
+                            Toast.LENGTH_LONG
+                        ).show()
                     }
                     Toast.makeText(this, "Image: $fileName chosen", Toast.LENGTH_SHORT).show()
                 } catch (e: Exception) {
@@ -127,7 +125,6 @@ class MainActivity : AppCompatActivity() {
                         Toast.LENGTH_SHORT
                     ).show()
                 }
-
             }
             ImagePicker.RESULT_ERROR -> {
                 Toast.makeText(this, ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
@@ -154,9 +151,7 @@ class MainActivity : AppCompatActivity() {
                 .galleryMimeTypes(arrayOf("image/*"))
                 .maxResultSize(400, 400)
                 .start()
-
             camOrGallDialog.dismiss()
-
             println("gallery clicked")
         }
 
@@ -165,12 +160,9 @@ class MainActivity : AppCompatActivity() {
                 .cameraOnly()
                 .maxResultSize(400, 400)
                 .start()
-
             camOrGallDialog.dismiss()
-
             println("camera clicked")
         }
-
         camOrGallDialog.show()
     }
 

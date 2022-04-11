@@ -17,7 +17,6 @@ import java.util.ArrayList
 
 class ResultActivity : AppCompatActivity() {
     private lateinit var rvImage : RecyclerView
-    private var liveDataImagesList : MutableLiveData<ArrayList<ImageModelResultItem>> = MutableLiveData<ArrayList<ImageModelResultItem>>()
     private var btnDeleteList : Button? = null
     private var imageResult : ImageButton? = null
 
