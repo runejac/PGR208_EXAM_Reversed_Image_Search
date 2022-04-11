@@ -8,7 +8,14 @@ import android.view.Menu
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.NavigationUI
+import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
 import com.androidnetworking.AndroidNetworking
 import com.bumptech.glide.Glide
 import com.github.dhaval2404.imagepicker.ImagePicker
@@ -42,13 +49,20 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         AndroidNetworking.initialize(this@MainActivity)
 
-        binding.bottomNavigationView.setOnItemSelectedListener {
-            when(it.itemId){
-                R.id.item_results -> println("Results")
-                R.id.item_home -> println("Home")
-            }
-            return@setOnItemSelectedListener true
-        }
+        val navView: BottomNavigationView = binding.bottomNavigationView
+
+        val navController = findNavController(R.id.fragmentContainerView)
+        // Passing each menu ID as a set of Ids because each
+        // menu should be considered as top level destinations.
+        val appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.resultFragment, R.id.homeFragment
+            )
+        )
+        setupActionBarWithNavController(navController, appBarConfiguration)
+        navView.setupWithNavController(navController)
+
+
 
         floatingActionButton = binding.fab
         imageFromCameraOrGallery = binding.addedImageFromEitherCameraOrMemory
