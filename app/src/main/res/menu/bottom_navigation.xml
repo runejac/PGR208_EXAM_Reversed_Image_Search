@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/homeFragment"
+    <item
+        android:id="@+id/homeFragment"
         android:title="Home"
         android:icon="@drawable/ic_baseline_home_white" />
 
     <item android:id="@+id/item_transparent" android:title="" />
-    <item android:id="@+id/resultFragment"
+
+    <item
+        android:id="@+id/resultFragment"
         android:title="Results"
         android:icon="@drawable/ic_baseline_format_list_bulleted" />
 

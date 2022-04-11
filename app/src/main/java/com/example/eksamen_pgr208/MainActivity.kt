@@ -45,21 +45,15 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        supportActionBar?.hide()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         AndroidNetworking.initialize(this@MainActivity)
 
+        // Controlling Fragments
         val navView: BottomNavigationView = binding.bottomNavigationView
-
-        val navController = findNavController(R.id.fragmentContainerView)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        val appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.resultFragment, R.id.homeFragment
-            )
-        )
-        setupActionBarWithNavController(navController, appBarConfiguration)
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
+        val navController = navHostFragment.navController
         navView.setupWithNavController(navController)
 
 
