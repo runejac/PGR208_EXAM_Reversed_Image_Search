@@ -1,9 +1,12 @@
 package com.example.eksamen_pgr208
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageButton
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,6 +25,7 @@ class ResultActivity : AppCompatActivity() {
 
     // private lateinit var imageViewModel: ImageViewModel
 
+    @SuppressLint("ResourceType")
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -60,12 +64,6 @@ class ResultActivity : AppCompatActivity() {
         *   Toast.makeText(this, "Successfully added image to database!", Toast.LENGTH_LONG).show()
         * }
         */
-
-        /*imageResult?.setOnClickListener {
-            println("image clicked")
-            Toast.makeText(this,  "Image clicked!", Toast.LENGTH_LONG).show()
-            få opp en AlertDialog, trykk "Add" for addToDatabase()
-        }*/
 
     }
 

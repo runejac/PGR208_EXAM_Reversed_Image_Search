@@ -36,13 +36,13 @@ class ResultsAdapter(val context: Context?, private val images: ArrayList<ImageM
         val image : ImageView = this.itemView.image_result
         override fun onClick(v: View?) {
 
-            println("image clicked")
+            println("$image + clicked")
 
 
         }
 
         init {
-            itemView.setOnClickListener(this)
+            image.setOnClickListener(this)
         }
 
 

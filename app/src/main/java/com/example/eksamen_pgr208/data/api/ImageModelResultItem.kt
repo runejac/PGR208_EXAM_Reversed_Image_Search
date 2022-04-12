@@ -14,6 +14,9 @@ data class ImageModelResultItem(
     val store_link: String,
     val thumbnail_link: String,
     val tracking_id: String
-) : Parcelable
+) : Parcelable {
+
+
+}
 
 
