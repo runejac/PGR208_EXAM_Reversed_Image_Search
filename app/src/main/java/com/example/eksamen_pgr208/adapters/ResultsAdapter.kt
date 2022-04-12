@@ -11,18 +11,19 @@ import com.example.eksamen_pgr208.data.api.ImageModelResultItem
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.image_rv_layout.view.*
 
-class ResultsAdapter(val context: Context?, private val images: ArrayList<ImageModelResultItem>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ResultsAdapter(val context: Context?,
+                     private val images: ArrayList<ImageModelResultItem>,
+                     private val listener: RecyclerClick
+                    ): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.image_rv_layout, parent, false)
         return ViewHolder(v)
-
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         // Binding Views here
-
         Picasso.get().load(images[position].image_link).into(holder.itemView.image_result)
     }
 
@@ -30,31 +31,25 @@ class ResultsAdapter(val context: Context?, private val images: ArrayList<ImageM
         return images.size
     }
 
-
-
-    class ViewHolder(v: View?): RecyclerView.ViewHolder(v!!), View.OnClickListener{
+    inner class ViewHolder(v: View?): RecyclerView.ViewHolder(v!!), View.OnClickListener{
         val image : ImageView = this.itemView.image_result
+
         override fun onClick(v: View?) {
-
-            println("$image + clicked")
-
-
+            val position : Int = adapterPosition
+            if (position != RecyclerView.NO_POSITION) {
+                listener.onImageClick(position)
+            }
         }
 
         init {
             image.setOnClickListener(this)
         }
 
-
-
         val imageResult = itemView.image_result!!
-
-
     }
 
     interface RecyclerClick{
-
+        fun onImageClick(position: Int)
     }
-
 
 }

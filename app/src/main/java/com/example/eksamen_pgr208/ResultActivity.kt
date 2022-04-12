@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.image_rv_layout.*
 import kotlinx.android.synthetic.main.result_activity.*
 import java.util.ArrayList
 
-class ResultActivity : AppCompatActivity() {
+class ResultActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
     private lateinit var rvImage : RecyclerView
     private var btnDeleteList : Button? = null
     private var imageResult : ImageButton? = null
@@ -43,7 +43,7 @@ class ResultActivity : AppCompatActivity() {
         // imageViewModel = ViewModelProvider(this).get(ImageViewModel::class.java)
 
         rvImage.layoutManager = StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
-        rvImage.adapter = ResultsAdapter(this, images = ArrayList<ImageModelResultItem>(images!!))
+        rvImage.adapter = ResultsAdapter(this, images = ArrayList<ImageModelResultItem>(images!!), this)
 
         btnDeleteList?.setOnClickListener{
             goesHomeAndClearOldSearch(images)
@@ -64,7 +64,10 @@ class ResultActivity : AppCompatActivity() {
         *   Toast.makeText(this, "Successfully added image to database!", Toast.LENGTH_LONG).show()
         * }
         */
+    }
 
+    override fun onImageClick(position: Int) {
+        Toast.makeText(this, "Hello, this works", Toast.LENGTH_SHORT).show()
     }
 
 
@@ -72,5 +75,7 @@ class ResultActivity : AppCompatActivity() {
         list.clear()
         startActivity(Intent(this, MainActivity::class.java))
     }
+
+
 
 }
