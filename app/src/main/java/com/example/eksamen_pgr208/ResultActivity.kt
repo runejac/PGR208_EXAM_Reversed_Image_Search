@@ -1,6 +1,7 @@
 package com.example.eksamen_pgr208
 
 import android.annotation.SuppressLint
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
@@ -56,8 +57,8 @@ class ResultActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
 
         /*
         * private fun addToDatabase() {
-        *   val thumbNailLink = imageResult.thumbnail_link
-        *   val imageLink = imageResult.image_link
+        *   val thumbNailLink = image.thumbnail_link
+        *   val imageLink = image.image_link
         *
         *   val image = Image(0, thumbNailLink, imageLink)
         *   imageViewModel.addImage(image)
@@ -67,7 +68,16 @@ class ResultActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
     }
 
     override fun onImageClick(position: Int) {
-        Toast.makeText(this, "Hello, this works", Toast.LENGTH_SHORT).show()
+        AlertDialog.Builder(this)
+            .setTitle("What's up, my dudes?")
+            .setMessage("Do you love me?")
+            .setPositiveButton("Yes") { dialog, _ ->
+                Toast.makeText(this, "Hello, sexy", Toast.LENGTH_SHORT).show()
+            }
+            .setNegativeButton("No :((") { dialog, _ ->
+                Toast.makeText(this, "Damn you!", Toast.LENGTH_SHORT).show()
+            }
+            .show()
     }
 
 
