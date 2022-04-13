@@ -56,8 +56,6 @@ class MainActivity : AppCompatActivity() {
         val navController = navHostFragment.navController
         navView.setupWithNavController(navController)
 
-
-
         floatingActionButton = binding.fab
         imageFromCameraOrGallery = binding.addedImageFromEitherCameraOrMemory
         btnUpload = binding.btnUpload
@@ -67,25 +65,20 @@ class MainActivity : AppCompatActivity() {
         btnUpload?.visibility = View.GONE
         uploadProgressbar?.visibility = View.GONE
 
-
         // Get bottom navigation shadow be gone
         var nav : BottomNavigationView = findViewById(R.id.bottomNavigationView)
         nav.background = null
         nav.menu.getItem(1).isEnabled = false
 
-
-
         floatingActionButton.setOnClickListener {
             showCameraAndGalleryDialog()
         }
-
 
         liveDataGet.observe(this){item ->
 
             val imagesArray = Intent(this, ResultActivity::class.java)
             imagesArray.putExtra("images", item)
             startActivity(imagesArray)
-
         }
     }
 

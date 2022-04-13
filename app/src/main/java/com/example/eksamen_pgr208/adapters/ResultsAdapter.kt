@@ -16,7 +16,6 @@ class ResultsAdapter(val context: Context?,
                      private val listener: RecyclerClick
                     ): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.image_rv_layout, parent, false)
         return ViewHolder(v)

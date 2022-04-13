@@ -7,11 +7,6 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-
-// Alle filer under data-folderen er skrevet ved hjelp av denne videoen:
-// https://www.youtube.com/watch?v=lwAvI3WDXBY
-// anbefaler å se den
-
 class ImageViewModel(application: Application): AndroidViewModel(application) {
 
     private val readAllData: LiveData<List<Image>>

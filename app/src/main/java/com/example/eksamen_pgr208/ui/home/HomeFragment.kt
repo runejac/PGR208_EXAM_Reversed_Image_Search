@@ -37,10 +37,7 @@ class HomeFragment : Fragment() {
             subTextView.text = it
         }
 
-
-
         return root
-
 
     }
 

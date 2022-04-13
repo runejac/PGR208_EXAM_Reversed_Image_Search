@@ -51,8 +51,6 @@ class ResultActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
         btnDeleteList?.setOnClickListener{
             goesHomeAndClearOldSearch(images)
         }
-
-        // Anbefales visst å laste ned DB Browser for SQLite, så kan man manuelt sjekke om data lagres i db
     }
 
      private fun addToDatabase(imagePos: Int) {
