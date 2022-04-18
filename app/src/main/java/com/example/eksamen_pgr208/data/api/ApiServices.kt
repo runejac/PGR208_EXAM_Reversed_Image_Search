@@ -78,32 +78,7 @@ class ApiServices {
                             .build()
                             .getAsString(object : StringRequestListener {
                                 override fun onResponse(response: String?) {
-
-                                    try {
-                                        val convertedResponse = gson.fromJson(
-                                            response,
-                                            ImageModelResult::class.java
-                                        )
-                                        if (convertedResponse == null) {
-                                            println("Response from ${Constants.API_GET_GOOGLE} is $convertedResponse")
-                                            throw NullPointerException("Can't handle null arrays")
-                                        }
-                                        if (convertedResponse.size == 0) {
-                                            //logger.warn("Warning from google API line 92")
-                                            println("Response from ${Constants.API_GET_GOOGLE} is $convertedResponse")
-                                            throw IllegalArgumentException("Can't handle zero-length arrays")
-                                        } else {
-                                            println("Response from ${Constants.API_GET_GOOGLE} is $convertedResponse")
-                                            println("Using ${Constants.API_GET_GOOGLE}")
-                                            mainActivity.liveDataGetImages.postValue(
-                                                convertedResponse
-                                            )
-                                        }
-                                    } catch (e: Exception) {
-                                        e.stackTraceToString()
-                                    } finally {
-                                        println("GET request from Google done")
-                                    }
+                                    responseHandler(gson, response, mainActivity, Constants.API_GET_GOOGLE)
                                 }
 
                                 override fun onError(anError: ANError?) {
@@ -125,34 +100,7 @@ class ApiServices {
                             .build()
                             .getAsString(object : StringRequestListener {
                                 override fun onResponse(response: String?) {
-
-                                    try {
-                                        val convertedResponse =
-                                            gson.fromJson(
-                                                response,
-                                                ImageModelResult::class.java
-                                            )
-                                        if (convertedResponse == null) {
-                                            //logger.error("error from TINEYE API because array is: $convertedResponse")
-                                            println("Response from ${Constants.API_GET_TINEYE} is $convertedResponse")
-                                            throw NullPointerException("Can't handle null arrays")
-                                        }
-                                        if (convertedResponse.size == 0) {
-                                            //logger.error("error from TINEYE API because array is: $convertedResponse")
-                                            println("Response from ${Constants.API_GET_TINEYE} is $convertedResponse")
-                                            throw IllegalArgumentException("Can't handle zero-length arrays")
-                                        } else {
-                                            println("Response from ${Constants.API_GET_TINEYE} is $convertedResponse")
-                                            println("Using ${Constants.API_GET_TINEYE}")
-                                            mainActivity.liveDataGetImages.postValue(
-                                                convertedResponse
-                                            )
-                                        }
-                                    } catch (e: Exception) {
-                                        e.stackTraceToString()
-                                    } finally {
-                                        println("GET request from Tineye done")
-                                    }
+                                    responseHandler(gson, response, mainActivity, Constants.API_GET_TINEYE)
                                 }
 
                                 override fun onError(anError: ANError?) {
@@ -174,32 +122,7 @@ class ApiServices {
                             .build()
                             .getAsString(object : StringRequestListener {
                                 override fun onResponse(response: String?) {
-
-                                    try {
-                                        val convertedResponse =
-                                            gson.fromJson(
-                                                response,
-                                                ImageModelResult::class.java
-                                            )
-                                        if (convertedResponse == null) {
-                                            println("Response from ${Constants.API_GET_BING} is $convertedResponse")
-                                            throw NullPointerException("Can't handle null arrays")
-                                        }
-                                        if (convertedResponse.size == 0) {
-                                            println("Response from ${Constants.API_GET_BING} is $convertedResponse")
-                                            throw IllegalArgumentException("Can't handle zero-length arrays")
-                                        } else {
-                                            println("Response from ${Constants.API_GET_BING} is $convertedResponse")
-                                            println("Using ${Constants.API_GET_BING}")
-                                            mainActivity.liveDataGetImages.postValue(
-                                                convertedResponse
-                                            )
-                                        }
-                                    } catch (e: Exception) {
-                                        e.stackTraceToString()
-                                    } finally {
-                                        println("GET request from Bing done")
-                                    }
+                                    responseHandler(gson, response, mainActivity, Constants.API_GET_BING)
                                 }
 
                                 override fun onError(anError: ANError?) {
@@ -210,6 +133,43 @@ class ApiServices {
                             })
                         }
                 }
+            }
+        }
+
+        private fun responseHandler(
+            gson: Gson,
+            response: String?,
+            mainActivity: MainActivity,
+            apiEndPoint: String,
+        ) {
+
+            val endPointName = apiEndPoint.substring(apiEndPoint.lastIndexOf("/") + 1)
+            val upperCaseOnFirstLetterEndPointName = endPointName.substring(0, 1).uppercase() + endPointName.substring(1)
+
+            try {
+                val convertedResponse = gson.fromJson(
+                    response,
+                    ImageModelResult::class.java
+                )
+                if (convertedResponse == null) {
+                    println("Response from $apiEndPoint is $convertedResponse")
+                    throw NullPointerException("Can't handle null arrays")
+                }
+                if (convertedResponse.size == 0) {
+                    logger.warn("Warning from google API line 92")
+                    println("Response from $apiEndPoint is $convertedResponse")
+                    throw IllegalArgumentException("Can't handle zero-length arrays")
+                } else {
+                    println("Response from $apiEndPoint is $convertedResponse")
+                    println("Using $apiEndPoint")
+                    mainActivity.liveDataGetImages.postValue(
+                        convertedResponse
+                    )
+                }
+            } catch (e: Exception) {
+                e.stackTraceToString()
+            } finally {
+                println("GET request from API: '$upperCaseOnFirstLetterEndPointName' done")
             }
         }
     }
