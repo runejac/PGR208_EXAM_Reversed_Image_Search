@@ -1,5 +1,6 @@
 package com.example.eksamen_pgr208.data.api
 
+import android.util.Log
 import android.widget.Toast
 import com.androidnetworking.AndroidNetworking
 import com.androidnetworking.common.Priority
@@ -13,7 +14,6 @@ import com.google.gson.GsonBuilder
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import mu.KotlinLogging
 import okhttp3.OkHttpClient
 import java.io.File
 import java.util.concurrent.Executors
@@ -22,7 +22,7 @@ import java.util.concurrent.Executors
 class ApiServices {
     companion object {
 
-        private val logger = KotlinLogging.logger {}
+        private const val TAG = "ApiServices"
 
         fun uploadImage(mainActivity: MainActivity, filePath: String) {
 
@@ -69,7 +69,7 @@ class ApiServices {
 
                     CoroutineScope(Dispatchers.IO).launch {
 
-                        println("Starting GET request at Google...")
+                        Log.i(TAG,"Starting GET request at Google...")
                         AndroidNetworking.get(Constants.API_GET_GOOGLE)
                             .addQueryParameter("url", res)
                             .setTag("image")
@@ -91,7 +91,7 @@ class ApiServices {
 
                     CoroutineScope(Dispatchers.IO).launch {
 
-                        println("Starting GET request at Tineye...")
+                        Log.i(TAG, "Starting GET request at Tineye...")
                         AndroidNetworking.get(Constants.API_GET_TINEYE)
                             .addQueryParameter("url", res)
                             .setTag("image")
@@ -113,7 +113,7 @@ class ApiServices {
 
                     CoroutineScope(Dispatchers.IO).launch {
 
-                        println("Starting GET request at Bing...")
+                        Log.i(TAG,"Starting GET request at Bing...")
                         AndroidNetworking.get(Constants.API_GET_BING)
                             .addQueryParameter("url", res)
                             .setTag("image")
@@ -143,33 +143,29 @@ class ApiServices {
             apiEndPoint: String,
         ) {
 
-            val endPointName = apiEndPoint.substring(apiEndPoint.lastIndexOf("/") + 1)
-            val upperCaseOnFirstLetterEndPointName = endPointName.substring(0, 1).uppercase() + endPointName.substring(1)
-
             try {
                 val convertedResponse = gson.fromJson(
                     response,
                     ImageModelResult::class.java
                 )
                 if (convertedResponse == null) {
-                    println("Response from $apiEndPoint is $convertedResponse")
+                    Log.w(TAG, "Response from $apiEndPoint is $convertedResponse")
                     throw NullPointerException("Can't handle null arrays")
                 }
                 if (convertedResponse.size == 0) {
-                    logger.warn("Warning from google API line 92")
-                    println("Response from $apiEndPoint is $convertedResponse")
+                    Log.w(TAG,"Response from $apiEndPoint is $convertedResponse")
                     throw IllegalArgumentException("Can't handle zero-length arrays")
                 } else {
-                    println("Response from $apiEndPoint is $convertedResponse")
-                    println("Using $apiEndPoint")
-                    mainActivity.liveDataGetImages.postValue(
-                        convertedResponse
-                    )
+                    Log.i(TAG, "Using $apiEndPoint")
+                    Log.i(TAG, "Response from $apiEndPoint is $convertedResponse")
+                    mainActivity.liveDataGetImages.postValue(convertedResponse)
                 }
             } catch (e: Exception) {
-                e.stackTraceToString()
+                Log.e(TAG, "An exception is catched", e)
             } finally {
-                println("GET request from API: '$upperCaseOnFirstLetterEndPointName' done")
+                val endPointName = apiEndPoint.substring(apiEndPoint.lastIndexOf("/") + 1)
+                val upperCaseOnFirstLetterEndPointName = endPointName.substring(0, 1).uppercase() + endPointName.substring(1)
+                Log.i(TAG, "GET request from API: '$upperCaseOnFirstLetterEndPointName' done")
             }
         }
     }
