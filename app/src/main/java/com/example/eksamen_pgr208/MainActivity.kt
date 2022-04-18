@@ -4,17 +4,11 @@ import android.app.Dialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.view.Menu
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.NavigationUI
-import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.androidnetworking.AndroidNetworking
 import com.bumptech.glide.Glide
@@ -30,6 +24,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.*
+import okhttp3.OkHttpClient
+import java.util.concurrent.TimeUnit
 
 
 class MainActivity : AppCompatActivity() {
@@ -38,8 +34,8 @@ class MainActivity : AppCompatActivity() {
     private var imageFromCameraOrGallery : ImageView? = null
     private var btnUpload : Button? = null
     private var uploadProgressbar : ProgressBar? = null
-    var liveData : MutableLiveData<String> = MutableLiveData<String>()
-    var liveDataGet : MutableLiveData<ImageModelResult> = MutableLiveData<ImageModelResult>()
+    var liveDataUploadImage : MutableLiveData<String> = MutableLiveData<String>()
+    var liveDataGetImages : MutableLiveData<ImageModelResult> = MutableLiveData<ImageModelResult>()
 
     private lateinit var binding: ActivityMainBinding
 
@@ -48,7 +44,14 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.hide()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        AndroidNetworking.initialize(this@MainActivity)
+
+        val okHttpClient = OkHttpClient().newBuilder()
+            .connectTimeout(120, TimeUnit.SECONDS)
+            .readTimeout(120, TimeUnit.SECONDS)
+            .writeTimeout(120, TimeUnit.SECONDS)
+            .build()
+
+        AndroidNetworking.initialize(this@MainActivity, okHttpClient)
 
         // Controlling Fragments
         val navView: BottomNavigationView = binding.bottomNavigationView
@@ -74,7 +77,7 @@ class MainActivity : AppCompatActivity() {
             showCameraAndGalleryDialog()
         }
 
-        liveDataGet.observe(this){item ->
+        liveDataGetImages.observe(this){ item ->
 
             val imagesArray = Intent(this, ResultActivity::class.java)
             imagesArray.putExtra("images", item)
@@ -109,7 +112,6 @@ class MainActivity : AppCompatActivity() {
                     btnUpload?.setOnClickListener {
                         ApiServices.uploadImage(this@MainActivity, filePath!!)
                         ApiServices.getImages(this@MainActivity)
-
                         uploadProgressbar?.visibility = View.VISIBLE
 
                         Toast.makeText(
@@ -151,7 +153,7 @@ class MainActivity : AppCompatActivity() {
                 .galleryOnly()
                 .galleryMimeTypes(arrayOf("image/*"))
                 .maxResultSize(400, 400)
-                .compress(200)
+                .compress(1024)
                 .start()
             camOrGallDialog.dismiss()
             println("gallery clicked")
@@ -161,7 +163,7 @@ class MainActivity : AppCompatActivity() {
             ImagePicker.with(this)
                 .cameraOnly()
                 .maxResultSize(400, 400)
-                .compress(200)
+                .compress(1024)
                 .start()
             camOrGallDialog.dismiss()
             println("camera clicked")
