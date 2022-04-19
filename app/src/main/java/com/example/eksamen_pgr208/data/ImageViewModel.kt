@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
+import com.example.eksamen_pgr208.data.api.ImageModelResultItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -21,6 +22,12 @@ class ImageViewModel(application: Application): AndroidViewModel(application) {
     fun addImage(image: Image) {
         viewModelScope.launch(Dispatchers.IO) {
             repo.addImage(image)
+        }
+    }
+
+    fun deleteImage(image: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repo.deleteImage(image)
         }
     }
 

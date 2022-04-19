@@ -1,7 +1,10 @@
 package com.example.eksamen_pgr208
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.ImageButton
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
@@ -44,8 +47,27 @@ class SavedActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
 
     }
 
+    private fun deleteFromDatabase(imagePos: Int) {
+        try {
+            imageViewModel.deleteImage(imagesFromDbList!![imagePos])
+            Toast.makeText(this, "Image deleted!", Toast.LENGTH_LONG).show()
+            Log.i(TAG, "Image deleted")
+        } catch (e: Exception) {
+            Log.e(TAG, "Crash in deleting image", e)
+        }
+    }
+
     override fun onImageClick(position: Int) {
-        TODO("Not yet implemented")
+        AlertDialog.Builder(this)
+            .setTitle("Hi!")
+            .setMessage("Delete image?")
+            .setPositiveButton("Yes") { dialog, _ ->
+                deleteFromDatabase(position);
+            }
+            .setNegativeButton("No") { dialog, _ ->
+                Toast.makeText(this, "Image not deleted", Toast.LENGTH_SHORT).show()
+            }
+            .show()
     }
 
 

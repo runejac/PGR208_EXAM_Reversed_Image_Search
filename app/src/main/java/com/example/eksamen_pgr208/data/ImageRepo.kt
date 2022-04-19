@@ -10,4 +10,8 @@ class ImageRepo(private val imageDao: ImageDao) {
         imageDao.addImage(image)
     }
 
+    fun deleteImage(image: String) {
+        imageDao.deleteImage(image)
+    }
+
 }

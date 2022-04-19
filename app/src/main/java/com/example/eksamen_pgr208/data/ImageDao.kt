@@ -15,4 +15,7 @@ interface ImageDao {
     @Query("SELECT * FROM image_table ORDER BY id ASC")
     fun readAllData(): LiveData<List<Image>>
 
+    @Query("DELETE FROM image_table WHERE image_link = :image")
+    fun deleteImage(image: String)
+
 }
