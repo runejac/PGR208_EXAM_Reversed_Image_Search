@@ -9,7 +9,7 @@ import kotlinx.coroutines.launch
 
 class ImageViewModel(application: Application): AndroidViewModel(application) {
 
-    private val readAllData: LiveData<List<Image>>
+    val readAllData: LiveData<List<Image>>
     private val repo: ImageRepo
 
     init {
