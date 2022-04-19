@@ -6,15 +6,15 @@ import androidx.lifecycle.ViewModel
 
 class HomeViewModel : ViewModel(){
 
-    private val textValue = MutableLiveData<String>().apply {
+    /*private val textValue = MutableLiveData<String>().apply {
         value = "REVERSED IMAGE SEARCH"
-    }
+    }*/
 
     private val subTextValue = MutableLiveData<String>().apply {
-        value = "Search for any image you want and get great results back"
+        value = "Take a photo or choose one from your gallery and get similar results back"
     }
 
     val subText : LiveData<String> = subTextValue
-    val text: LiveData<String> = textValue
+    //val text: LiveData<String> = textValue
 
 }

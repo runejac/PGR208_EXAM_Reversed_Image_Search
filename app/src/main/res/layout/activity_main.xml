@@ -43,46 +43,55 @@
 
     <ImageView
             android:id="@+id/addedImageFromEitherCameraOrMemory"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:contentDescription="@string/added_image"
             android:layout_margin="5dp"
             tools:src="@drawable/browndress"
             />
 
     <Button
-            android:layout_marginTop="20dp"
-            android:layout_marginStart="10dp"
+            android:layout_marginHorizontal="4dp"
             android:id="@+id/btn_upload"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Search this image" />
+            android:text="@string/search_this_image"
+            android:translationY="560dp"
+            android:drawableLeft="@drawable/ic_baseline_search_white"/>
 
 
     <ProgressBar
             android:id="@+id/upload_progress_bar"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            style="@style/Widget.AppCompat.ProgressBar"
             android:indeterminateOnly="true"
-
+            android:translationY="300dp"
+            android:indeterminateTint="#86FFFFFF"
             />
 
-    <fragment
-        android:id="@+id/fragmentContainerView"
-        android:name="androidx.navigation.fragment.NavHostFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:defaultNavHost="true"
-        app:navGraph="@navigation/my_nav" />
+    <TextView
+            android:text="Take a photo or choose one from your gallery and get similar results back"
+            android:id="@+id/tv_intro"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:fontFamily="@font/poppins"
+            android:textColor="@color/semigray"
+            android:textSize="20sp"
+            android:textAlignment="center"
+            android:layout_marginEnd="20dp"
+            android:translationY="300dp" />
 
     <Button
-            android:layout_marginTop="20dp"
-            android:layout_marginStart="250dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginStart="230dp"
             android:id="@+id/btn_saved"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Saved images" />
+            android:translationY="645dp"
+            android:text="Saved images"
+            android:drawableLeft="@drawable/ic_baseline_format_list_bulleted"/>
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

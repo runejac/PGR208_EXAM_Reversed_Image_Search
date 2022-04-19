@@ -33,6 +33,7 @@ class MainActivity : AppCompatActivity() {
     private var imageFromCameraOrGallery : ImageView? = null
     private var btnUpload : Button? = null
     private var btnSaved : Button? = null
+    private var tvIntro : TextView? = null
     private var uploadProgressbar : ProgressBar? = null
     var liveDataUploadImage : MutableLiveData<String> = MutableLiveData<String>()
     var liveDataGetImages : MutableLiveData<ImageModelResult> = MutableLiveData<ImageModelResult>()
@@ -54,10 +55,10 @@ class MainActivity : AppCompatActivity() {
         AndroidNetworking.initialize(this@MainActivity, okHttpClient)
 
         // Controlling Fragments
-        val navView: BottomNavigationView = binding.bottomNavigationView
+        /*val navView: BottomNavigationView = binding.bottomNavigationView
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
         val navController = navHostFragment.navController
-        navView.setupWithNavController(navController)
+        navView.setupWithNavController(navController)*/
 
         // getting xml components
         floatingActionButton = binding.fab
@@ -65,10 +66,12 @@ class MainActivity : AppCompatActivity() {
         btnUpload = binding.btnUpload
         btnSaved = binding.btnSaved
         uploadProgressbar = binding.uploadProgressBar
+        tvIntro = binding.tvIntro
 
         // hiding elements
         btnUpload?.visibility = View.GONE
         uploadProgressbar?.visibility = View.GONE
+        tvIntro?.visibility = View.VISIBLE
 
         // Get bottom navigation shadow be gone
         var nav : BottomNavigationView = findViewById(R.id.bottomNavigationView)
@@ -105,6 +108,7 @@ class MainActivity : AppCompatActivity() {
         when (resultCode) {
             RESULT_OK -> {
                 btnUpload?.visibility = View.VISIBLE
+                tvIntro?.visibility = View.GONE
 
                 val uri: Uri = data?.data!!
                 val filePath = FileUriUtils.getRealPath(this, uri)

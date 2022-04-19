@@ -1,3 +1,4 @@
+/*
 package com.example.eksamen_pgr208.ui.home
 
 import android.os.Bundle
@@ -27,10 +28,12 @@ class HomeFragment : Fragment() {
 
         val root: View = bind.root
 
-        val textView : TextView = bind.textHome
+        */
+/*val textView : TextView = bind.textHome
         homeViewModel.text.observe(viewLifecycleOwner) {
             textView.text = it
-        }
+        }*//*
+
 
         val subTextView : TextView = bind.subtitleHome
         homeViewModel.subText.observe(viewLifecycleOwner) {
@@ -46,4 +49,4 @@ class HomeFragment : Fragment() {
         binding = null
     }
 
-}
+}*/

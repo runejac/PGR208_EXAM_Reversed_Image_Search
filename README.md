@@ -3,14 +3,13 @@
 Reversed Image Search 📱🔍✍(◔◡◔) EXAM
 </h1>
 
----
 
 ### Egne notater (slettes før levering):
 * [x] Få på plass "Results" (omgjøre navn til "Saved" imo), dette blir trolig en custom
   view der vi viser hva som er lagret i DB, søke-bildet og resultater fra bilde søkt på
 * [ ] Få navigasjonsbaren til å bli med uansett hvilket fragment/activity man er på
 * [x] Implementere SQLite med Room (husk hvorfor dette er så jævlig bra for vi må justifye bruk av Room)
-* [ ] Evt. andre ting dere kommer på
+* [ ] Få UI logisk, riktig og til å se pen ut, uten tekst oppå hverandre. Kun ha nødvendig tekst som er forståelig for brukeren
 * [ ] Evt. andre ting dere kommer på
 * [ ] Evt. andre ting dere kommer på
 
@@ -32,7 +31,7 @@ Reversed Image Search 📱🔍✍(◔◡◔) EXAM
 * [ ] Create at least one reasonably complex custom view
 * [x] Use Kotlin as a main programming language (some Java is acceptable when re-using
   the code found online)
-* [ ] Make use of all the end-points on the server
+* [x] Make use of all the end-points on the server
 * [ ] Exception handling (e.g. no network connection)
 * [ ] Make sure to handle all the Android lifecycle states (the app will be paused, resumed,
   stopped, etc. during testing)
