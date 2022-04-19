@@ -4,11 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
 import com.example.eksamen_pgr208.R
 import com.example.eksamen_pgr208.adapters.SavedAdapter
 import com.example.eksamen_pgr208.data.ImageViewModel
@@ -28,23 +26,20 @@ class SavedFragment: Fragment() {
     ): View {
         val view = inflater.inflate(R.layout.result_activity, container, false)
 
-        val adapter = SavedAdapter()
+        val adapter = SavedAdapter(context)
         val recyclerView = view.rv_results
         recyclerView.adapter = adapter
 
         imageViewModel = ViewModelProvider(this)[ImageViewModel::class.java]
-        imageViewModel.readAllData.observe(viewLifecycleOwner, Observer { image ->
+        imageViewModel.readAllData.observe(viewLifecycleOwner) { image ->
+            println(image)
             adapter.setData(image)
-        })
+            println(adapter.itemCount)
+        }
 
         binding = FragmentSavedBinding.inflate(inflater, container, false)
-        val root : View = bind.root
 
-        val textView : TextView = bind.textSaved
-        /*savedViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }*/
-        return root
+        return bind.root
     }
 
     override fun onDestroyView() {

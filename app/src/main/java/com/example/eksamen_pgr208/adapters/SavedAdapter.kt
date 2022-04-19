@@ -13,7 +13,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.eksamen_pgr208.R
 import kotlinx.android.synthetic.main.image_rv_layout.view.*
 
-class SavedAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>()   {
+class SavedAdapter(val context: Context?): RecyclerView.Adapter<RecyclerView.ViewHolder>()   {
 
     private var imageList = emptyList<com.example.eksamen_pgr208.data.Image>()
 
@@ -27,7 +27,10 @@ class SavedAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>()   {
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val currentItem = imageList[position]
+        Glide.with(context!!.applicationContext).load(imageList[position].image_link)
+            .fitCenter()
+            .transform(RoundedCorners(30))
+            .into(holder.itemView.image_result)
 
         //TODO: Innbiller meg at dette er alt som mangler
         // for at det skal funke, eller?
