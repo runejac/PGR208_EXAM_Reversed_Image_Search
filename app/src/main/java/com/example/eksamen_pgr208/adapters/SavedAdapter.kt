@@ -1,5 +1,6 @@
 package com.example.eksamen_pgr208.adapters
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.media.Image
 import android.view.LayoutInflater
@@ -12,9 +13,9 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.eksamen_pgr208.R
 import kotlinx.android.synthetic.main.image_rv_layout.view.*
 
-class SavedAdapter(val context: Context?): RecyclerView.Adapter<RecyclerView.ViewHolder>()   {
+class SavedAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>()   {
 
-    private var imageList = emptyList<Image>()
+    private var imageList = emptyList<com.example.eksamen_pgr208.data.Image>()
 
     class MyViewHolder(imageView: View): RecyclerView.ViewHolder(imageView) {
         val image : ImageView = this.itemView.image_result
@@ -26,30 +27,19 @@ class SavedAdapter(val context: Context?): RecyclerView.Adapter<RecyclerView.Vie
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        val currentItem = imageList[position]
 
-        // Binding Views here
-        /*val mPicasso: Picasso = Picasso.get()
-        // fixme: gjør så bildene får en tag på seg. Rød: Network, Blå: Disk, Grønn: Memory. Kun for dev
-        //mPicasso.setIndicatorsEnabled(true)
-        mPicasso.load(images[position].image_link)
-            .centerCrop()
-            .resize(400, 600)
-                // fixme: får ikke transform til å fungere
-            //.transform(RoundedCorners(50))
-            .into(holder.itemView.image_result)*/
+        //TODO: Innbiller meg at dette er alt som mangler
+        // for at det skal funke, eller?
 
-
-        Glide.with(context!!.applicationContext).load(imageList[position])
-            .fitCenter()
-            .transform(RoundedCorners(30))
-            .into(holder.itemView.image_result)
     }
 
     override fun getItemCount(): Int {
         return imageList.size
     }
 
-    fun setData(image: ArrayList<Image>) {
+    @SuppressLint("NotifyDataSetChanged")
+    fun setData(image: List<com.example.eksamen_pgr208.data.Image>) {
         this.imageList = image
         notifyDataSetChanged()
     }

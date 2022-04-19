@@ -13,6 +13,7 @@ import com.example.eksamen_pgr208.R
 import com.example.eksamen_pgr208.adapters.SavedAdapter
 import com.example.eksamen_pgr208.data.ImageViewModel
 import com.example.eksamen_pgr208.databinding.FragmentSavedBinding
+import kotlinx.android.synthetic.main.result_activity.view.*
 
 class SavedFragment: Fragment() {
 
@@ -25,14 +26,14 @@ class SavedFragment: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val view = inflater.inflate(R.layout.fragment_saved, container, false)
+        val view = inflater.inflate(R.layout.result_activity, container, false)
 
         val adapter = SavedAdapter()
-        val recyclerView = view.rootView
+        val recyclerView = view.rv_results
         recyclerView.adapter = adapter
 
         imageViewModel = ViewModelProvider(this)[ImageViewModel::class.java]
-        imageViewModel.readAllData.observe(this, Observer { image ->
+        imageViewModel.readAllData.observe(viewLifecycleOwner, Observer { image ->
             adapter.setData(image)
         })
 
@@ -40,9 +41,9 @@ class SavedFragment: Fragment() {
         val root : View = bind.root
 
         val textView : TextView = bind.textSaved
-        savedViewModel.text.observe(viewLifecycleOwner) {
+        /*savedViewModel.text.observe(viewLifecycleOwner) {
             textView.text = it
-        }
+        }*/
         return root
     }
 
