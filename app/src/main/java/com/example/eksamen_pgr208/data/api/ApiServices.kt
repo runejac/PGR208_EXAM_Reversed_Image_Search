@@ -44,11 +44,12 @@ class ApiServices {
                     }
                     .getAsString(object : StringRequestListener {
                         override fun onResponse(response: String) {
+                            // todo: legg til handling av try/catch her og etter hvert
                             println("From POST response: $response")
                             mainActivity.liveDataUploadImage.postValue(response)
                         }
                         override fun onError(error: ANError) {
-                            println("From POST error: ${error.errorBody}")
+                            Log.e(TAG, "Error on UPLOAD request", error)
                         }
                     })
             }
@@ -161,7 +162,7 @@ class ApiServices {
                     mainActivity.liveDataGetImages.postValue(convertedResponse)
                 }
             } catch (e: Exception) {
-                Log.e(TAG, "An exception is catched", e)
+                Log.e(TAG, "Soft crash in trying to get images from api: $apiEndPoint", e)
             } finally {
                 val endPointName = apiEndPoint.substring(apiEndPoint.lastIndexOf("/") + 1)
                 val upperCaseOnFirstLetterEndPointName = endPointName.substring(0, 1).uppercase() + endPointName.substring(1)

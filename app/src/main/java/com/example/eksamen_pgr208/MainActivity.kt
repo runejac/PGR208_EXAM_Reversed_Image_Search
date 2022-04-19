@@ -12,6 +12,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.androidnetworking.AndroidNetworking
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.github.dhaval2404.imagepicker.util.FileUriUtils
 import com.github.dhaval2404.imagepicker.util.FileUtil
@@ -19,6 +20,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.example.eksamen_pgr208.data.api.ImageModelResult
 import com.example.eksamen_pgr208.data.api.ApiServices
 import com.example.eksamen_pgr208.databinding.ActivityMainBinding
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -88,6 +90,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+
+
         imageChooser(resultCode, data)
     }
 
@@ -106,6 +110,7 @@ class MainActivity : AppCompatActivity() {
 
                 Glide.with(this)
                     .load(filePath)
+                    .transform(RoundedCorners(50))
                     .into(imageFromCameraOrGallery!!)
 
                 try {
