@@ -6,10 +6,10 @@ Reversed Image Search 📱🔍✍(◔◡◔) EXAM
 ---
 
 ### Egne notater (slettes før levering):
-* [ ] Få på plass "Results" (omgjøre navn til "Saved" imo), dette blir trolig en custom
+* [x] Få på plass "Results" (omgjøre navn til "Saved" imo), dette blir trolig en custom
   view der vi viser hva som er lagret i DB, søke-bildet og resultater fra bilde søkt på
 * [ ] Få navigasjonsbaren til å bli med uansett hvilket fragment/activity man er på
-* [ ] Implementere SQLite med Room (husk hvorfor dette er så jævlig bra for vi må justifye bruk av Room)
+* [x] Implementere SQLite med Room (husk hvorfor dette er så jævlig bra for vi må justifye bruk av Room)
 * [ ] Evt. andre ting dere kommer på
 * [ ] Evt. andre ting dere kommer på
 * [ ] Evt. andre ting dere kommer på
@@ -28,7 +28,7 @@ Reversed Image Search 📱🔍✍(◔◡◔) EXAM
 * [x] At least one list must be handled by a RecyclerView
 * [x] Use intents to pass data
 * [x] Use non-UI-blocking requests to the server
-* [ ] User SQLite database to store data
+* [x] User SQLite database to store data
 * [ ] Create at least one reasonably complex custom view
 * [x] Use Kotlin as a main programming language (some Java is acceptable when re-using
   the code found online)
