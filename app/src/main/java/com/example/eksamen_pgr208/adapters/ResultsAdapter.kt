@@ -26,18 +26,6 @@ class ResultsAdapter(val context: Context?,
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
-        // Binding Views here
-        /*val mPicasso: Picasso = Picasso.get()
-        // fixme: gjør så bildene får en tag på seg. Rød: Network, Blå: Disk, Grønn: Memory. Kun for dev
-        //mPicasso.setIndicatorsEnabled(true)
-        mPicasso.load(images[position].image_link)
-            .centerCrop()
-            .resize(400, 600)
-                // fixme: får ikke transform til å fungere
-            //.transform(RoundedCorners(50))
-            .into(holder.itemView.image_result)*/
-
-
         Glide.with(context!!.applicationContext).load(images[position].image_link)
             .fitCenter()
             .transform(RoundedCorners(30))

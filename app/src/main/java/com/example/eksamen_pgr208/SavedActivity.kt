@@ -13,6 +13,7 @@ import com.example.eksamen_pgr208.adapters.ResultsAdapter
 import com.example.eksamen_pgr208.adapters.SavedAdapter
 import com.example.eksamen_pgr208.data.Image
 import com.example.eksamen_pgr208.data.ImageViewModel
+import com.example.eksamen_pgr208.databinding.SavedActivityBinding
 import kotlinx.android.synthetic.main.image_rv_layout.*
 import kotlinx.android.synthetic.main.saved_activity.*
 
@@ -22,16 +23,16 @@ class SavedActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
 
     private lateinit var rvSavedImage : RecyclerView
     private lateinit var imageViewModel : ImageViewModel
-    private var imageResult : ImageButton? = null
+    private lateinit var binding : SavedActivityBinding
     private var imagesFromDbList : ArrayList<String>? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.saved_activity)
+        binding = SavedActivityBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        rvSavedImage = rv_saved
-        imageResult = image_result
+        rvSavedImage = binding.rvSaved
 
         imageViewModel = ViewModelProvider(this)[ImageViewModel::class.java]
 

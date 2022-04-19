@@ -16,6 +16,7 @@ import com.example.eksamen_pgr208.adapters.ResultsAdapter
 import com.example.eksamen_pgr208.data.Image
 import com.example.eksamen_pgr208.data.ImageViewModel
 import com.example.eksamen_pgr208.data.api.ImageModelResultItem
+import com.example.eksamen_pgr208.databinding.ResultActivityBinding
 import kotlinx.android.synthetic.main.image_rv_layout.*
 import kotlinx.android.synthetic.main.result_activity.*
 import java.util.ArrayList
@@ -24,21 +25,20 @@ private const val TAG = "ResultActivity"
 
 class ResultActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
     private lateinit var rvImage : RecyclerView
-    private lateinit var imageViewModel: ImageViewModel
+    private lateinit var imageViewModel : ImageViewModel
     private var btnClearSearchAndGoesBack : Button? = null
-    private var imageResult : ImageButton? = null
+    private lateinit var binding : ResultActivityBinding
+
 
     @SuppressLint("ResourceType")
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.result_activity)
+        binding = ResultActivityBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         val images: ArrayList<ImageModelResultItem>? = intent.getParcelableArrayListExtra("images")
 
-        rvImage = rv_results
-        btnClearSearchAndGoesBack = btn_delete_list
-        imageResult = image_result
-
+        rvImage = binding.rvResults
+        btnClearSearchAndGoesBack = binding.btnDeleteList
 
         imageViewModel = ViewModelProvider(this)[ImageViewModel::class.java]
 
@@ -64,7 +64,7 @@ class ResultActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
              imageViewModel.addImage(image)
              println(image)
              Toast.makeText(this, "Successfully added image to database!", Toast.LENGTH_LONG).show()
-             Log.i(TAG, "Image added to database")
+             Log.i(TAG, "${image.image_link} added to database")
          } catch (e: Exception) {
              Log.e(TAG, "Crash in saving to database", e)
          }

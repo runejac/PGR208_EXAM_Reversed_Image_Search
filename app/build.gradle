@@ -85,7 +85,7 @@ dependencies {
     // ImagePicker
     implementation 'com.github.dhaval2404:imagepicker:2.1'
 
-    // Picasso
+    // Picasso todo: bruker ikke lenger
     implementation 'com.squareup.picasso:picasso:2.71828'
 
     // Glide

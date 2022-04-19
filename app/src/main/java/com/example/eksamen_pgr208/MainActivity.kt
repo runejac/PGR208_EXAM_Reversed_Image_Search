@@ -34,11 +34,10 @@ class MainActivity : AppCompatActivity() {
     private var btnUpload : Button? = null
     private var btnSaved : Button? = null
     private var uploadProgressbar : ProgressBar? = null
-    private lateinit var imageViewModel : ImageViewModel
     var liveDataUploadImage : MutableLiveData<String> = MutableLiveData<String>()
     var liveDataGetImages : MutableLiveData<ImageModelResult> = MutableLiveData<ImageModelResult>()
 
-    private lateinit var binding: ActivityMainBinding
+    private lateinit var binding : ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,6 +59,7 @@ class MainActivity : AppCompatActivity() {
         val navController = navHostFragment.navController
         navView.setupWithNavController(navController)
 
+        // getting xml components
         floatingActionButton = binding.fab
         imageFromCameraOrGallery = binding.addedImageFromEitherCameraOrMemory
         btnUpload = binding.btnUpload

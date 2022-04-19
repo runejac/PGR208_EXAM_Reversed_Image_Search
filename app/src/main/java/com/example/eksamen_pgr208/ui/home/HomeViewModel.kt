@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 class HomeViewModel : ViewModel(){
 
     private val textValue = MutableLiveData<String>().apply {
-        value = "REVERSE IMAGE SEARCH"
+        value = "REVERSED IMAGE SEARCH"
     }
 
     private val subTextValue = MutableLiveData<String>().apply {
