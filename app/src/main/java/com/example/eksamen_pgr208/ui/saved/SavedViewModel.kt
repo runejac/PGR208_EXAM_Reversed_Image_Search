@@ -8,5 +8,6 @@ class SavedViewModel : ViewModel(){
     private val textValue = MutableLiveData<String>().apply {
         value = "This is Saved fragment"
     }
+
     val text : LiveData<String> = textValue
 }

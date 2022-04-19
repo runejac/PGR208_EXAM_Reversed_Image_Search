@@ -1,9 +1,11 @@
 > PGR208 Android Programming exam
-# ReversedImageSearch 📱🔍✍(◔◡◔)
+<h1 align="center">
+Reversed Image Search 📱🔍✍(◔◡◔) EXAM
+</h1>
 
 ---
 
-# Egne notater (slettes før levering):
+### Egne notater (slettes før levering):
 * [ ] Få på plass "Results" (omgjøre navn til "Saved" imo), dette blir trolig en custom
   view der vi viser hva som er lagret i DB, søke-bildet og resultater fra bilde søkt på
 * [ ] Få navigasjonsbaren til å bli med uansett hvilket fragment/activity man er på

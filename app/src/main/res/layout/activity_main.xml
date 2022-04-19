@@ -58,6 +58,7 @@
             android:layout_height="wrap_content"
             android:text="Search this image" />
 
+
     <ProgressBar
             android:id="@+id/upload_progress_bar"
             android:layout_width="fill_parent"
@@ -74,6 +75,14 @@
         android:layout_height="match_parent"
         app:defaultNavHost="true"
         app:navGraph="@navigation/my_nav" />
+
+    <Button
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="250dp"
+            android:id="@+id/btn_saved"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Saved images" />
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

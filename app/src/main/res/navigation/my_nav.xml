@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/resultFragment"
-        android:name="com.example.eksamen_pgr208.ui.saved.SavedFragment"
+        android:name="com.example.eksamen_pgr208.SavedActivity"
         android:label="Saved"
-        tools:layout="@layout/fragment_saved" >
+        tools:layout="@layout/saved_activity" >
 
     </fragment>
     <fragment

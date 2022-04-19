@@ -13,6 +13,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.androidnetworking.AndroidNetworking
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.example.eksamen_pgr208.data.ImageViewModel
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.github.dhaval2404.imagepicker.util.FileUriUtils
 import com.github.dhaval2404.imagepicker.util.FileUtil
@@ -20,11 +21,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.example.eksamen_pgr208.data.api.ImageModelResult
 import com.example.eksamen_pgr208.data.api.ApiServices
 import com.example.eksamen_pgr208.databinding.ActivityMainBinding
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import java.util.*
 import okhttp3.OkHttpClient
 import java.util.concurrent.TimeUnit
@@ -35,7 +32,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var floatingActionButton : ImageView
     private var imageFromCameraOrGallery : ImageView? = null
     private var btnUpload : Button? = null
+    private var btnSaved : Button? = null
     private var uploadProgressbar : ProgressBar? = null
+    private lateinit var imageViewModel : ImageViewModel
     var liveDataUploadImage : MutableLiveData<String> = MutableLiveData<String>()
     var liveDataGetImages : MutableLiveData<ImageModelResult> = MutableLiveData<ImageModelResult>()
 
@@ -64,6 +63,7 @@ class MainActivity : AppCompatActivity() {
         floatingActionButton = binding.fab
         imageFromCameraOrGallery = binding.addedImageFromEitherCameraOrMemory
         btnUpload = binding.btnUpload
+        btnSaved = binding.btnSaved
         uploadProgressbar = binding.uploadProgressBar
 
         // hiding elements
@@ -85,6 +85,12 @@ class MainActivity : AppCompatActivity() {
             imagesArray.putExtra("images", item)
             startActivity(imagesArray)
         }
+
+        btnSaved?.setOnClickListener {
+            val takeMeToSavedActivity = Intent(this, SavedActivity::class.java)
+            startActivity(takeMeToSavedActivity)
+        }
+
     }
 
 
