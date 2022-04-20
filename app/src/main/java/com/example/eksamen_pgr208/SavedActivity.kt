@@ -15,6 +15,10 @@ import com.example.eksamen_pgr208.data.Image
 import com.example.eksamen_pgr208.data.ImageViewModel
 import com.example.eksamen_pgr208.databinding.SavedActivityBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 private const val TAG = "SavedActivity"
 
@@ -64,7 +68,12 @@ class SavedActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
                 }
                 R.id.camera -> {
                     println("Kamera")
-                    MainActivity().showCameraAndGalleryDialog()
+                    /*val intent = Intent(this, MainActivity::class.java)
+                    startActivity(intent)*/
+                    MainActivity().showCameraAndGalleryDialog(this)
+
+
+
                     true
                 }
                 else -> {false}
@@ -72,6 +81,17 @@ class SavedActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
         }
 
     }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+    }
+
+
+
+    /*override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        MainActivity().imageChooser(resultCode, data)
+    }*/
 
     private fun deleteFromDatabase(imagePos: Int) {
         try {

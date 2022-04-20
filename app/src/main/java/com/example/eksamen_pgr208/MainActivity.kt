@@ -1,7 +1,6 @@
 package com.example.eksamen_pgr208
 
 import android.app.Dialog
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -112,12 +111,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
-
         imageChooser(resultCode, data)
     }
 
-    private fun imageChooser(resultCode: Int, data: Intent?) {
+    fun imageChooser(resultCode: Int, data: Intent?) {
         when (resultCode) {
             RESULT_OK -> {
                 btnUpload?.visibility = View.VISIBLE
@@ -167,9 +164,9 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-     fun showCameraAndGalleryDialog(context: Context) {
+     fun showCameraAndGalleryDialog(activity: AppCompatActivity) {
         // shows dialog (modal) to prompt the user to either choose camera or gallery
-        val camOrGallDialog = Dialog(context)
+        val camOrGallDialog = Dialog(activity)
         camOrGallDialog.setContentView(R.layout.dialog_camera_or_gallery)
         camOrGallDialog.setTitle("Choose source: ")
 
@@ -177,7 +174,7 @@ class MainActivity : AppCompatActivity() {
         val btnCamera : ImageButton = camOrGallDialog.findViewById(R.id.btn_camera)
 
         btnGallery.setOnClickListener {
-            ImagePicker.with(this@MainActivity)
+            ImagePicker.with(activity)
                 .galleryOnly()
                 .galleryMimeTypes(arrayOf("image/*"))
                 .maxResultSize(400, 400)
@@ -188,7 +185,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         btnCamera.setOnClickListener {
-            ImagePicker.with(this@MainActivity)
+            ImagePicker.with(activity)
                 .cameraOnly()
                 .maxResultSize(400, 400)
                 .compress(1024)
@@ -196,7 +193,8 @@ class MainActivity : AppCompatActivity() {
             camOrGallDialog.dismiss()
             println("camera clicked")
         }
-        camOrGallDialog.show()
+         camOrGallDialog.show()
+
     }
 
 }

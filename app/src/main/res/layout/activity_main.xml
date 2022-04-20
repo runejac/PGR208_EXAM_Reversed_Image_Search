@@ -54,9 +54,10 @@
         style="@style/Widget.AppCompat.ProgressBar"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
+        android:layout_centerInParent="true"
         android:indeterminateOnly="true"
-        android:indeterminateTint="#86FFFFFF" />
+        android:indeterminateTint="#86FFFFFF"
+            />
 
     <TextView
             android:text="Take a photo or choose one from your gallery and get similar results back"
