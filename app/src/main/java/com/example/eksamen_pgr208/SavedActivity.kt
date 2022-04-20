@@ -3,7 +3,6 @@ package com.example.eksamen_pgr208
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -16,8 +15,6 @@ import com.example.eksamen_pgr208.data.Image
 import com.example.eksamen_pgr208.data.ImageViewModel
 import com.example.eksamen_pgr208.databinding.SavedActivityBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import kotlinx.android.synthetic.main.image_rv_layout.*
-import kotlinx.android.synthetic.main.saved_activity.*
 
 private const val TAG = "SavedActivity"
 
@@ -67,7 +64,7 @@ class SavedActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
                 }
                 R.id.camera -> {
                     println("Kamera")
-                    MainActivity().showCameraAndGalleryDialog(this)
+                    MainActivity().showCameraAndGalleryDialog()
                     true
                 }
                 else -> {false}

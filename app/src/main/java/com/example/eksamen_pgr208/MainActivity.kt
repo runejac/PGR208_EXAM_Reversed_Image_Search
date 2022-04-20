@@ -9,12 +9,9 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MutableLiveData
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.setupWithNavController
 import com.androidnetworking.AndroidNetworking
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.example.eksamen_pgr208.data.ImageViewModel
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.github.dhaval2404.imagepicker.util.FileUriUtils
 import com.github.dhaval2404.imagepicker.util.FileUtil
@@ -22,8 +19,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.example.eksamen_pgr208.data.api.ImageModelResult
 import com.example.eksamen_pgr208.data.api.ApiServices
 import com.example.eksamen_pgr208.databinding.ActivityMainBinding
-import kotlinx.android.synthetic.main.activity_main.*
-import java.util.*
 import okhttp3.OkHttpClient
 import java.util.concurrent.TimeUnit
 
@@ -182,7 +177,7 @@ class MainActivity : AppCompatActivity() {
         val btnCamera : ImageButton = camOrGallDialog.findViewById(R.id.btn_camera)
 
         btnGallery.setOnClickListener {
-            ImagePicker.with(this)
+            ImagePicker.with(this@MainActivity)
                 .galleryOnly()
                 .galleryMimeTypes(arrayOf("image/*"))
                 .maxResultSize(400, 400)
@@ -193,7 +188,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         btnCamera.setOnClickListener {
-            ImagePicker.with(this)
+            ImagePicker.with(this@MainActivity)
                 .cameraOnly()
                 .maxResultSize(400, 400)
                 .compress(1024)
