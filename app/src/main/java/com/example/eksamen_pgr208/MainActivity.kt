@@ -141,6 +141,9 @@ class MainActivity : AppCompatActivity() {
                         ApiServices.getImages(this@MainActivity)
                         uploadProgressbar?.visibility = View.VISIBLE
 
+
+                        // todo endre denne til en Log.d() på stasjonære pc - rdj
+                        // todo prøv og med bilde som jeg ikke får noe svar fra noen på, ordne en timeout så det ikke loader for alltid
                         Toast.makeText(
                             this@MainActivity,
                             "Please wait, searching for similar images...",

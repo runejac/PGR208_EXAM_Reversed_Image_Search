@@ -10,6 +10,10 @@ Reversed Image Search 📱🔍✍(◔◡◔) EXAM
 * [ ] Få navigasjonsbaren til å bli med uansett hvilket fragment/activity man er på
 * [x] Implementere SQLite med Room (husk hvorfor dette er så jævlig bra for vi må justifye bruk av Room)
 * [ ] Få UI logisk, riktig og til å se pen ut, uten tekst oppå hverandre. Kun ha nødvendig tekst som er forståelig for brukeren
+* [ ] Se om vi kan bruke kun 1 stk RecyclerViewAdapter som heter f.eks. SavedAndResultAdapter, de to som brukes nå er "helt" like mener jeg- RDJ
+* [ ] Ordne så den timer ut dersom alle 3 endepunktene gir []
+* [ ] Evt. andre ting dere kommer på
+* [ ] Evt. andre ting dere kommer på
 * [ ] Evt. andre ting dere kommer på
 * [ ] Evt. andre ting dere kommer på
 

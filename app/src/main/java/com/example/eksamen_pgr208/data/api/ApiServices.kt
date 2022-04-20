@@ -87,16 +87,17 @@ class ApiServices {
 
                     CoroutineScope(Dispatchers.IO).launch {
 
+                        val tagName = "google"
                         Log.i(TAG,"Starting GET request at Google...")
                         AndroidNetworking.get(Constants.API_GET_GOOGLE)
                             .addQueryParameter("url", res)
-                            .setTag("image")
+                            .setTag(tagName)
                             .setPriority(Priority.HIGH)
                             .setExecutor(Executors.newSingleThreadExecutor())
                             .build()
                             .getAsString(object : StringRequestListener {
                                 override fun onResponse(response: String?) {
-                                    responseHandler(gson, response, mainActivity, Constants.API_GET_GOOGLE)
+                                    responseHandler(tagName, gson, response, mainActivity, Constants.API_GET_GOOGLE)
                                 }
 
                                 override fun onError(anError: ANError?) {
@@ -109,16 +110,17 @@ class ApiServices {
 
                     CoroutineScope(Dispatchers.IO).launch {
 
+                        val tagName = "tineye"
                         Log.i(TAG, "Starting GET request at Tineye...")
                         AndroidNetworking.get(Constants.API_GET_TINEYE)
                             .addQueryParameter("url", res)
-                            .setTag("image")
+                            .setTag(tagName)
                             .setPriority(Priority.HIGH)
                             .setExecutor(Executors.newSingleThreadExecutor())
                             .build()
                             .getAsString(object : StringRequestListener {
                                 override fun onResponse(response: String?) {
-                                    responseHandler(gson, response, mainActivity, Constants.API_GET_TINEYE)
+                                    responseHandler(tagName, gson, response, mainActivity, Constants.API_GET_TINEYE)
                                 }
 
                                 override fun onError(anError: ANError?) {
@@ -131,16 +133,18 @@ class ApiServices {
 
                     CoroutineScope(Dispatchers.IO).launch {
 
+
+                        val tagName = "bing"
                         Log.i(TAG,"Starting GET request at Bing...")
                         AndroidNetworking.get(Constants.API_GET_BING)
                             .addQueryParameter("url", res)
-                            .setTag("image")
+                            .setTag(tagName)
                             .setPriority(Priority.HIGH)
                             .setExecutor(Executors.newSingleThreadExecutor())
                             .build()
                             .getAsString(object : StringRequestListener {
                                 override fun onResponse(response: String?) {
-                                    responseHandler(gson, response, mainActivity, Constants.API_GET_BING)
+                                    responseHandler(tagName, gson, response, mainActivity, Constants.API_GET_BING)
                                 }
 
                                 override fun onError(anError: ANError?) {
@@ -155,6 +159,7 @@ class ApiServices {
         }
 
         private fun responseHandler(
+            tagName: String,
             gson: Gson,
             response: String?,
             mainActivity: MainActivity,
@@ -168,10 +173,14 @@ class ApiServices {
                 )
                 if (convertedResponse == null) {
                     Log.w(TAG, "Response from $apiEndPoint is $convertedResponse")
+                    //fixme sjekke om det er vits å cancle request
+                    //AndroidNetworking.cancel(tagName)
                     throw NullPointerException("Can't handle null arrays")
                 }
                 if (convertedResponse.size == 0) {
                     Log.w(TAG,"Response from $apiEndPoint is $convertedResponse")
+                    //fixme sjekke om det er vits å cancle request
+                    //AndroidNetworking.cancel(tagName)
                     throw IllegalArgumentException("Can't handle zero-length arrays")
                 } else {
                     Log.i(TAG, "Using $apiEndPoint")
@@ -180,6 +189,7 @@ class ApiServices {
                 }
             } catch (e: Exception) {
                 Log.w(TAG, "Exception catched in trying to get images from api: $apiEndPoint", e)
+                AndroidNetworking.cancel(tagName)
             } finally {
                 val endPointName = apiEndPoint.substring(apiEndPoint.lastIndexOf("/") + 1)
                 val upperCaseOnFirstLetterEndPointName = endPointName.substring(0, 1).uppercase() + endPointName.substring(1)

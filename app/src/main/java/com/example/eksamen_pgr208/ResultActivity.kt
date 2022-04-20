@@ -72,8 +72,8 @@ class ResultActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
 
     override fun onImageClick(position: Int) {
         AlertDialog.Builder(this)
-            .setTitle("Hi!")
-            .setMessage("Add image to database?")
+            .setTitle("Save image")
+            .setMessage("Do you want to save the image?")
             .setPositiveButton("Yes") { dialog, _ ->
                 addToDatabase(position);
             }
