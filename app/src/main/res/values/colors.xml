@@ -15,4 +15,6 @@
     <color name="navigationbar">#315A48</color>
     <color name="semiTransparent">#36000000</color>
     <color name="background">#7093B6</color>
+    <color name="btnColor">#323232</color>
+    <color name="btnBG">#D5D5D5</color>
 </resources>
