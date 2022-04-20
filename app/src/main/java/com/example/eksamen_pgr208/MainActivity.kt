@@ -48,9 +48,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val okHttpClient = OkHttpClient().newBuilder()
-            .connectTimeout(120, TimeUnit.SECONDS)
-            .readTimeout(120, TimeUnit.SECONDS)
-            .writeTimeout(120, TimeUnit.SECONDS)
+            .connectTimeout(60, TimeUnit.SECONDS)
+            .writeTimeout(60, TimeUnit.SECONDS)
+            .readTimeout(60, TimeUnit.SECONDS)
             .build()
 
         AndroidNetworking.initialize(this@MainActivity, okHttpClient)

@@ -27,6 +27,7 @@ class ApiServices {
         fun uploadImage(mainActivity: MainActivity, filePath: String) {
 
             CoroutineScope(Dispatchers.IO).launch {
+                Log.i(TAG,"Starting UPLOAD request...")
 
             val okHttpClient = OkHttpClient.Builder()
                 .addNetworkInterceptor(StethoInterceptor())
@@ -35,6 +36,7 @@ class ApiServices {
                 AndroidNetworking.upload(Constants.API_UPLOAD_URL)
                     .addMultipartFile("image", File(filePath))
                     .addMultipartParameter("content-type", "image/png")
+                    .setTag("imageUpload")
                     .setPriority(Priority.HIGH)
                     .setOkHttpClient(okHttpClient)
                     .setExecutor(Executors.newSingleThreadExecutor())
@@ -44,12 +46,27 @@ class ApiServices {
                     }
                     .getAsString(object : StringRequestListener {
                         override fun onResponse(response: String) {
-                            // todo: legg til handling av try/catch her og etter hvert
-                            println("From POST response: $response")
-                            mainActivity.liveDataUploadImage.postValue(response)
+                            try {
+                                Log.i(TAG, "From UPLOAD response: $response")
+                                mainActivity.liveDataUploadImage.postValue(response)
+                            } catch (e: Exception) {
+                                Log.e(TAG, "Exception catched in UPLOAD request", e)
+                            } finally {
+                                Log.i(TAG, "UPLOAD request from API: '${Constants.API_UPLOAD_URL}' done")
+                            }
                         }
                         override fun onError(error: ANError) {
-                            Log.e(TAG, "Error on UPLOAD request", error)
+                            if (error.errorCode != 0) {
+                                Log.d(TAG, "onError errorCode: ${error.errorCode}")
+                                Log.d(TAG, "onError errorBody: ${error.errorBody}")
+                                Log.d(TAG, "onError errorDetail: ${error.errorDetail}")
+                                val apiError: ApiServices = error.getErrorAsObject(ApiServices::class.java)
+                                Log.d(TAG, "Error as object: $apiError")
+                                Toast.makeText(mainActivity, "Error in uploading image, contact service provider", Toast.LENGTH_LONG).show()
+                            } else {
+                                Toast.makeText(mainActivity, "Error in uploading image, check your internet connection", Toast.LENGTH_LONG).show()
+                                Log.e(TAG, "Error on UPLOAD request, no internet connection")
+                            }
                         }
                     })
             }
@@ -83,9 +100,9 @@ class ApiServices {
                                 }
 
                                 override fun onError(anError: ANError?) {
-                                    println("ErrorBody from GET request at Google: ${anError?.errorBody}")
-                                    println("ErrorCode from GET request at Google: ${anError?.errorCode}")
-                                    println("ErrorDetail from GET request at Google: ${anError?.errorDetail}")
+                                    Log.e(TAG, "ErrorBody from GET request at Google: ${anError?.errorBody}")
+                                    Log.e(TAG, "ErrorCode from GET request at Google: ${anError?.errorCode}")
+                                    Log.e(TAG, "ErrorDetail from GET request at Google: ${anError?.errorDetail}")
                                 }
                             })
                         }
@@ -105,9 +122,9 @@ class ApiServices {
                                 }
 
                                 override fun onError(anError: ANError?) {
-                                    println("ErrorBody from GET request at Tineye: ${anError?.errorBody}")
-                                    println("ErrorCode from GET request at Tineye: ${anError?.errorCode}")
-                                    println("ErrorDetail from GET request at Tineye: ${anError?.errorDetail}")
+                                    Log.e(TAG, "ErrorBody from GET request at Tineye: ${anError?.errorBody}")
+                                    Log.e(TAG, "ErrorCode from GET request at Tineye: ${anError?.errorCode}")
+                                    Log.e(TAG, "ErrorDetail from GET request at Tineye: ${anError?.errorDetail}")
                                 }
                             })
                         }
@@ -127,9 +144,9 @@ class ApiServices {
                                 }
 
                                 override fun onError(anError: ANError?) {
-                                    println("ErrorBody from GET request at Bing: ${anError?.errorBody}")
-                                    println("ErrorCode from GET request at Bing: ${anError?.errorCode}")
-                                    println("ErrorDetail from GET request at Bing: ${anError?.errorDetail}")
+                                    Log.e(TAG, "ErrorBody from GET request at Bing: ${anError?.errorBody}")
+                                    Log.e(TAG, "ErrorCode from GET request at Bing: ${anError?.errorCode}")
+                                    Log.e(TAG, "ErrorDetail from GET request at Bing: ${anError?.errorDetail}")
                                 }
                             })
                         }
@@ -162,7 +179,7 @@ class ApiServices {
                     mainActivity.liveDataGetImages.postValue(convertedResponse)
                 }
             } catch (e: Exception) {
-                Log.e(TAG, "Soft crash in trying to get images from api: $apiEndPoint", e)
+                Log.w(TAG, "Exception catched in trying to get images from api: $apiEndPoint", e)
             } finally {
                 val endPointName = apiEndPoint.substring(apiEndPoint.lastIndexOf("/") + 1)
                 val upperCaseOnFirstLetterEndPointName = endPointName.substring(0, 1).uppercase() + endPointName.substring(1)
