@@ -11,4 +11,6 @@
     <color name="semiblack">#2F2F2F</color>
     <color name="title">#334343</color>
     <color name="semigray">#F4F4F4</color>
+    <color name="semiTransparent">#1B858585</color>
+    <color name="background">#7093B6</color>
 </resources>

@@ -4,26 +4,31 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     tools:context=".MainActivity"
    >
 
+    <TextView
+        android:text="Take a photo or choose one from your gallery and get similar results back"
+        android:id="@+id/tv_intro"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:fontFamily="@font/poppins"
+        android:textColor="@color/title"
+        android:textSize="20sp"
+        android:textAlignment="center"
+        android:layout_marginTop="100dp"
+        />
 
-
-
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bottomNavigationView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:itemBackground="@color/semigray"
-            android:background="@color/transparent"
-            app:itemTextColor="@drawable/selector"
-            android:layout_alignParentBottom="true"
-            
-            app:menu="@menu/bottom_navigation">
-
-
-        </com.google.android.material.bottomnavigation.BottomNavigationView>
-
+    <ImageButton
+        android:id="@+id/ibButton"
+        android:layout_width="match_parent"
+        android:backgroundTint="@color/semiTransparent"
+        android:layout_height="300dp"
+        android:scaleType="fitCenter"
+        android:layout_centerInParent="true"
+        android:src="@drawable/ic_add_photo" />
 
     <ImageView
         android:id="@+id/addedImageFromEitherCameraOrMemory"
@@ -48,7 +53,6 @@
             android:layout_marginBottom="100dp"
             android:drawableLeft="@drawable/ic_baseline_search_white"/>
 
-
     <ProgressBar
         android:id="@+id/upload_progress_bar"
         style="@style/Widget.AppCompat.ProgressBar"
@@ -58,20 +62,21 @@
         android:indeterminateOnly="true"
         android:indeterminateTint="#86FFFFFF" />
 
-    <TextView
-            android:text="Take a photo or choose one from your gallery and get similar results back"
-            android:id="@+id/tv_intro"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="15dp"
-            android:fontFamily="@font/poppins"
-            android:textColor="@color/title"
-            android:textSize="20sp"
-            android:textAlignment="center"
-           android:layout_marginTop="100dp"
-            />
 
 
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigationView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:itemBackground="@color/semigray"
+        android:background="@color/transparent"
+        app:itemTextColor="@drawable/selector"
+        android:layout_alignParentBottom="true"
+
+        app:menu="@menu/bottom_navigation">
+
+
+    </com.google.android.material.bottomnavigation.BottomNavigationView>
 
 
 </RelativeLayout>

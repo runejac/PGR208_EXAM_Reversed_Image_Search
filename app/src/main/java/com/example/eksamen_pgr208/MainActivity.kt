@@ -25,10 +25,9 @@ import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
 
-
+    private var imageButton : ImageButton? = null
     private var imageFromCameraOrGallery : ImageView? = null
     private var btnUpload : Button? = null
-    private var btnSaved : Button? = null
     private var tvIntro : TextView? = null
     private var uploadProgressbar : ProgressBar? = null
     var liveDataUploadImage : MutableLiveData<String> = MutableLiveData<String>()
@@ -43,9 +42,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val okHttpClient = OkHttpClient().newBuilder()
-            .connectTimeout(60, TimeUnit.SECONDS)
-            .writeTimeout(60, TimeUnit.SECONDS)
-            .readTimeout(60, TimeUnit.SECONDS)
+            .connectTimeout(120, TimeUnit.SECONDS)
+            .readTimeout(120, TimeUnit.SECONDS)
+            .writeTimeout(120, TimeUnit.SECONDS)
             .build()
 
         AndroidNetworking.initialize(this@MainActivity, okHttpClient)
@@ -62,6 +61,7 @@ class MainActivity : AppCompatActivity() {
         btnUpload = binding.btnUpload
         uploadProgressbar = binding.uploadProgressBar
         tvIntro = binding.tvIntro
+        imageButton = binding.ibButton
 
         // hiding elements
         btnUpload?.visibility = View.GONE
@@ -73,10 +73,14 @@ class MainActivity : AppCompatActivity() {
         nav.selectedItemId = R.id.home
         nav.background = null
 
+        imageButton!!.setOnClickListener {
+            showCameraAndGalleryDialog()
+        }
 
         nav.setOnItemSelectedListener { item ->
             when(item.itemId) {
                 R.id.home -> {
+
                     true
                 }
                 R.id.saved -> {
@@ -84,11 +88,7 @@ class MainActivity : AppCompatActivity() {
                     overridePendingTransition(0, 0)
                     true
                 }
-                R.id.camera -> {
-                    println("Kamera")
-                    showCameraAndGalleryDialog(this)
-                    true
-                }
+
                 else -> {false}
             }
         }
@@ -102,18 +102,13 @@ class MainActivity : AppCompatActivity() {
             startActivity(imagesArray)
         }
 
-        btnSaved?.setOnClickListener {
-            val takeMeToSavedActivity = Intent(this, SavedActivity::class.java)
-            startActivity(takeMeToSavedActivity)
-        }
+
 
     }
 
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?,) {
         super.onActivityResult(requestCode, resultCode, data)
-
-
         imageChooser(resultCode, data)
     }
 
@@ -135,6 +130,7 @@ class MainActivity : AppCompatActivity() {
                     .load(filePath)
                     .transform(RoundedCorners(50))
                     .into(imageFromCameraOrGallery!!)
+
 
                 try {
                     btnUpload?.setOnClickListener {
@@ -166,10 +162,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
-     fun showCameraAndGalleryDialog(context: Context) {
+    @Override
+     fun showCameraAndGalleryDialog() {
         // shows dialog (modal) to prompt the user to either choose camera or gallery
-        val camOrGallDialog = Dialog(context)
+        val camOrGallDialog = Dialog(this)
         camOrGallDialog.setContentView(R.layout.dialog_camera_or_gallery)
         camOrGallDialog.setTitle("Choose source: ")
 
@@ -177,18 +173,19 @@ class MainActivity : AppCompatActivity() {
         val btnCamera : ImageButton = camOrGallDialog.findViewById(R.id.btn_camera)
 
         btnGallery.setOnClickListener {
-            ImagePicker.with(this@MainActivity)
+            ImagePicker.Companion.with(this)
                 .galleryOnly()
                 .galleryMimeTypes(arrayOf("image/*"))
                 .maxResultSize(400, 400)
                 .compress(1024)
                 .start()
             camOrGallDialog.dismiss()
+
             println("gallery clicked")
         }
 
         btnCamera.setOnClickListener {
-            ImagePicker.with(this@MainActivity)
+            ImagePicker.with(this)
                 .cameraOnly()
                 .maxResultSize(400, 400)
                 .compress(1024)
