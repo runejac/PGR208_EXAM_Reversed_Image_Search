@@ -56,7 +56,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/search_this_image"
-            android:translationY="560dp"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="100dp"
             android:drawableLeft="@drawable/ic_baseline_search_white"/>
 
 
@@ -66,7 +67,7 @@
             android:layout_height="wrap_content"
             style="@style/Widget.AppCompat.ProgressBar"
             android:indeterminateOnly="true"
-            android:translationY="300dp"
+            android:layout_gravity="center_vertical"
             android:indeterminateTint="#86FFFFFF"
             />
 
@@ -89,7 +90,7 @@
             android:id="@+id/btn_saved"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:translationY="645dp"
+            android:layout_gravity="bottom"
             android:text="Saved images"
             android:drawableLeft="@drawable/ic_baseline_format_list_bulleted"/>
 
