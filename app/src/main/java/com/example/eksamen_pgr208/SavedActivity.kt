@@ -1,5 +1,6 @@
 package com.example.eksamen_pgr208
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.ImageButton
@@ -14,6 +15,7 @@ import com.example.eksamen_pgr208.adapters.SavedAdapter
 import com.example.eksamen_pgr208.data.Image
 import com.example.eksamen_pgr208.data.ImageViewModel
 import com.example.eksamen_pgr208.databinding.SavedActivityBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.image_rv_layout.*
 import kotlinx.android.synthetic.main.saved_activity.*
 
@@ -44,6 +46,32 @@ class SavedActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
         imageViewModel.readAllData.observe(this) { image ->
             imagesFromDbToViews(image)
             rvSavedImage.adapter = SavedAdapter(this, images = ArrayList(imagesFromDbList!!), this)
+        }
+
+
+        // Get bottom navigation shadow be gone
+        val nav : BottomNavigationView = findViewById(R.id.bottomNavigationView)
+        nav.selectedItemId = R.id.home
+        nav.background = null
+
+
+        nav.setOnItemSelectedListener { item ->
+            when(item.itemId) {
+                R.id.home -> {
+                    startActivity(Intent(this, MainActivity::class.java))
+                    overridePendingTransition(0, 0)
+                    true
+                }
+                R.id.saved -> {
+                    true
+                }
+                R.id.camera -> {
+                    println("Kamera")
+                    MainActivity().showCameraAndGalleryDialog(this)
+                    true
+                }
+                else -> {false}
+            }
         }
 
     }

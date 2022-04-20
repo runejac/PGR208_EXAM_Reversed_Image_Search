@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -8,47 +8,34 @@
    >
 
 
-    <com.google.android.material.bottomappbar.BottomAppBar
-        android:id="@+id/bottomAppBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        app:fabCradleVerticalOffset="10dp"
-        app:fabAnimationMode="scale"
-        app:fabCradleMargin="10dp">
+
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottomNavigationView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginEnd="16dp"
+            android:layout_height="wrap_content"
+            app:itemBackground="@color/semigray"
             android:background="@color/transparent"
-
-            app:menu="@menu/bottom_navigation"/>
-
-
-
-
-    </com.google.android.material.bottomappbar.BottomAppBar>
+            app:itemTextColor="@drawable/selector"
+            android:layout_alignParentBottom="true"
+            
+            app:menu="@menu/bottom_navigation">
 
 
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_baseline_add_a_photo_white"
-        app:layout_anchor="@id/bottomAppBar" />
+        </com.google.android.material.bottomnavigation.BottomNavigationView>
 
 
     <ImageView
-            android:id="@+id/addedImageFromEitherCameraOrMemory"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:contentDescription="@string/added_image"
-            android:layout_margin="5dp"
-            tools:src="@drawable/browndress"
-            />
+        android:id="@+id/addedImageFromEitherCameraOrMemory"
+        android:layout_width="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_height="200dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="5dp"
+        android:contentDescription="@string/added_image"
+        tools:src="@drawable/browndress" />
 
     <Button
             android:layout_marginHorizontal="4dp"
@@ -57,19 +44,19 @@
             android:layout_height="wrap_content"
             android:text="@string/search_this_image"
             android:layout_gravity="bottom"
+            android:layout_alignParentBottom="true"
             android:layout_marginBottom="100dp"
             android:drawableLeft="@drawable/ic_baseline_search_white"/>
 
 
     <ProgressBar
-            android:id="@+id/upload_progress_bar"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            style="@style/Widget.AppCompat.ProgressBar"
-            android:indeterminateOnly="true"
-            android:layout_gravity="center_vertical"
-            android:indeterminateTint="#86FFFFFF"
-            />
+        android:id="@+id/upload_progress_bar"
+        style="@style/Widget.AppCompat.ProgressBar"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:indeterminateOnly="true"
+        android:indeterminateTint="#86FFFFFF" />
 
     <TextView
             android:text="Take a photo or choose one from your gallery and get similar results back"
@@ -78,21 +65,13 @@
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
             android:fontFamily="@font/poppins"
-            android:textColor="@color/semigray"
+            android:textColor="@color/title"
             android:textSize="20sp"
             android:textAlignment="center"
-            android:layout_marginEnd="20dp"
-            android:translationY="300dp" />
-
-    <Button
-            android:layout_marginTop="25dp"
-            android:layout_marginStart="230dp"
-            android:id="@+id/btn_saved"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:text="Saved images"
-            android:drawableLeft="@drawable/ic_baseline_format_list_bulleted"/>
+           android:layout_marginTop="100dp"
+            />
 
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
+</RelativeLayout>

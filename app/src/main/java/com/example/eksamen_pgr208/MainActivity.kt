@@ -1,6 +1,7 @@
 package com.example.eksamen_pgr208
 
 import android.app.Dialog
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -29,7 +30,7 @@ import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var floatingActionButton : ImageView
+
     private var imageFromCameraOrGallery : ImageView? = null
     private var btnUpload : Button? = null
     private var btnSaved : Button? = null
@@ -61,10 +62,9 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)*/
 
         // getting xml components
-        floatingActionButton = binding.fab
+
         imageFromCameraOrGallery = binding.addedImageFromEitherCameraOrMemory
         btnUpload = binding.btnUpload
-        btnSaved = binding.btnSaved
         uploadProgressbar = binding.uploadProgressBar
         tvIntro = binding.tvIntro
 
@@ -74,13 +74,31 @@ class MainActivity : AppCompatActivity() {
         tvIntro?.visibility = View.VISIBLE
 
         // Get bottom navigation shadow be gone
-        var nav : BottomNavigationView = findViewById(R.id.bottomNavigationView)
+        val nav : BottomNavigationView = findViewById(R.id.bottomNavigationView)
+        nav.selectedItemId = R.id.home
         nav.background = null
-        nav.menu.getItem(1).isEnabled = false
 
-        floatingActionButton.setOnClickListener {
-            showCameraAndGalleryDialog()
+
+        nav.setOnItemSelectedListener { item ->
+            when(item.itemId) {
+                R.id.home -> {
+                    true
+                }
+                R.id.saved -> {
+                    startActivity(Intent(this, SavedActivity::class.java))
+                    overridePendingTransition(0, 0)
+                    true
+                }
+                R.id.camera -> {
+                    println("Kamera")
+                    showCameraAndGalleryDialog(this)
+                    true
+                }
+                else -> {false}
+            }
         }
+
+
 
         liveDataGetImages.observe(this){ item ->
 
@@ -154,9 +172,9 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    private fun showCameraAndGalleryDialog() {
+     fun showCameraAndGalleryDialog(context: Context) {
         // shows dialog (modal) to prompt the user to either choose camera or gallery
-        val camOrGallDialog = Dialog(this)
+        val camOrGallDialog = Dialog(context)
         camOrGallDialog.setContentView(R.layout.dialog_camera_or_gallery)
         camOrGallDialog.setTitle("Choose source: ")
 
