@@ -48,8 +48,8 @@ class SavedActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
 
 
         // Get bottom navigation shadow be gone
-        val nav : BottomNavigationView = findViewById(R.id.bottomNavigationView)
-        nav.selectedItemId = R.id.home
+        val nav : BottomNavigationView = binding.bottomNavigationView
+        nav.selectedItemId = R.id.saved
         nav.background = null
 
 
@@ -64,7 +64,7 @@ class SavedActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
                     true
                 }
 
-                else -> {false}
+                else -> false
             }
         }
 

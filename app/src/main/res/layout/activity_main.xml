@@ -21,26 +21,40 @@
         android:layout_marginTop="100dp"
         />
 
+    <TextView
+            android:text="Great! Now hit the search button to get similar results!"
+            android:id="@+id/tv_intro_next"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:fontFamily="@font/poppins"
+            android:textColor="@color/title"
+            android:textSize="20sp"
+            android:textAlignment="center"
+            android:layout_marginTop="100dp"
+            />
+
     <ImageButton
-        android:id="@+id/ibButton"
-        android:layout_width="match_parent"
-        android:backgroundTint="@color/semiTransparent"
-        android:layout_height="300dp"
-        android:scaleType="fitCenter"
-        android:layout_centerInParent="true"
-        android:src="@drawable/ic_add_photo" />
+            android:id="@+id/ibButton"
+            android:layout_width="match_parent"
+            android:backgroundTint="@color/semiTransparent"
+            android:layout_height="300dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_add_photo"
+            android:tooltipText="Image to be searched on"
+            android:layout_centerInParent="true"/>
 
     <ImageView
-        android:id="@+id/addedImageFromEitherCameraOrMemory"
-        android:layout_width="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_height="200dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginBottom="5dp"
-        android:contentDescription="@string/added_image"
-        tools:src="@drawable/browndress" />
+            android:id="@+id/addedImageFromEitherCameraOrMemory"
+            android:layout_width="wrap_content"
+            android:layout_height="270dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            android:contentDescription="@string/added_image"
+            tools:src="@drawable/browndress"
+            android:layout_centerInParent="true" />
 
     <Button
             android:layout_marginHorizontal="4dp"

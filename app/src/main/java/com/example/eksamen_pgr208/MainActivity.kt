@@ -1,7 +1,6 @@
 package com.example.eksamen_pgr208
 
 import android.app.Dialog
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -19,6 +18,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.example.eksamen_pgr208.data.api.ImageModelResult
 import com.example.eksamen_pgr208.data.api.ApiServices
 import com.example.eksamen_pgr208.databinding.ActivityMainBinding
+import kotlinx.android.synthetic.main.activity_main.*
 import okhttp3.OkHttpClient
 import java.util.concurrent.TimeUnit
 
@@ -28,7 +28,8 @@ class MainActivity : AppCompatActivity() {
     private var imageButton : ImageButton? = null
     private var imageFromCameraOrGallery : ImageView? = null
     private var btnUpload : Button? = null
-    private var tvIntro : TextView? = null
+    private var tvIntroStepOne : TextView? = null
+    private var tvIntroStepTwo : TextView? = null
     private var uploadProgressbar : ProgressBar? = null
     var liveDataUploadImage : MutableLiveData<String> = MutableLiveData<String>()
     var liveDataGetImages : MutableLiveData<ImageModelResult> = MutableLiveData<ImageModelResult>()
@@ -60,16 +61,18 @@ class MainActivity : AppCompatActivity() {
         imageFromCameraOrGallery = binding.addedImageFromEitherCameraOrMemory
         btnUpload = binding.btnUpload
         uploadProgressbar = binding.uploadProgressBar
-        tvIntro = binding.tvIntro
+        tvIntroStepOne = binding.tvIntro
+        tvIntroStepTwo = binding.tvIntroNext
         imageButton = binding.ibButton
 
         // hiding elements
         btnUpload?.visibility = View.GONE
         uploadProgressbar?.visibility = View.GONE
-        tvIntro?.visibility = View.VISIBLE
+        tvIntroStepOne?.visibility = View.VISIBLE
+        tvIntroStepTwo?.visibility = View.GONE
 
         // Get bottom navigation shadow be gone
-        val nav : BottomNavigationView = findViewById(R.id.bottomNavigationView)
+        val nav : BottomNavigationView = binding.bottomNavigationView
         nav.selectedItemId = R.id.home
         nav.background = null
 
@@ -80,7 +83,6 @@ class MainActivity : AppCompatActivity() {
         nav.setOnItemSelectedListener { item ->
             when(item.itemId) {
                 R.id.home -> {
-
                     true
                 }
                 R.id.saved -> {
@@ -89,7 +91,7 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
 
-                else -> {false}
+                else -> false
             }
         }
 
@@ -116,7 +118,8 @@ class MainActivity : AppCompatActivity() {
         when (resultCode) {
             RESULT_OK -> {
                 btnUpload?.visibility = View.VISIBLE
-                tvIntro?.visibility = View.GONE
+                tvIntroStepOne?.visibility = View.GONE
+                tvIntroStepTwo?.visibility = View.VISIBLE
 
                 val uri: Uri = data?.data!!
                 val filePath = FileUriUtils.getRealPath(this, uri)
