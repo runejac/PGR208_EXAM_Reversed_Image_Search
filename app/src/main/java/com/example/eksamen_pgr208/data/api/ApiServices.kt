@@ -187,15 +187,11 @@ class ApiServices {
 
                     if (convertedResponse.toString().endsWith("[]")) {
 
-                        AndroidNetworking.isRequestRunning("bing")
-
-
                         Log.i(TAG, "Hello from endswith method?")
                         emptyArrayListFromApiCalls.add(convertedResponse.toString())
                         Log.i(TAG, "Size on array from ApiServices is: $emptyArrayListFromApiCalls")
 
                         CoroutineScope(Dispatchers.Main).launch {
-
 
                             if (emptyArrayListFromApiCalls.size > 2) {
 
@@ -203,13 +199,9 @@ class ApiServices {
                                     emptyArrayListFromApiCalls.size)
 
                                 emptyArrayListFromApiCalls.clear()
-
                             }
-
                         }
-
                     }
-
                 }
 
                 else {

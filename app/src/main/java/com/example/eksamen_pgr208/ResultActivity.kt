@@ -32,7 +32,6 @@ private const val TAG = "ResultActivity"
 class ResultActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
     private lateinit var rvImage : RecyclerView
     private lateinit var imageViewModel : ImageViewModel
-    private var btnClearSearchAndGoesBack : Button? = null
     private lateinit var binding : ResultActivityBinding
 
 
@@ -49,16 +48,11 @@ class ResultActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
         imageViewModel = ViewModelProvider(this)[ImageViewModel::class.java]
 
         val layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-        // todo: er ikke ordentlig i grid med størrelse = størrelse på bildet enda
         val gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
         rvImage.layoutManager = layoutManager
         layoutManager.gapStrategy = gapStrategy
         rvImage.adapter = ResultsAdapter(this, images = ArrayList<ImageModelResultItem>(images!!), this)
 
-
-        btnClearSearchAndGoesBack?.setOnClickListener{
-            goesHomeAndClearOldSearch(images)
-        }
 
         // Get bottom navigation shadow be gone
         val nav : BottomNavigationView = binding.bottomNavigationView
@@ -85,20 +79,9 @@ class ResultActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
     }
 
 
-
-/*    override fun onBackPressed() {
-        //super.onBackPressed()
-        MainActivity().uploadProgressbar?.visibility = View.GONE
-        MainActivity().imageFromCameraOrGallery?.visibility = View.GONE
-        MainActivity().tvIntroStepOne?.visibility = View.VISIBLE
-        MainActivity().tvIntroStepTwo?.visibility = View.GONE
-        Toast.makeText(MainActivity(),"onBackPressed",Toast.LENGTH_SHORT).show()
-    }*/
-    @Override
     override fun onBackPressed() {
         super.onBackPressed()
         startActivity(Intent(this, MainActivity::class.java))
-
     }
 
      private fun addToDatabase(imagePos: Int) {
@@ -117,6 +100,13 @@ class ResultActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
      }
 
     override fun onImageClick(position: Int) {
+
+
+
+
+
+
+
         AlertDialog.Builder(this)
             .setTitle("Save image")
             .setMessage("Do you want to save the image?")
@@ -127,12 +117,6 @@ class ResultActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
                 Toast.makeText(this, "Image not added to database", Toast.LENGTH_SHORT).show()
             }
             .show()
-    }
-
-
-    private fun goesHomeAndClearOldSearch(list: ArrayList<ImageModelResultItem>) {
-        list.clear()
-        startActivity(Intent(this, MainActivity::class.java))
     }
 
 }

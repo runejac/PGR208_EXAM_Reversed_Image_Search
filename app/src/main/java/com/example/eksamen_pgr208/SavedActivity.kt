@@ -71,14 +71,6 @@ class SavedActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
 
     }
 
-    /*override fun onBackPressed() {
-        //super.onBackPressed()
-        MainActivity().uploadProgressbar?.visibility = View.GONE
-        MainActivity().imageFromCameraOrGallery?.visibility = View.GONE
-        MainActivity().tvIntroStepOne?.visibility = View.VISIBLE
-        MainActivity().tvIntroStepTwo?.visibility = View.GONE
-        Toast.makeText(MainActivity(),"onBackPressed",Toast.LENGTH_SHORT).show()
-    }*/
 
     private fun deleteFromDatabase(imagePos: Int) {
         try {
@@ -106,7 +98,7 @@ class SavedActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
 
     private fun imagesFromDbToViews(image: List<Image>) {
         imagesFromDbList = image.map(Image::image_link) as ArrayList<String>
-        println(imagesFromDbList)
+        Log.i(TAG, "Images from database to list to be used in view: $imagesFromDbList")
     }
 
 }
