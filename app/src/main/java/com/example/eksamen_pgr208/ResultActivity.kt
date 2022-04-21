@@ -1,15 +1,21 @@
 package com.example.eksamen_pgr208
 
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.animation.Animation
+import android.view.animation.ScaleAnimation
 import android.widget.Button
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.get
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
@@ -103,9 +109,10 @@ class ResultActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
 
 
 
+        // todo ordne enlarge image enten her eller på line 50 i ResultsAdapter.kt
+        val img = rvImage[position]
 
-
-
+        //Toast.makeText(this, "IMAGE CLICKED?!", Toast.LENGTH_SHORT).show()
 
         AlertDialog.Builder(this)
             .setTitle("Save image")
