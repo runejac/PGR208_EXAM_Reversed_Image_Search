@@ -9,18 +9,56 @@
    >
     
     <LinearLayout
+            android:layout_marginTop="30dp"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="wrap_content"
         android:gravity="center"
-        >
+            android:orientation="vertical">
+
+
         <TextView
-            android:id="@+id/tv_intro"
+                android:gravity="center"
+            android:id="@+id/tv_header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppins"
             android:text="Reversed Image Search"
-            android:textSize="20sp"
+            android:textSize="30sp"
             />
+
+
+        <TextView
+                android:gravity="center"
+                android:id="@+id/tv_intro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins"
+                android:text="Take a photo or choose one from your gallery and get similar results back"
+                android:textSize="16sp"
+                />
+
+        <TextView
+                android:gravity="center"
+                android:id="@+id/tv_intro_step_two"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins"
+                android:text="Great! Now hit the search button to get similar results!"
+                android:textSize="16sp"
+                />
+
+        <TextView
+                android:gravity="center"
+                android:textColor="#FC8686"
+                android:id="@+id/tv_no_results_found"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins"
+                android:text="Woops! Could not find any images from one or several providers, please choose another image and try again!"
+                android:textSize="16sp"
+                />
+
+
     </LinearLayout>
 
 
@@ -68,7 +106,7 @@
             android:layout_marginBottom="10dp"
             app:srcCompat="@drawable/ic_baseline_search_white" />
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_img"
+            android:id="@+id/fab_add_image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="20dp"
@@ -78,7 +116,7 @@
             android:layout_marginBottom="10dp"
             app:srcCompat="@drawable/ic_add_photo" />
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_add"
+            android:id="@+id/fab_open_plus"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="20dp"

@@ -2,6 +2,8 @@ package com.example.eksamen_pgr208.data.api
 
 import android.util.Log
 import android.widget.Toast
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.MutableLiveData
 import com.androidnetworking.AndroidNetworking
 import com.androidnetworking.common.Priority
 import com.androidnetworking.error.ANError
@@ -11,22 +13,22 @@ import com.example.eksamen_pgr208.common.Constants
 import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import okhttp3.OkHttpClient
 import java.io.File
 import java.util.concurrent.Executors
 
 
 class ApiServices {
-    companion object {
+    companion object : LifecycleObserver {
 
         private const val TAG = "ApiServices"
+        val emptyArrayListFromApiCalls : ArrayList<String> = ArrayList(3)
+        val liveDataAllEndPointsCouldNotFindImages : MutableLiveData<Int> = MutableLiveData<Int>()
 
         fun uploadImage(mainActivity: MainActivity, filePath: String) {
 
-            CoroutineScope(Dispatchers.IO).launch {
+            //CoroutineScope(Dispatchers.IO).launch {
                 Log.i(TAG,"Starting UPLOAD request...")
 
             val okHttpClient = OkHttpClient.Builder()
@@ -39,10 +41,10 @@ class ApiServices {
                     .setTag("imageUpload")
                     .setPriority(Priority.HIGH)
                     .setOkHttpClient(okHttpClient)
-                    .setExecutor(Executors.newSingleThreadExecutor())
+                    //.setExecutor(Executors.newSingleThreadExecutor())
                     .build()
                     .setUploadProgressListener { bytesUploaded, _ ->
-                        println("bytesUploaded: $bytesUploaded")
+                        Log.i(TAG, "bytesUploaded: $bytesUploaded")
                     }
                     .getAsString(object : StringRequestListener {
                         override fun onResponse(response: String) {
@@ -69,7 +71,7 @@ class ApiServices {
                             }
                         }
                     })
-            }
+            //}
         }
 
         fun getImages(mainActivity: MainActivity) {
@@ -85,19 +87,19 @@ class ApiServices {
                     Toast.makeText(mainActivity, "No images found OR ERROR!", Toast.LENGTH_SHORT).show()
                 } else {
 
-                    CoroutineScope(Dispatchers.IO).launch {
+                    //CoroutineScope(Dispatchers.IO).launch {
 
-                        val tagName = "google"
+                        val tagNameGoogle = "google"
                         Log.i(TAG,"Starting GET request at Google...")
                         AndroidNetworking.get(Constants.API_GET_GOOGLE)
                             .addQueryParameter("url", res)
-                            .setTag(tagName)
+                            .setTag(tagNameGoogle)
                             .setPriority(Priority.HIGH)
-                            .setExecutor(Executors.newSingleThreadExecutor())
+                            //.setExecutor(Executors.newSingleThreadExecutor())
                             .build()
                             .getAsString(object : StringRequestListener {
                                 override fun onResponse(response: String?) {
-                                    responseHandler(tagName, gson, response, mainActivity, Constants.API_GET_GOOGLE)
+                                    responseHandler(tagNameGoogle, gson, response, mainActivity, Constants.API_GET_GOOGLE)
                                 }
 
                                 override fun onError(anError: ANError?) {
@@ -106,21 +108,21 @@ class ApiServices {
                                     Log.e(TAG, "ErrorDetail from GET request at Google: ${anError?.errorDetail}")
                                 }
                             })
-                        }
+                        //}
 
-                    CoroutineScope(Dispatchers.IO).launch {
+                    //CoroutineScope(Dispatchers.IO).launch {
 
-                        val tagName = "tineye"
+                        val tagNameTineye = "tineye"
                         Log.i(TAG, "Starting GET request at Tineye...")
                         AndroidNetworking.get(Constants.API_GET_TINEYE)
                             .addQueryParameter("url", res)
-                            .setTag(tagName)
+                            .setTag(tagNameTineye)
                             .setPriority(Priority.HIGH)
-                            .setExecutor(Executors.newSingleThreadExecutor())
+                            //.setExecutor(Executors.newSingleThreadExecutor())
                             .build()
                             .getAsString(object : StringRequestListener {
                                 override fun onResponse(response: String?) {
-                                    responseHandler(tagName, gson, response, mainActivity, Constants.API_GET_TINEYE)
+                                    responseHandler(tagNameTineye, gson, response, mainActivity, Constants.API_GET_TINEYE)
                                 }
 
                                 override fun onError(anError: ANError?) {
@@ -129,22 +131,22 @@ class ApiServices {
                                     Log.e(TAG, "ErrorDetail from GET request at Tineye: ${anError?.errorDetail}")
                                 }
                             })
-                        }
+                        //}
 
-                    CoroutineScope(Dispatchers.IO).launch {
+                    //CoroutineScope(Dispatchers.IO).launch {
 
 
-                        val tagName = "bing"
+                        val tagNameBing = "bing"
                         Log.i(TAG,"Starting GET request at Bing...")
                         AndroidNetworking.get(Constants.API_GET_BING)
                             .addQueryParameter("url", res)
-                            .setTag(tagName)
+                            .setTag(tagNameBing)
                             .setPriority(Priority.HIGH)
-                            .setExecutor(Executors.newSingleThreadExecutor())
+                            //.setExecutor(Executors.newSingleThreadExecutor())
                             .build()
                             .getAsString(object : StringRequestListener {
                                 override fun onResponse(response: String?) {
-                                    responseHandler(tagName, gson, response, mainActivity, Constants.API_GET_BING)
+                                    responseHandler(tagNameBing, gson, response, mainActivity, Constants.API_GET_BING)
                                 }
 
                                 override fun onError(anError: ANError?) {
@@ -153,10 +155,11 @@ class ApiServices {
                                     Log.e(TAG, "ErrorDetail from GET request at Bing: ${anError?.errorDetail}")
                                 }
                             })
-                        }
+                        //}
                 }
             }
         }
+
 
         private fun responseHandler(
             tagName: String,
@@ -165,6 +168,8 @@ class ApiServices {
             mainActivity: MainActivity,
             apiEndPoint: String,
         ) {
+
+
 
             try {
                 val convertedResponse = gson.fromJson(
@@ -178,8 +183,36 @@ class ApiServices {
                 if (convertedResponse.size == 0) {
                     Log.w(TAG,"Response from $apiEndPoint is $convertedResponse")
                     Log.w(TAG, "Can not handle zero-length arrays")
-                    mainActivity.liveDataResponseAreZero.postValue(convertedResponse.toString())
-                } else {
+
+
+                    if (convertedResponse.toString().endsWith("[]")) {
+
+                        AndroidNetworking.isRequestRunning("bing")
+
+
+                        Log.i(TAG, "Hello from endswith method?")
+                        emptyArrayListFromApiCalls.add(convertedResponse.toString())
+                        Log.i(TAG, "Size on array from ApiServices is: $emptyArrayListFromApiCalls")
+
+/*                        CoroutineScope(Dispatchers.Main).launch {
+
+                            // TODO endre til 2 når du er DONE med dette
+                            if (emptyArrayListFromApiCalls.size > 1) {
+
+                                liveDataAllEndPointsCouldNotFindImages.postValue(
+                                    emptyArrayListFromApiCalls.size)
+                                    AndroidNetworking.cancelAll()
+
+
+                            }
+
+                        }*/
+
+                    }
+
+                }
+
+                else {
                     Log.i(TAG, "Using $apiEndPoint")
                     Log.i(TAG, "Response from $apiEndPoint is $convertedResponse")
                     mainActivity.liveDataGetImages.postValue(convertedResponse)

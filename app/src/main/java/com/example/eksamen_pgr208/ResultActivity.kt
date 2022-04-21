@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.Toast
@@ -20,6 +21,9 @@ import com.example.eksamen_pgr208.databinding.ResultActivityBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.image_rv_layout.*
 import kotlinx.android.synthetic.main.result_activity.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.util.ArrayList
 
 private const val TAG = "ResultActivity"
@@ -78,6 +82,15 @@ class ResultActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
             }
         }
     }
+
+/*    override fun onBackPressed() {
+        //super.onBackPressed()
+        MainActivity().uploadProgressbar?.visibility = View.GONE
+        MainActivity().imageFromCameraOrGallery?.visibility = View.GONE
+        MainActivity().tvIntroStepOne?.visibility = View.VISIBLE
+        MainActivity().tvIntroStepTwo?.visibility = View.GONE
+        Toast.makeText(MainActivity(),"onBackPressed",Toast.LENGTH_SHORT).show()
+    }*/
 
      private fun addToDatabase(imagePos: Int) {
          try {

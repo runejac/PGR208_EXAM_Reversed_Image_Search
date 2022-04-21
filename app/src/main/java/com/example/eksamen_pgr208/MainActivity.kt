@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.View
 import android.view.animation.Animation
@@ -14,17 +15,22 @@ import androidx.lifecycle.MutableLiveData
 import com.androidnetworking.AndroidNetworking
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.example.eksamen_pgr208.data.api.ApiServices
+import com.example.eksamen_pgr208.data.api.ImageModelResult
+import com.example.eksamen_pgr208.databinding.ActivityMainBinding
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.github.dhaval2404.imagepicker.util.FileUriUtils
 import com.github.dhaval2404.imagepicker.util.FileUtil
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.example.eksamen_pgr208.data.api.ImageModelResult
-import com.example.eksamen_pgr208.data.api.ApiServices
-import com.example.eksamen_pgr208.databinding.ActivityMainBinding
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.*
 import okhttp3.OkHttpClient
 import java.util.concurrent.TimeUnit
+import android.widget.Toast
+
+
+
 
 
 class MainActivity : AppCompatActivity() {
@@ -39,14 +45,16 @@ class MainActivity : AppCompatActivity() {
     // Variables
     private var fabClicked = false
 
-    private var addFabButton : FloatingActionButton? = null
-    private var imageFromCameraOrGallery : ImageView? = null
-    private var btnUpload : Button? = null
-    private var tvIntroStepOne : TextView? = null
-    private var tvIntroStepTwo : TextView? = null
-    private var uploadProgressbar : ProgressBar? = null
+    private var fabOpenPlusSign : FloatingActionButton? = null
+    private var fabAddImage : FloatingActionButton? = null
+    private var fabSearch : FloatingActionButton? = null
+    var imageFromCameraOrGallery : ImageView? = null
+    var tvIntroStepOne : TextView? = null
+    var tvIntroStepTwo : TextView? = null
+    var tvNoResultsFound : TextView? = null
+    var uploadProgressbar : ProgressBar? = null
+    private var exit = false
     var liveDataUploadImage : MutableLiveData<String> = MutableLiveData<String>()
-    var liveDataResponseAreZero : MutableLiveData<String> = MutableLiveData<String>()
     var liveDataGetImages : MutableLiveData<ImageModelResult> = MutableLiveData<ImageModelResult>()
 
     private lateinit var binding : ActivityMainBinding
@@ -57,13 +65,13 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val okHttpClient = OkHttpClient().newBuilder()
+        /*val okHttpClient = OkHttpClient().newBuilder()
             .connectTimeout(120, TimeUnit.SECONDS)
             .readTimeout(120, TimeUnit.SECONDS)
             .writeTimeout(120, TimeUnit.SECONDS)
-            .build()
+            .build()*/
 
-        AndroidNetworking.initialize(this@MainActivity, okHttpClient)
+        AndroidNetworking.initialize(applicationContext)
 
         // Controlling Fragments
         /*val navView: BottomNavigationView = binding.bottomNavigationView
@@ -72,18 +80,25 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)*/
 
         // getting xml components
-        addFabButton = binding.fabAdd
+        fabOpenPlusSign = binding.fabOpenPlus
         imageFromCameraOrGallery = binding.addedImageFromEitherCameraOrMemory
         uploadProgressbar = binding.uploadProgressBar
         tvIntroStepOne = binding.tvIntro
+        tvIntroStepTwo = binding.tvIntroStepTwo
+        tvNoResultsFound = binding.tvNoResultsFound
+        fabSearch = binding.fabSearch
+        fabAddImage = binding.fabAddImage
 
 
 
-        // hiding elements
-        btnUpload?.visibility = View.GONE
+
+        // elements to be shown or not on onCreate
         uploadProgressbar?.visibility = View.GONE
         tvIntroStepOne?.visibility = View.VISIBLE
         tvIntroStepTwo?.visibility = View.GONE
+        tvNoResultsFound?.visibility = View.GONE
+        fabSearch?.visibility = View.GONE
+
 
         // Get bottom navigation shadow be gone
         val nav : BottomNavigationView = binding.bottomNavigationView
@@ -107,12 +122,12 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        fab_add.setOnClickListener {
+        fab_open_plus.setOnClickListener {
             println("clicked inside")
             onAddButtonClicked()
         }
 
-        fab_img.setOnClickListener {
+        fab_add_image.setOnClickListener {
            showCameraAndGalleryDialog()
         }
 
@@ -127,6 +142,20 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+
+
+    override fun onBackPressed() {
+        if (exit) {
+            finish()
+        } else {
+            Toast.makeText(
+                this, "Press back again to exit app.",
+                Toast.LENGTH_LONG
+            ).show()
+            exit = true
+        }
+    }
+
     private fun onAddButtonClicked() {
         setVisibility(fabClicked)
         setAnimation(fabClicked)
@@ -135,87 +164,92 @@ class MainActivity : AppCompatActivity() {
 
     private fun setAnimation(fabClicked: Boolean) {
         if(!fabClicked) {
-            fab_search.visibility = View.VISIBLE
-            fab_img.visibility = View.VISIBLE
+            fabAddImage?.visibility = View.VISIBLE
         } else {
-            fab_search.visibility = View.INVISIBLE
-            fab_img.visibility = View.INVISIBLE
+            fabAddImage?.visibility = View.INVISIBLE
         }
     }
 
     private fun setVisibility(fabClicked: Boolean) {
         if(!fabClicked) {
-            fab_search.startAnimation(fromBottom)
-            fab_img.startAnimation(fromBottom)
-            fab_add.startAnimation(rotateOpen)
+            fabSearch?.startAnimation(fromBottom)
+            fabAddImage?.startAnimation(fromBottom)
+            fabOpenPlusSign?.startAnimation(rotateOpen)
         } else {
-            fab_search.startAnimation(toBottom)
-            fab_img.startAnimation(toBottom)
-            fab_add.startAnimation(rotateClose)
+            fabSearch?.startAnimation(toBottom)
+            fabAddImage?.startAnimation(toBottom)
+            fabOpenPlusSign?.startAnimation(rotateClose)
         }
     }
 
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?,) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         imageChooser(resultCode, data)
     }
 
+
+
     private fun imageChooser(resultCode: Int, data: Intent?) {
+
+        // TODO Et eller annet som gjør at ved andre gangs søk i samme session, sendes det dobbelt opp med requests.
+
+
         when (resultCode) {
             RESULT_OK -> {
-                btnUpload?.visibility = View.VISIBLE
-                tvIntroStepOne?.visibility = View.GONE
-                tvIntroStepTwo?.visibility = View.VISIBLE
 
-                val uri: Uri = data?.data!!
-                val filePath = FileUriUtils.getRealPath(this, uri)
-                val fileName = FileUtil.getDocumentFile(this, uri)?.name
+                tvNoResultsFound?.visibility = View.GONE
+                fabSearch?.visibility = View.VISIBLE
+                ApiServices.emptyArrayListFromApiCalls.clear()
+                AndroidNetworking.cancelAll()
 
-                println("filePath: $filePath")
-                println("fileName: $fileName")
-                println("uri: $uri")
-
-                Glide.with(this)
-                    .load(filePath)
-                    .transform(RoundedCorners(50))
-                    .into(imageFromCameraOrGallery!!)
-
+                val (filePath, fileName) = imageChosen(data)
 
                 try {
-                    fab_search.setOnClickListener {
+                    fabSearch?.setOnClickListener {
+
                         ApiServices.uploadImage(this@MainActivity, filePath!!)
                         ApiServices.getImages(this@MainActivity)
+
+                        tvNoResultsFound?.visibility = View.GONE
                         uploadProgressbar?.visibility = View.VISIBLE
+                        tvIntroStepTwo?.visibility = View.VISIBLE
 
 
-                        liveDataResponseAreZero.observe(this) { item ->
-
-                            Log.i("zeroArray", "response from liveDataResponseAreZero is: $item")
-                            if (item.endsWith("[]")) {
-                                Toast.makeText(this, "Could not get images from blabla because []", Toast.LENGTH_LONG).show()
-                            }
-
-                        }
-                        // todo endre denne til en Log.d() på stasjonære pc - rdj
-                        // todo prøv og med bilde som jeg ikke får noe svar fra noen på, ordne en timeout så det ikke loader for alltid
                         Toast.makeText(
                             this@MainActivity,
                             "Please wait, searching for similar images...",
                             Toast.LENGTH_LONG
                         ).show()
+
+                        // lage when() her?? med 3 forskjellige sizes av listen
+
+                        /*ApiServices.liveDataAllEndPointsCouldNotFindImages.observe(this) {apisThatReturnedEmptyArray ->
+                            Log.i("MainActivity", "${apisThatReturnedEmptyArray}/3 API endpoints did not give any result")
+                            uploadProgressbar?.visibility = View.GONE
+                            imageFromCameraOrGallery?.visibility = View.GONE
+                            tvNoResultsFound?.visibility = View.VISIBLE
+                            tvIntroStepTwo?.visibility = View.GONE
+                            fabSearch?.visibility = View.GONE
+
+                        }*/
                     }
+
                     Toast.makeText(this, "Image: $fileName chosen", Toast.LENGTH_SHORT).show()
+                    //imageFromCameraOrGallery?.visibility = View.VISIBLE
+
                 } catch (e: Exception) {
                     Toast.makeText(
                         this,
                         "Exception thrown when trying to choose image: ${e.message}",
                         Toast.LENGTH_SHORT
                     ).show()
+                    Log.e("MainActivity", "Catched exception", e)
                 }
             }
             ImagePicker.RESULT_ERROR -> {
                 Toast.makeText(this, ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
+                Log.wtf("MainActivity", "Error in trying to choose image occured:\n${ImagePicker.getError(data)}")
             }
             else -> {
                 Toast.makeText(this, "Task Cancelled", Toast.LENGTH_SHORT).show()
@@ -223,8 +257,23 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun imageChosen(data: Intent?): Pair<String?, String?> {
+        tvIntroStepOne?.visibility = View.GONE
+        tvIntroStepTwo?.visibility = View.VISIBLE
 
-     fun showCameraAndGalleryDialog() {
+        val uri: Uri = data?.data!!
+        val filePath = FileUriUtils.getRealPath(this, uri)
+        val fileName = FileUtil.getDocumentFile(this, uri)?.name
+
+        Glide.with(this)
+            .load(filePath)
+            .transform(RoundedCorners(50))
+            .into(imageFromCameraOrGallery!!)
+        return Pair(filePath, fileName)
+    }
+
+
+    private fun showCameraAndGalleryDialog() {
         // shows dialog (modal) to prompt the user to either choose camera or gallery
         val camOrGallDialog = Dialog(this)
         camOrGallDialog.setContentView(R.layout.dialog_camera_or_gallery)
@@ -256,5 +305,4 @@ class MainActivity : AppCompatActivity() {
         }
         camOrGallDialog.show()
     }
-
 }

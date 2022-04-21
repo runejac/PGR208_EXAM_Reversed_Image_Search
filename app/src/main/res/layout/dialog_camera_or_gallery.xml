@@ -7,11 +7,6 @@
         android:gravity="center"
         android:layout_margin="30dp">
 
-    <!--<TextView
-        android:id="@+id/tvChoose"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />-->
-
     <ImageButton
             android:id="@+id/btn_camera"
             android:layout_width="50dp"
@@ -30,5 +25,4 @@
             android:backgroundTint="#353535"
             android:contentDescription="@string/gallery_button"
             />
-
 </LinearLayout>

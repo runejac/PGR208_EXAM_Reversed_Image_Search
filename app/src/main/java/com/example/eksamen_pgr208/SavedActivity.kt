@@ -3,6 +3,7 @@ package com.example.eksamen_pgr208
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.annotation.MainThread
 import androidx.appcompat.app.AlertDialog
@@ -69,6 +70,15 @@ class SavedActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
         }
 
     }
+
+    /*override fun onBackPressed() {
+        //super.onBackPressed()
+        MainActivity().uploadProgressbar?.visibility = View.GONE
+        MainActivity().imageFromCameraOrGallery?.visibility = View.GONE
+        MainActivity().tvIntroStepOne?.visibility = View.VISIBLE
+        MainActivity().tvIntroStepTwo?.visibility = View.GONE
+        Toast.makeText(MainActivity(),"onBackPressed",Toast.LENGTH_SHORT).show()
+    }*/
 
     private fun deleteFromDatabase(imagePos: Int) {
         try {
