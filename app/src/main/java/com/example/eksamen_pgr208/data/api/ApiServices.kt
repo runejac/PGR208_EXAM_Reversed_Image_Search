@@ -196,11 +196,13 @@ class ApiServices {
 
                         CoroutineScope(Dispatchers.Main).launch {
 
-                            // TODO endre til 2 når du er DONE med dette
+
                             if (emptyArrayListFromApiCalls.size > 2) {
 
                                 liveDataAllEndPointsCouldNotFindImages.postValue(
                                     emptyArrayListFromApiCalls.size)
+
+                                emptyArrayListFromApiCalls.clear()
 
                             }
 

@@ -1,5 +1,6 @@
 package com.example.eksamen_pgr208
 
+import android.app.Activity
 import android.app.Dialog
 import android.content.Intent
 import android.net.Uri
@@ -28,9 +29,7 @@ import kotlinx.coroutines.*
 import okhttp3.OkHttpClient
 import java.util.concurrent.TimeUnit
 import android.widget.Toast
-
-
-
+import java.lang.IllegalArgumentException
 
 
 class MainActivity : AppCompatActivity() {
@@ -194,6 +193,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun imageChooser(resultCode: Int, data: Intent?) {
 
+
         // TODO Et eller annet som gjør at ved andre gangs søk i samme session, sendes det dobbelt opp med requests.
 
 
@@ -202,8 +202,7 @@ class MainActivity : AppCompatActivity() {
 
                 tvNoResultsFound?.visibility = View.GONE
                 fabSearch?.visibility = View.VISIBLE
-                ApiServices.emptyArrayListFromApiCalls.clear()
-                AndroidNetworking.cancelAll()
+
 
                 val (filePath, fileName) = imageChosen(data)
 
@@ -227,30 +226,22 @@ class MainActivity : AppCompatActivity() {
                         // lage when() her?? med 3 forskjellige sizes av listen
 
                         ApiServices.liveDataAllEndPointsCouldNotFindImages.observe(this) {apisThatReturnedEmptyArray ->
-                            if(apisThatReturnedEmptyArray == 3) {
+                            if(apisThatReturnedEmptyArray.equals(3)) {
                                 Log.i("MainActivity", "${apisThatReturnedEmptyArray}/3 API endpoints did not give any result")
-                                println(apisThatReturnedEmptyArray)
+                                println("from the first if: $apisThatReturnedEmptyArray")
                                 uploadProgressbar?.visibility = View.GONE
                                 imageFromCameraOrGallery?.visibility = View.GONE
                                 tvNoResultsFound?.visibility = View.VISIBLE
                                 tvIntroStepTwo?.visibility = View.GONE
                                 fabSearch?.visibility = View.GONE
-                                ApiServices.liveDataAllEndPointsCouldNotFindImages.value = 0
-
-                            } else {
-                                Handler().postDelayed({
-                                    ApiServices.liveDataAllEndPointsCouldNotFindImages.value = 0
-                                    startActivity(Intent(this, MainActivity::class.java))
-                                    println(apisThatReturnedEmptyArray)
-                                }, 4000)
+                                ApiServices.liveDataAllEndPointsCouldNotFindImages.postValue(null ?: 0)
+                                println("from the first if but 2nd print: $apisThatReturnedEmptyArray")
+                            } else if (apisThatReturnedEmptyArray < 3 || apisThatReturnedEmptyArray > 3) {
+                                println("from the else: $apisThatReturnedEmptyArray")
                             }
-
-
                         }
                     }
-
                     Toast.makeText(this, "Image: $fileName chosen", Toast.LENGTH_SHORT).show()
-                    //imageFromCameraOrGallery?.visibility = View.VISIBLE
 
                 } catch (e: Exception) {
                     Toast.makeText(
@@ -276,6 +267,7 @@ class MainActivity : AppCompatActivity() {
     private fun imageChosen(data: Intent?): Pair<String?, String?> {
         tvIntroStepOne?.visibility = View.GONE
         tvIntroStepTwo?.visibility = View.VISIBLE
+        imageFromCameraOrGallery?.visibility = View.VISIBLE
 
         val uri: Uri = data?.data!!
         val filePath = FileUriUtils.getRealPath(this, uri)

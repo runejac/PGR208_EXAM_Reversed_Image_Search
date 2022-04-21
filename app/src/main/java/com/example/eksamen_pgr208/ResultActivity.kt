@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.androidnetworking.AndroidNetworking
 import com.example.eksamen_pgr208.adapters.ResultsAdapter
 import com.example.eksamen_pgr208.data.Image
 import com.example.eksamen_pgr208.data.ImageViewModel
@@ -82,6 +83,8 @@ class ResultActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
             }
         }
     }
+
+
 
 /*    override fun onBackPressed() {
         //super.onBackPressed()
