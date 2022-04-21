@@ -145,6 +145,8 @@ class MainActivity : AppCompatActivity() {
 
 
     override fun onBackPressed() {
+        super.onBackPressed()
+
         if (exit) {
             finish()
         } else {
@@ -224,15 +226,27 @@ class MainActivity : AppCompatActivity() {
 
                         // lage when() her?? med 3 forskjellige sizes av listen
 
-                        /*ApiServices.liveDataAllEndPointsCouldNotFindImages.observe(this) {apisThatReturnedEmptyArray ->
-                            Log.i("MainActivity", "${apisThatReturnedEmptyArray}/3 API endpoints did not give any result")
-                            uploadProgressbar?.visibility = View.GONE
-                            imageFromCameraOrGallery?.visibility = View.GONE
-                            tvNoResultsFound?.visibility = View.VISIBLE
-                            tvIntroStepTwo?.visibility = View.GONE
-                            fabSearch?.visibility = View.GONE
+                        ApiServices.liveDataAllEndPointsCouldNotFindImages.observe(this) {apisThatReturnedEmptyArray ->
+                            if(apisThatReturnedEmptyArray == 3) {
+                                Log.i("MainActivity", "${apisThatReturnedEmptyArray}/3 API endpoints did not give any result")
+                                println(apisThatReturnedEmptyArray)
+                                uploadProgressbar?.visibility = View.GONE
+                                imageFromCameraOrGallery?.visibility = View.GONE
+                                tvNoResultsFound?.visibility = View.VISIBLE
+                                tvIntroStepTwo?.visibility = View.GONE
+                                fabSearch?.visibility = View.GONE
+                                ApiServices.liveDataAllEndPointsCouldNotFindImages.value = 0
 
-                        }*/
+                            } else {
+                                Handler().postDelayed({
+                                    ApiServices.liveDataAllEndPointsCouldNotFindImages.value = 0
+                                    startActivity(Intent(this, MainActivity::class.java))
+                                    println(apisThatReturnedEmptyArray)
+                                }, 4000)
+                            }
+
+
+                        }
                     }
 
                     Toast.makeText(this, "Image: $fileName chosen", Toast.LENGTH_SHORT).show()
@@ -256,6 +270,8 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
+
 
     private fun imageChosen(data: Intent?): Pair<String?, String?> {
         tvIntroStepOne?.visibility = View.GONE
@@ -283,7 +299,7 @@ class MainActivity : AppCompatActivity() {
         val btnCamera : ImageButton = camOrGallDialog.findViewById(R.id.btn_camera)
 
         btnGallery.setOnClickListener {
-            ImagePicker.Companion.with(this)
+            ImagePicker.with(this)
                 .galleryOnly()
                 .galleryMimeTypes(arrayOf("image/*"))
                 .maxResultSize(400, 400)

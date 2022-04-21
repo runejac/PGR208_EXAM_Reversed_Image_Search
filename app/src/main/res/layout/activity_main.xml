@@ -7,7 +7,7 @@
     android:orientation="vertical"
     tools:context=".MainActivity"
    >
-    
+
     <LinearLayout
             android:layout_marginTop="30dp"
         android:layout_width="match_parent"
@@ -60,7 +60,6 @@
 
 
     </LinearLayout>
-
 
     <ImageView
             android:id="@+id/addedImageFromEitherCameraOrMemory"

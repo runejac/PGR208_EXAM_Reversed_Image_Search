@@ -194,19 +194,17 @@ class ApiServices {
                         emptyArrayListFromApiCalls.add(convertedResponse.toString())
                         Log.i(TAG, "Size on array from ApiServices is: $emptyArrayListFromApiCalls")
 
-/*                        CoroutineScope(Dispatchers.Main).launch {
+                        CoroutineScope(Dispatchers.Main).launch {
 
                             // TODO endre til 2 når du er DONE med dette
-                            if (emptyArrayListFromApiCalls.size > 1) {
+                            if (emptyArrayListFromApiCalls.size > 2) {
 
                                 liveDataAllEndPointsCouldNotFindImages.postValue(
                                     emptyArrayListFromApiCalls.size)
-                                    AndroidNetworking.cancelAll()
-
 
                             }
 
-                        }*/
+                        }
 
                     }
 

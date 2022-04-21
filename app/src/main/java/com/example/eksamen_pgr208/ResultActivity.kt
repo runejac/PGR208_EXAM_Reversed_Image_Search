@@ -91,6 +91,12 @@ class ResultActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
         MainActivity().tvIntroStepTwo?.visibility = View.GONE
         Toast.makeText(MainActivity(),"onBackPressed",Toast.LENGTH_SHORT).show()
     }*/
+    @Override
+    override fun onBackPressed() {
+        super.onBackPressed()
+        startActivity(Intent(this, MainActivity::class.java))
+
+    }
 
      private fun addToDatabase(imagePos: Int) {
          try {
