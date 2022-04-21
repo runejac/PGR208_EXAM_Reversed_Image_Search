@@ -11,10 +11,10 @@ Reversed Image Search 📱🔍✍(◔◡◔) EXAM
 * [x] Implementere SQLite med Room (husk hvorfor dette er så jævlig bra for vi må justifye bruk av Room)
 * [ ] Få UI logisk, riktig og til å se pen ut, uten tekst oppå hverandre. Kun ha nødvendig tekst som er forståelig for brukeren
 * [ ] Se om vi kan bruke kun 1 stk RecyclerViewAdapter som heter f.eks. SavedAndResultAdapter, de to som brukes nå er "helt" like mener jeg- RDJ
-* [ ] Ordne så den timer ut dersom alle 3 endepunktene gir []
-* [ ] Evt. andre ting dere kommer på
-* [ ] Evt. andre ting dere kommer på
-* [ ] Evt. andre ting dere kommer på
+* [ ] Gi brukeren feedback når alle 3 endepunktene gir [] (f.eks. ansiktsbilde rune har) - RDJ
+* [ ] Enlarge image med AnimatorSet eller AnimationSet med en onclick, også potensielt ha knapp som lagrer bilde etter det. Først på ResultActivity også kanskje implementere det samme på SavedActivity. - RDJ
+* [ ] Handle exceptions, ikke nødvendigvis exception thrown på tomt array [] - RDJ
+* [ ] Nytt design - Stian
 * [ ] Evt. andre ting dere kommer på
 
 #### Han har noen "Suggestions" (slettes før levering):
