@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
@@ -45,6 +46,7 @@ class MainActivity : AppCompatActivity() {
     private var tvIntroStepTwo : TextView? = null
     private var uploadProgressbar : ProgressBar? = null
     var liveDataUploadImage : MutableLiveData<String> = MutableLiveData<String>()
+    var liveDataResponseAreZero : MutableLiveData<String> = MutableLiveData<String>()
     var liveDataGetImages : MutableLiveData<ImageModelResult> = MutableLiveData<ImageModelResult>()
 
     private lateinit var binding : ActivityMainBinding
@@ -187,6 +189,14 @@ class MainActivity : AppCompatActivity() {
                         uploadProgressbar?.visibility = View.VISIBLE
 
 
+                        liveDataResponseAreZero.observe(this) { item ->
+
+                            Log.i("zeroArray", "response from liveDataResponseAreZero is: $item")
+                            if (item.endsWith("[]")) {
+                                Toast.makeText(this, "Could not get images from blabla because []", Toast.LENGTH_LONG).show()
+                            }
+
+                        }
                         // todo endre denne til en Log.d() på stasjonære pc - rdj
                         // todo prøv og med bilde som jeg ikke får noe svar fra noen på, ordne en timeout så det ikke loader for alltid
                         Toast.makeText(

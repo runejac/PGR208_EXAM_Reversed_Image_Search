@@ -173,15 +173,12 @@ class ApiServices {
                 )
                 if (convertedResponse == null) {
                     Log.w(TAG, "Response from $apiEndPoint is $convertedResponse")
-                    //fixme sjekke om det er vits å cancle request
-                    //AndroidNetworking.cancel(tagName)
                     throw NullPointerException("Can't handle null arrays")
                 }
                 if (convertedResponse.size == 0) {
                     Log.w(TAG,"Response from $apiEndPoint is $convertedResponse")
-                    //fixme sjekke om det er vits å cancle request
-                    //AndroidNetworking.cancel(tagName)
-                    throw IllegalArgumentException("Can't handle zero-length arrays")
+                    Log.w(TAG, "Can not handle zero-length arrays")
+                    mainActivity.liveDataResponseAreZero.postValue(convertedResponse.toString())
                 } else {
                     Log.i(TAG, "Using $apiEndPoint")
                     Log.i(TAG, "Response from $apiEndPoint is $convertedResponse")
