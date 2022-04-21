@@ -5,6 +5,8 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MutableLiveData
@@ -18,6 +20,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.example.eksamen_pgr208.data.api.ImageModelResult
 import com.example.eksamen_pgr208.data.api.ApiServices
 import com.example.eksamen_pgr208.databinding.ActivityMainBinding
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.activity_main.*
 import okhttp3.OkHttpClient
 import java.util.concurrent.TimeUnit
@@ -25,7 +28,17 @@ import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
 
-    private var imageButton : ImageButton? = null
+    // Fab animations
+    private val rotateOpen: Animation by lazy { AnimationUtils.loadAnimation(this, R.anim.rotate_open_anim) }
+    private val rotateClose: Animation by lazy { AnimationUtils.loadAnimation(this, R.anim.rotate_close_anim) }
+    private val fromBottom: Animation by lazy { AnimationUtils.loadAnimation(this, R.anim.from_bottom_anim) }
+    private val toBottom: Animation by lazy {AnimationUtils.loadAnimation(this, R.anim.to_bottom_anim)}
+
+
+    // Variables
+    private var fabClicked = false
+
+    private var addFabButton : FloatingActionButton? = null
     private var imageFromCameraOrGallery : ImageView? = null
     private var btnUpload : Button? = null
     private var tvIntroStepOne : TextView? = null
@@ -57,13 +70,12 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)*/
 
         // getting xml components
-
+        addFabButton = binding.fabAdd
         imageFromCameraOrGallery = binding.addedImageFromEitherCameraOrMemory
-        btnUpload = binding.btnUpload
         uploadProgressbar = binding.uploadProgressBar
         tvIntroStepOne = binding.tvIntro
-        tvIntroStepTwo = binding.tvIntroNext
-        imageButton = binding.ibButton
+
+
 
         // hiding elements
         btnUpload?.visibility = View.GONE
@@ -76,9 +88,7 @@ class MainActivity : AppCompatActivity() {
         nav.selectedItemId = R.id.home
         nav.background = null
 
-        imageButton!!.setOnClickListener {
-            showCameraAndGalleryDialog()
-        }
+        // Onclick Listeners
 
         nav.setOnItemSelectedListener { item ->
             when(item.itemId) {
@@ -95,7 +105,14 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        fab_add.setOnClickListener {
+            println("clicked inside")
+            onAddButtonClicked()
+        }
 
+        fab_img.setOnClickListener {
+           showCameraAndGalleryDialog()
+        }
 
         liveDataGetImages.observe(this){ item ->
 
@@ -106,6 +123,34 @@ class MainActivity : AppCompatActivity() {
 
 
 
+    }
+
+    private fun onAddButtonClicked() {
+        setVisibility(fabClicked)
+        setAnimation(fabClicked)
+        fabClicked = !fabClicked
+    }
+
+    private fun setAnimation(fabClicked: Boolean) {
+        if(!fabClicked) {
+            fab_search.visibility = View.VISIBLE
+            fab_img.visibility = View.VISIBLE
+        } else {
+            fab_search.visibility = View.INVISIBLE
+            fab_img.visibility = View.INVISIBLE
+        }
+    }
+
+    private fun setVisibility(fabClicked: Boolean) {
+        if(!fabClicked) {
+            fab_search.startAnimation(fromBottom)
+            fab_img.startAnimation(fromBottom)
+            fab_add.startAnimation(rotateOpen)
+        } else {
+            fab_search.startAnimation(toBottom)
+            fab_img.startAnimation(toBottom)
+            fab_add.startAnimation(rotateClose)
+        }
     }
 
 
@@ -136,7 +181,7 @@ class MainActivity : AppCompatActivity() {
 
 
                 try {
-                    btnUpload?.setOnClickListener {
+                    fab_search.setOnClickListener {
                         ApiServices.uploadImage(this@MainActivity, filePath!!)
                         ApiServices.getImages(this@MainActivity)
                         uploadProgressbar?.visibility = View.VISIBLE
@@ -168,7 +213,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    @Override
+
      fun showCameraAndGalleryDialog() {
         // shows dialog (modal) to prompt the user to either choose camera or gallery
         val camOrGallDialog = Dialog(this)

@@ -17,6 +17,7 @@ import com.example.eksamen_pgr208.data.Image
 import com.example.eksamen_pgr208.data.ImageViewModel
 import com.example.eksamen_pgr208.data.api.ImageModelResultItem
 import com.example.eksamen_pgr208.databinding.ResultActivityBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.image_rv_layout.*
 import kotlinx.android.synthetic.main.result_activity.*
 import java.util.ArrayList
@@ -38,7 +39,7 @@ class ResultActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
         val images: ArrayList<ImageModelResultItem>? = intent.getParcelableArrayListExtra("images")
 
         rvImage = binding.rvResults
-        btnClearSearchAndGoesBack = binding.btnDeleteList
+
 
         imageViewModel = ViewModelProvider(this)[ImageViewModel::class.java]
 
@@ -52,6 +53,29 @@ class ResultActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
 
         btnClearSearchAndGoesBack?.setOnClickListener{
             goesHomeAndClearOldSearch(images)
+        }
+
+        // Get bottom navigation shadow be gone
+        val nav : BottomNavigationView = binding.bottomNavigationView
+        nav.selectedItemId = R.id.saved
+        nav.background = null
+
+
+        nav.setOnItemSelectedListener { item ->
+            when(item.itemId) {
+                R.id.home -> {
+                    startActivity(Intent(this, MainActivity::class.java))
+                    overridePendingTransition(0, 0)
+                    true
+                }
+                R.id.saved -> {
+                    startActivity(Intent(this, SavedActivity::class.java))
+                    overridePendingTransition(0, 0)
+                    true
+                }
+
+                else -> false
+            }
         }
     }
 
