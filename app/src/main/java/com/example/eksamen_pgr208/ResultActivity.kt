@@ -50,7 +50,6 @@ class ResultActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
 
         rvImage = binding.rvResults
 
-
         imageViewModel = ViewModelProvider(this)[ImageViewModel::class.java]
 
         val layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
@@ -59,12 +58,10 @@ class ResultActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
         layoutManager.gapStrategy = gapStrategy
         rvImage.adapter = ResultsAdapter(this, images = ArrayList<ImageModelResultItem>(images!!), this)
 
-
         // Get bottom navigation shadow be gone
         val nav : BottomNavigationView = binding.bottomNavigationView
         nav.selectedItemId = R.id.saved
         nav.background = null
-
 
         nav.setOnItemSelectedListener { item ->
             when(item.itemId) {
@@ -84,7 +81,6 @@ class ResultActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
         }
     }
 
-
     override fun onBackPressed() {
         super.onBackPressed()
         startActivity(Intent(this, MainActivity::class.java))
@@ -98,7 +94,7 @@ class ResultActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
              val image = Image(0, thumbNailLink, imageLink)
              imageViewModel.addImage(image)
              println(image)
-             Toast.makeText(this, "Successfully added image to database!", Toast.LENGTH_LONG).show()
+             Toast.makeText(this, "Image saved!", Toast.LENGTH_LONG).show()
              Log.i(TAG, "${image.image_link} added to database")
          } catch (e: Exception) {
              Log.e(TAG, "Crash in saving to database", e)
@@ -107,8 +103,6 @@ class ResultActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
 
     override fun onImageClick(position: Int) {
 
-
-
         // todo ordne enlarge image enten her eller på line 50 i ResultsAdapter.kt
         val img = rvImage[position]
 
@@ -116,12 +110,12 @@ class ResultActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
 
         AlertDialog.Builder(this)
             .setTitle("Save image")
-            .setMessage("Do you want to save the image?")
+            .setMessage("Do you want to save this image?")
             .setPositiveButton("Yes") { dialog, _ ->
                 addToDatabase(position);
             }
             .setNegativeButton("No") { dialog, _ ->
-                Toast.makeText(this, "Image not added to database", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Image not saved", Toast.LENGTH_SHORT).show()
             }
             .show()
     }
