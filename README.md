@@ -13,8 +13,11 @@ Reversed Image Search 📱🔍✍(◔◡◔) EXAM
 * [ ] Se om vi kan bruke kun 1 stk RecyclerViewAdapter som heter f.eks. SavedAndResultAdapter, de to som brukes nå er "helt" like mener jeg- RDJ
 * [ ] Gi brukeren feedback når alle 3 endepunktene gir [] (f.eks. ansiktsbilde rune har) - RDJ
 * [ ] Enlarge image med AnimatorSet eller AnimationSet med en onclick, også potensielt ha knapp som lagrer bilde etter det. Først på ResultActivity også kanskje implementere det samme på SavedActivity. - RDJ
-* [ ] Handle exceptions, ikke nødvendigvis exception thrown på tomt array [] - RDJ
-* [ ] Nytt design - Stian
+* [x] Handle exceptions, ikke nødvendigvis exception thrown på tomt array [] - RDJ
+* [x] Nytt design - Stian
+* [ ] Bildene som bruker velger å save til DB, bør også legges til i download folder på telefonen (det står i eksamensteksten)
+* [ ] Hvis det ikke er en bildefil som velges, bør det times ut eller med Toast til bruker
+* [ ] Evt. andre ting dere kommer på
 * [ ] Evt. andre ting dere kommer på
 
 #### Han har noen "Suggestions" (slettes før levering):

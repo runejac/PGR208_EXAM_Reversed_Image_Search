@@ -3,7 +3,6 @@
     <string name="added_image">Added image</string>
     <string name="camera_button">camera button</string>
     <string name="gallery_button">gallery button</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="search_this_image">Search this image</string>
 </resources>

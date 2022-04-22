@@ -1,11 +1,12 @@
 package com.example.eksamen_pgr208
 
+import android.Manifest
 import android.app.Activity
 import android.app.Dialog
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
 import android.view.View
 import android.view.animation.Animation
@@ -26,10 +27,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.*
-import okhttp3.OkHttpClient
-import java.util.concurrent.TimeUnit
 import android.widget.Toast
-import java.lang.IllegalArgumentException
+import androidx.core.app.ActivityCompat
 
 
 class MainActivity : AppCompatActivity() {
@@ -55,7 +54,6 @@ class MainActivity : AppCompatActivity() {
     private var exit = false
     var liveDataUploadImage : MutableLiveData<String> = MutableLiveData<String>()
     var liveDataGetImages : MutableLiveData<ImageModelResult> = MutableLiveData<ImageModelResult>()
-
     private lateinit var binding : ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -139,6 +137,8 @@ class MainActivity : AppCompatActivity() {
 
 
 
+
+
     }
 
     override fun onDestroy() {
@@ -148,7 +148,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        Toast.makeText(this, "This is resume", Toast.LENGTH_LONG).show()
+        //Toast.makeText(this, "This is resume", Toast.LENGTH_LONG).show()
     }
 
 
@@ -231,8 +231,6 @@ class MainActivity : AppCompatActivity() {
                             Toast.LENGTH_LONG
                         ).show()
 
-                        // lage when() her?? med 3 forskjellige sizes av listen
-
                         ApiServices.liveDataAllEndPointsCouldNotFindImages.observe(this) {apisThatReturnedEmptyArray ->
                             if(apisThatReturnedEmptyArray.equals(3)) {
                                 Log.i("MainActivity", "${apisThatReturnedEmptyArray}/3 API endpoints did not give any result")
@@ -280,6 +278,18 @@ class MainActivity : AppCompatActivity() {
         val uri: Uri = data?.data!!
         val filePath = FileUriUtils.getRealPath(this, uri)
         val fileName = FileUtil.getDocumentFile(this, uri)?.name
+
+
+        /*filePath?.let {
+
+            if (filePath.endsWith(".jpg")) {
+                //val filePathWithOnlyFormat = filePath.substring(filePath.lastIndexOf("."))
+                filePath.replace("jpg", "jpeg")
+                println(filePath)
+            }
+        }*/
+
+
 
         Glide.with(this)
             .load(filePath)
