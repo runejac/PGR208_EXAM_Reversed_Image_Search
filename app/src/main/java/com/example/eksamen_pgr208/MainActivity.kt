@@ -96,7 +96,7 @@ class MainActivity : AppCompatActivity() {
         tvIntroStepOne?.visibility = View.VISIBLE
         tvIntroStepTwo?.visibility = View.GONE
         tvNoResultsFound?.visibility = View.GONE
-        fabSearch?.visibility = View.GONE
+        fabSearch?.visibility = View.INVISIBLE
 
 
         // Get bottom navigation shadow be gone
@@ -146,6 +146,12 @@ class MainActivity : AppCompatActivity() {
         println("hellofromondestroy")
     }
 
+    override fun onResume() {
+        super.onResume()
+        Toast.makeText(this, "This is resume", Toast.LENGTH_LONG).show()
+
+
+    }
 
 
     override fun onBackPressed() {
@@ -217,7 +223,7 @@ class MainActivity : AppCompatActivity() {
                         ApiServices.uploadImage(this@MainActivity, filePath!!)
                         ApiServices.getImages(this@MainActivity)
 
-                        tvNoResultsFound?.visibility = View.GONE
+                        tvNoResultsFound?.visibility = View.INVISIBLE
                         uploadProgressbar?.visibility = View.VISIBLE
                         tvIntroStepTwo?.visibility = View.VISIBLE
 
@@ -318,4 +324,5 @@ class MainActivity : AppCompatActivity() {
         }
         camOrGallDialog.show()
     }
+
 }

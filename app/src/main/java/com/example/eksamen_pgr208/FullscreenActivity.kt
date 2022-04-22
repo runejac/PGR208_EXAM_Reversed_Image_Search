@@ -11,7 +11,6 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.eksamen_pgr208.data.Image
 import com.example.eksamen_pgr208.data.ImageViewModel
 import com.example.eksamen_pgr208.data.api.ImageModelResultItem
-import com.example.eksamen_pgr208.databinding.ActivityMainBinding
 import com.example.eksamen_pgr208.databinding.FullscreenActivityBinding
 
 private const val TAG = "FullscreenActivity"
@@ -34,15 +33,17 @@ class FullscreenActivity:AppCompatActivity() {
         val data : ImageModelResultItem? = intent.getParcelableExtra("imageclicked")
         imageViewModel = ViewModelProvider(this)[ImageViewModel::class.java]
 
-
-
+        binding.fabSaveImage.bringToFront()
+        binding.ibCancel.setOnClickListener {
+            finish()
+        }
 
         Glide.with(this)
             .load(data?.image_link)
             .transform(RoundedCorners(30))
             .into(binding.fullscreenImage)
 
-        binding.saveImage.setOnClickListener {
+        binding.fabSaveImage.setOnClickListener {
             data?.let {
 
                 AlertDialog.Builder(this)
@@ -58,9 +59,7 @@ class FullscreenActivity:AppCompatActivity() {
             } ?: Log.e(TAG, "Error occured while saving image")
         }
 
-        binding.backButton.setOnClickListener {
-            finish()
-        }
+
     }
 
     private fun addToDatabase(images: ImageModelResultItem) {
