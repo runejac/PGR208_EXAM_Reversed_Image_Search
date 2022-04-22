@@ -31,6 +31,7 @@ import kotlinx.android.synthetic.main.result_activity.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.lang.NullPointerException
 import java.util.ArrayList
 
 private const val TAG = "ResultActivity"
@@ -39,7 +40,7 @@ class ResultActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
     private lateinit var rvImage : RecyclerView
     private lateinit var imageViewModel : ImageViewModel
     private lateinit var binding : ResultActivityBinding
-    var images : ArrayList<ImageModelResultItem>? = ArrayList()
+    private var images : ArrayList<ImageModelResultItem> = ArrayList()
 
 
 
@@ -51,16 +52,19 @@ class ResultActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
 
         rvImage = binding.rvResults
 
-        images = intent.getParcelableArrayListExtra("images")
-
+        try {
+            images = intent.getParcelableArrayListExtra("images")!!
+        } catch (e: NullPointerException) {
+            Log.e(TAG, "Catched a NullPointerException. $images is null", e)
+        }
 
         imageViewModel = ViewModelProvider(this)[ImageViewModel::class.java]
 
         val layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-        val gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
         rvImage.layoutManager = layoutManager
-        layoutManager.gapStrategy = gapStrategy
-        rvImage.adapter = ResultsAdapter(this, images = ArrayList<ImageModelResultItem>(images!!), this)
+
+        // send image objects to adapter
+        rvImage.adapter = ResultsAdapter(this, images = ArrayList<ImageModelResultItem>(images), this)
 
 
         // Get bottom navigation shadow be gone
@@ -96,27 +100,11 @@ class ResultActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
 
     override fun onImageClick(position: Int) {
 
+        images.let {
+            val imageClicked = Intent(this, FullscreenActivity::class.java)
+            imageClicked.putExtra("imageclicked", images[position])
+            startActivity(imageClicked)
+        }
 
-        val img = rvImage[position]
-
-        val imageClicked = Intent(this, FullscreenActivity::class.java)
-        imageClicked.putExtra("imageclicked", images?.get(position))
-        startActivity(imageClicked)
-
-
-
-        //Toast.makeText(this, "IMAGE CLICKED?!", Toast.LENGTH_SHORT).show()
-
-/*        AlertDialog.Builder(this)
-            .setTitle("Save image")
-            .setMessage("Do you want to save the image?")
-            .setPositiveButton("Yes") { dialog, _ ->
-                addToDatabase(position);
-            }
-            .setNegativeButton("No") { dialog, _ ->
-                Toast.makeText(this, "Image not saved", Toast.LENGTH_SHORT).show()
-            }
-            .show()*/
     }
-
 }

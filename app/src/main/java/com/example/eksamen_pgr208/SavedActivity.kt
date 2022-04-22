@@ -9,6 +9,8 @@ import androidx.annotation.MainThread
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.eksamen_pgr208.adapters.ResultsAdapter
@@ -37,10 +39,8 @@ class SavedActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
 
         imageViewModel = ViewModelProvider(this)[ImageViewModel::class.java]
 
-        val layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-        val gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
+        val layoutManager = StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
         rvSavedImage.layoutManager = layoutManager
-        layoutManager.gapStrategy = gapStrategy
 
         imageViewModel.readAllData.observe(this) { image ->
             imagesFromDbToViews(image)

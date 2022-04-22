@@ -96,7 +96,7 @@ class MainActivity : AppCompatActivity() {
         tvIntroStepOne?.visibility = View.VISIBLE
         tvIntroStepTwo?.visibility = View.GONE
         tvNoResultsFound?.visibility = View.GONE
-        fabSearch?.visibility = View.INVISIBLE
+        fabSearch?.visibility = View.GONE
 
 
         // Get bottom navigation shadow be gone
@@ -149,14 +149,11 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         Toast.makeText(this, "This is resume", Toast.LENGTH_LONG).show()
-
-
     }
 
 
     override fun onBackPressed() {
         super.onBackPressed()
-
         if (exit) {
             finish()
         } else {
@@ -286,7 +283,7 @@ class MainActivity : AppCompatActivity() {
 
         Glide.with(this)
             .load(filePath)
-            .transform(RoundedCorners(50))
+            .transform(RoundedCorners(30))
             .into(imageFromCameraOrGallery!!)
         return Pair(filePath, fileName)
     }

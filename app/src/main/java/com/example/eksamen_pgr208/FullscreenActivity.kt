@@ -51,6 +51,7 @@ class FullscreenActivity:AppCompatActivity() {
                     .setMessage("Do you want to save the image?")
                     .setPositiveButton("Yes") { dialog, _ ->
                         addToDatabase(data)
+                        finish()
                     }
                     .setNegativeButton("No") { dialog, _ ->
                         Toast.makeText(this, "Image not saved", Toast.LENGTH_SHORT).show()
@@ -58,13 +59,10 @@ class FullscreenActivity:AppCompatActivity() {
                     .show()
             } ?: Log.e(TAG, "Error occured while saving image")
         }
-
-
     }
 
     private fun addToDatabase(images: ImageModelResultItem) {
         try {
-            //val images: ArrayList<ImageModelResultItem>? = intent.getParcelableArrayListExtra("images")
             val thumbNailLink = images.thumbnail_link
             val imageLink = images.image_link
             val image = Image(0, thumbNailLink, imageLink)
@@ -76,6 +74,4 @@ class FullscreenActivity:AppCompatActivity() {
             Log.e(TAG, "Crash in saving to database", e)
         }
     }
-
-
 }

@@ -28,12 +28,10 @@ class ResultsAdapter(val context: Context?,
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
-
         Glide.with(context!!.applicationContext).load(images[position].image_link)
             .fitCenter()
             .transform(RoundedCorners(30))
             .into(holder.itemView.image_result)
-
 
     }
 
@@ -48,14 +46,6 @@ class ResultsAdapter(val context: Context?,
             val position : Int = adapterPosition
             if (position != RecyclerView.NO_POSITION) {
                 listener.onImageClick(position)
-
-                // todo ordne enlarge image enten her eller på line 113 i ResultActivity.kt
-                /*Glide.with(context!!.applicationContext)
-                    .load(position)
-                    .override(700, 400)
-                    .fitCenter()
-                    .into(itemView.image_result)*/
-
             }
         }
 
