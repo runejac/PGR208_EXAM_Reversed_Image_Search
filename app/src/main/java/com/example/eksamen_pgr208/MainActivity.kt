@@ -141,6 +141,11 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        println("hellofromondestroy")
+    }
+
 
 
     override fun onBackPressed() {

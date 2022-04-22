@@ -34,6 +34,7 @@ class ResultsAdapter(val context: Context?,
             .transform(RoundedCorners(30))
             .into(holder.itemView.image_result)
 
+
     }
 
     override fun getItemCount(): Int {

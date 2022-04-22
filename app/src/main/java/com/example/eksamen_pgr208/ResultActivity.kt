@@ -39,6 +39,8 @@ class ResultActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
     private lateinit var rvImage : RecyclerView
     private lateinit var imageViewModel : ImageViewModel
     private lateinit var binding : ResultActivityBinding
+    var images : ArrayList<ImageModelResultItem>? = ArrayList()
+
 
 
     @SuppressLint("ResourceType")
@@ -46,9 +48,10 @@ class ResultActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
         super.onCreate(savedInstanceState)
         binding = ResultActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        val images: ArrayList<ImageModelResultItem>? = intent.getParcelableArrayListExtra("images")
 
         rvImage = binding.rvResults
+
+        images = intent.getParcelableArrayListExtra("images")
 
 
         imageViewModel = ViewModelProvider(this)[ImageViewModel::class.java]
@@ -90,40 +93,30 @@ class ResultActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
         startActivity(Intent(this, MainActivity::class.java))
     }
 
-     private fun addToDatabase(imagePos: Int) {
-         try {
-             val images: ArrayList<ImageModelResultItem>? = intent.getParcelableArrayListExtra("images")
-             val thumbNailLink = images!![imagePos].thumbnail_link
-             val imageLink = images[imagePos].image_link
-             val image = Image(0, thumbNailLink, imageLink)
-             imageViewModel.addImage(image)
-             println(image)
-             Toast.makeText(this, "Successfully added image to database!", Toast.LENGTH_LONG).show()
-             Log.i(TAG, "${image.image_link} added to database")
-         } catch (e: Exception) {
-             Log.e(TAG, "Crash in saving to database", e)
-         }
-     }
 
     override fun onImageClick(position: Int) {
 
 
-
-        // todo ordne enlarge image enten her eller på line 50 i ResultsAdapter.kt
         val img = rvImage[position]
+
+        val imageClicked = Intent(this, FullscreenActivity::class.java)
+        imageClicked.putExtra("imageclicked", images?.get(position))
+        startActivity(imageClicked)
+
+
 
         //Toast.makeText(this, "IMAGE CLICKED?!", Toast.LENGTH_SHORT).show()
 
-        AlertDialog.Builder(this)
+/*        AlertDialog.Builder(this)
             .setTitle("Save image")
             .setMessage("Do you want to save the image?")
             .setPositiveButton("Yes") { dialog, _ ->
                 addToDatabase(position);
             }
             .setNegativeButton("No") { dialog, _ ->
-                Toast.makeText(this, "Image not added to database", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Image not saved", Toast.LENGTH_SHORT).show()
             }
-            .show()
+            .show()*/
     }
 
 }
