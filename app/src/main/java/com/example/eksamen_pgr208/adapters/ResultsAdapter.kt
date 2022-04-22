@@ -1,7 +1,6 @@
 package com.example.eksamen_pgr208.adapters
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,11 +8,8 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.bumptech.glide.request.RequestOptions
 import com.example.eksamen_pgr208.R
 import com.example.eksamen_pgr208.data.api.ImageModelResultItem
-import com.squareup.picasso.Picasso
-import com.squareup.picasso.Transformation
 import kotlinx.android.synthetic.main.image_rv_layout.view.*
 
 class ResultsAdapter(val context: Context?,

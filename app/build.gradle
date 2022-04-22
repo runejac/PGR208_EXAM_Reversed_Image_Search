@@ -77,13 +77,10 @@ dependencies {
     implementation 'com.amitshekhar.android:android-networking:1.0.2'
 
     // ? TROR DENNE TRENGS FOR IMAGEPICKER, MEN ER USIKKER - Joachim
-    implementation 'com.github.florent37:inline-activity-result-kotlin:1.0.4'
+    /*implementation 'com.github.florent37:inline-activity-result-kotlin:1.0.4'*/
 
     // ImagePicker
     implementation 'com.github.dhaval2404:imagepicker:2.1'
-
-    // Picasso todo: bruker ikke lenger
-    implementation 'com.squareup.picasso:picasso:2.71828'
 
     // Glide
     implementation "com.github.bumptech.glide:glide:$glide_version"
@@ -100,6 +97,7 @@ dependencies {
     // Material-UI
     implementation "com.google.android.material:material:1.5.0"
 
+    // Out of the box from Gradle
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.4.1'
     implementation 'com.google.android.material:material:1.5.0'

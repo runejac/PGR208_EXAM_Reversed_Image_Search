@@ -15,7 +15,8 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/Theme.Eksamen_pgr208"
-        android:usesCleartextTraffic="true">
+        android:usesCleartextTraffic="true"
+            android:requestLegacyExternalStorage="true">
         <activity
             android:name=".MainActivity"
             android:exported="true">

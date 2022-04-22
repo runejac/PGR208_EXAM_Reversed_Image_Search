@@ -18,6 +18,10 @@ import androidx.core.app.ActivityCompat
 import android.content.pm.PackageManager
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.Bitmap
+import android.os.Looper
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.io.*
 
 
@@ -48,6 +52,8 @@ class FullscreenActivity:AppCompatActivity() {
 
 
         binding.fabSaveImage.setOnClickListener {
+
+            verifyPermissions()
 
             data?.let {
 
@@ -89,43 +95,51 @@ class FullscreenActivity:AppCompatActivity() {
     }
 
 
+    @Suppress("BlockingMethodInNonBlockingContext")
     private fun saveImage() {
 
         // checking if the user has already permitted access to write external storage
         if (!verifyPermissions()) {
+            Toast.makeText(this, "This app needs permission to store photos on your device.", Toast.LENGTH_SHORT).show()
             return
         } else {
-            var outputStream : OutputStream? = null
-            val dir = File(Environment.getExternalStorageDirectory(), "Download")
-            if (!dir.exists()) {
-                // makes folder if it does not exist
-                dir.mkdir()
-            }
+            CoroutineScope(Dispatchers.IO).launch {
 
-            val drawable = binding.fullscreenImage.drawable as BitmapDrawable
-            val bitmap = drawable.bitmap
+                // elvis operator to check if Looper.myLooper() is null, if it's null it will execute Looper.prepare()
+                Looper.myLooper() ?: Looper.prepare()
 
-            val file = File(dir, System.currentTimeMillis().toString() + ".png")
-            try {
-                outputStream = FileOutputStream(file)
-                Log.i(TAG, "Successfully saved ${file.name} to the ${dir.name} folder")
-            } catch (e: FileNotFoundException) {
-                e.stackTraceToString()
-                Log.e(TAG, "Catched FileNotFoundException while trying to save image in storage", e)
-            }
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
-            Toast.makeText(this, "Image saved in 'Download' folder", Toast.LENGTH_SHORT).show()
-            try {
-                outputStream?.flush()
-            } catch (e: IOException) {
-                e.stackTraceToString()
-                Log.e(TAG, "Catched IOException in trying to flush the content to outputStream while saving image in storage", e)
-            }
-            try {
-                outputStream?.close()
-            } catch (e: IOException) {
-                e.stackTraceToString()
-                Log.e(TAG, "Catched IOException in trying to close outputStream while saving image in storage", e)
+                var outputStream : OutputStream? = null
+                val dir = File(Environment.getExternalStorageDirectory(), "Download")
+                if (!dir.exists()) {
+                    // makes folder if it does not exist
+                    dir.mkdir()
+                }
+
+                val drawable = binding.fullscreenImage.drawable as BitmapDrawable
+                val bitmap = drawable.bitmap
+
+                val file = File(dir, System.currentTimeMillis().toString() + ".png")
+                try {
+                    outputStream = FileOutputStream(file)
+                    Log.i(TAG, "Successfully saved ${file.name} to the ${dir.name} folder")
+                } catch (e: FileNotFoundException) {
+                    e.stackTraceToString()
+                    Log.e(TAG, "Catched FileNotFoundException while trying to save image in storage", e)
+                }
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
+                Toast.makeText(this@FullscreenActivity, "Image saved in 'Download' folder", Toast.LENGTH_SHORT).show()
+                try {
+                    outputStream?.flush()
+                } catch (e: IOException) {
+                    e.stackTraceToString()
+                    Log.e(TAG, "Catched IOException in trying to flush the content to outputStream while saving image in storage", e)
+                }
+                try {
+                    outputStream?.close()
+                } catch (e: IOException) {
+                    e.stackTraceToString()
+                    Log.e(TAG, "Catched IOException in trying to close outputStream while saving image in storage", e)
+                }
             }
         }
     }
