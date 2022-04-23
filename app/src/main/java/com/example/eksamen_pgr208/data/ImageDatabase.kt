@@ -10,23 +10,30 @@ abstract class ImageDatabase: RoomDatabase() {
 
     abstract fun imageDao(): ImageDao
 
+    // Companion object so that we can access getDataBase() without
+    // having to explicitly instantiate the ImageDatabase class
     companion object{
+        // Any writes made to this variable is immediately visible to
+        // other threads
         @Volatile
-        private var INSTANCE: ImageDatabase? = null
+        private var dbInstance: ImageDatabase? = null
 
         fun getDataBase(context: Context): ImageDatabase{
-            val tempInstance = INSTANCE
-            if (tempInstance != null) {
-                return tempInstance
+            // Temporary variable to check if the database instance already exists
+            val tmp = dbInstance
+            if (tmp != null) {
+                return tmp
             }
+            // Everything within the synchronized block is only accessible
+            // by one thread at a time, to make sure we always get the correct output
             synchronized(this) {
-                val instance = Room.databaseBuilder(
+                val imageDbInstance = Room.databaseBuilder(
                     context.applicationContext,
                     ImageDatabase::class.java,
                     "image_db"
                 ).build()
-                INSTANCE = instance
-                return instance
+                dbInstance = imageDbInstance
+                return imageDbInstance
             }
         }
     }
