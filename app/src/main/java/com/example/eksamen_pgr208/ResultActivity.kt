@@ -6,6 +6,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.RoundedCorner
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.ScaleAnimation
@@ -20,6 +21,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.androidnetworking.AndroidNetworking
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.eksamen_pgr208.adapters.ResultsAdapter
 import com.example.eksamen_pgr208.data.Image
 import com.example.eksamen_pgr208.data.ImageViewModel
@@ -41,6 +44,7 @@ class ResultActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
     private lateinit var imageViewModel : ImageViewModel
     private lateinit var binding : ResultActivityBinding
     private var images : ArrayList<ImageModelResultItem> = ArrayList()
+    private var imageSearchedOn : String = ""
 
 
 
@@ -51,6 +55,13 @@ class ResultActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
         setContentView(binding.root)
 
         rvImage = binding.rvResults
+
+
+        try {
+            imageSearchedOn = intent.getStringExtra("image_searched_on")!!
+        } catch (e: NullPointerException) {
+            Log.e(TAG, "Catched a NullPointerException. $imageSearchedOn is null", e)
+        }
 
         try {
             images = intent.getParcelableArrayListExtra("images")!!
@@ -65,6 +76,14 @@ class ResultActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
 
         // send image objects to adapter
         rvImage.adapter = ResultsAdapter(this, images = ArrayList<ImageModelResultItem>(images), this)
+
+
+        // showing image searched on
+        Glide.with(this)
+            .load(imageSearchedOn)
+            .fitCenter()
+            .transform(RoundedCorners(30))
+            .into(binding.ivSearched)
 
 
         // Get bottom navigation shadow be gone

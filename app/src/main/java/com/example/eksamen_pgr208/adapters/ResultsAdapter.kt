@@ -1,6 +1,7 @@
 package com.example.eksamen_pgr208.adapters
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,9 +9,11 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.example.eksamen_pgr208.MainActivity
 import com.example.eksamen_pgr208.R
 import com.example.eksamen_pgr208.data.api.ImageModelResultItem
 import kotlinx.android.synthetic.main.image_rv_layout.view.*
+import kotlinx.android.synthetic.main.result_activity.view.*
 
 class ResultsAdapter(val context: Context?,
                      private val images: ArrayList<ImageModelResultItem>,
@@ -24,10 +27,13 @@ class ResultsAdapter(val context: Context?,
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
-        Glide.with(context!!.applicationContext).load(images[position].image_link)
-            .fitCenter()
-            .transform(RoundedCorners(30))
-            .into(holder.itemView.image_result)
+        context?.let {
+            Glide.with(it.applicationContext)
+                .load(images[position].image_link)
+                .fitCenter()
+                .transform(RoundedCorners(30))
+                .into(holder.itemView.image_result)
+        } ?: Log.e("ResultsAdapter", "Could not load images into recycler view for some reason")
 
     }
 

@@ -44,8 +44,11 @@ class ApiServices {
                     .setOkHttpClient(okHttpClient)
                     //.setExecutor(Executors.newSingleThreadExecutor())
                     .build()
-                    .setUploadProgressListener { bytesUploaded, _ ->
-                        Log.i(TAG, "bytesUploaded: $bytesUploaded")
+                    .setUploadProgressListener { bytesUploaded, bytesUploadedTotal ->
+                        Log.i(TAG, "Bytes uploaded: $bytesUploaded/$bytesUploadedTotal")
+                        if (bytesUploaded == bytesUploadedTotal) {
+                            Log.i(TAG, "Upload done!")
+                        }
                     }
                     .getAsString(object : StringRequestListener {
                         override fun onResponse(response: String) {

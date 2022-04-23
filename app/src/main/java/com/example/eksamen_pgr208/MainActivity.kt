@@ -53,6 +53,7 @@ class MainActivity : AppCompatActivity() {
     var uploadProgressbar : ProgressBar? = null
     private var exit = false
     var liveDataUploadImage : MutableLiveData<String> = MutableLiveData<String>()
+    var liveDataImageSearchedOn : MutableLiveData<String> = MutableLiveData<String>()
     var liveDataGetImages : MutableLiveData<ImageModelResult> = MutableLiveData<ImageModelResult>()
     private lateinit var binding : ActivityMainBinding
 
@@ -120,7 +121,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         fab_open_plus.setOnClickListener {
-            println("clicked inside")
             onAddButtonClicked()
         }
 
@@ -130,10 +130,17 @@ class MainActivity : AppCompatActivity() {
 
         liveDataGetImages.observe(this){ item ->
 
-            val imagesArray = Intent(this, ResultActivity::class.java)
-            imagesArray.putExtra("images", item)
-            startActivity(imagesArray)
+            liveDataImageSearchedOn.observe(this){imageSearchedOn ->
+
+
+                val imagesArray = Intent(this, ResultActivity::class.java)
+                imagesArray.putExtra("images", item)
+                imagesArray.putExtra("image_searched_on", imageSearchedOn)
+                startActivity(imagesArray)
+            }
+
         }
+
 
 
 
@@ -297,16 +304,10 @@ class MainActivity : AppCompatActivity() {
         val fileName = FileUtil.getDocumentFile(this, uri)?.name
 
 
-        /*filePath?.let {
-
-            if (filePath.endsWith(".jpg")) {
-                //val filePathWithOnlyFormat = filePath.substring(filePath.lastIndexOf("."))
-                filePath.replace("jpg", "jpeg")
-                println(filePath)
-            }
-        }*/
+        liveDataImageSearchedOn.postValue(filePath!!)
 
 
+        //imageSearchedOn.putExtra("image_searched_on", filePath)
 
         Glide.with(this)
             .load(filePath)
@@ -329,7 +330,7 @@ class MainActivity : AppCompatActivity() {
             ImagePicker.with(this)
                 .galleryOnly()
                 .galleryMimeTypes(arrayOf("image/*"))
-                .maxResultSize(400, 400)
+                .maxResultSize(600, 600)
                 .compress(1024)
                 .start()
             camOrGallDialog.dismiss()
@@ -340,7 +341,7 @@ class MainActivity : AppCompatActivity() {
         btnCamera.setOnClickListener {
             ImagePicker.with(this)
                 .cameraOnly()
-                .maxResultSize(400, 400)
+                .maxResultSize(600, 600)
                 .compress(1024)
                 .start()
             camOrGallDialog.dismiss()
