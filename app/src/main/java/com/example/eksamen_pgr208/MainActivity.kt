@@ -231,6 +231,16 @@ class MainActivity : AppCompatActivity() {
                             Toast.LENGTH_LONG
                         ).show()
 
+                        /**
+                        tror faen ikke vi trenger noe av det her under
+                        la til en cancelAll så fort vi har fått respons fra 1 endpoint, ser ut som det gjorde susen
+                         prøv gjerne dere, å søk etter bilde nr. 2 mens de to andre søkene fortsatt går
+                         (det går ikke nå, men prøv).
+                         Koden under er KUN nødvendig dersom INGEN av 3 endepointsa gir noe resultat
+                         Så vi lar den stå. Når alle 3 er ferdige kicker denne og da vil det uansett
+                         ikke være noen request som venter, så dette tror jeg er good nå
+                         */
+
                         ApiServices.liveDataAllEndPointsCouldNotFindImages.observe(this) {apisThatReturnedEmptyArray ->
                             if(apisThatReturnedEmptyArray.equals(3)) {
                                 Log.i("MainActivity", "${apisThatReturnedEmptyArray}/3 API endpoints did not give any result")
@@ -240,14 +250,21 @@ class MainActivity : AppCompatActivity() {
                                 tvNoResultsFound?.visibility = View.VISIBLE
                                 tvIntroStepTwo?.visibility = View.GONE
                                 fabSearch?.visibility = View.GONE
-                                ApiServices.liveDataAllEndPointsCouldNotFindImages.postValue(null ?: 0)
+
+
+                                ApiServices.liveDataAllEndPointsCouldNotFindImages.value = 0
+
+
                                 println("from the first if but 2nd print: $apisThatReturnedEmptyArray")
                             } else if (apisThatReturnedEmptyArray < 3 || apisThatReturnedEmptyArray > 3) {
                                 println("from the else: $apisThatReturnedEmptyArray")
                             }
                         }
                     }
+                    tvNoResultsFound?.visibility = View.GONE
+                    fabSearch?.visibility = View.VISIBLE
                     Toast.makeText(this, "Image: $fileName chosen", Toast.LENGTH_SHORT).show()
+
 
                 } catch (e: Exception) {
                     Toast.makeText(

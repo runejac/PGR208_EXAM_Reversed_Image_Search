@@ -1,5 +1,6 @@
 package com.example.eksamen_pgr208.data.api
 
+import android.os.Looper
 import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.LifecycleObserver
@@ -187,11 +188,25 @@ class ApiServices {
 
                     if (convertedResponse.toString().endsWith("[]")) {
 
-                        Log.i(TAG, "Hello from endswith method?")
-                        emptyArrayListFromApiCalls.add(convertedResponse.toString())
-                        Log.i(TAG, "Size on array from ApiServices is: $emptyArrayListFromApiCalls")
+                        CoroutineScope(Dispatchers.IO).launch {
+                            // litt usikker på om vi trenger denne her
+                            Looper.myLooper() ?: Looper.prepare()
 
-                        CoroutineScope(Dispatchers.Main).launch {
+                            Log.i(TAG, "Hello from endswith method?")
+                            emptyArrayListFromApiCalls.add(convertedResponse.toString())
+                            Log.i(TAG, "Size on array from ApiServices is: $emptyArrayListFromApiCalls")
+
+
+                            /**
+                                Denne fungerer ikke HELT optimalt fordi det enten sendes
+                                2 stk requests etter 2nd gang i samme session
+                                eller at ikke arraylisten rekker å slettes før
+                                den poster value til liveData i MainActivity
+                                Spørsom det er noe vits å bruke liveData her, kan hende
+                                det er nok med bare ArrayList, og at sjekken fortsatt skjer
+                                i MainActivity
+                                Skal se på det på Søndag - rune
+                             */
 
                             if (emptyArrayListFromApiCalls.size > 2) {
 
@@ -208,10 +223,13 @@ class ApiServices {
                     Log.i(TAG, "Using $apiEndPoint")
                     Log.i(TAG, "Response from $apiEndPoint is $convertedResponse")
                     mainActivity.liveDataGetImages.postValue(convertedResponse)
+                    //TODO lurer faen meg på om denne her gjorde susen:
+                    Log.i(TAG, "Got response from at least 1/3 providers, rest will be cancelled intentionally.")
+                    AndroidNetworking.cancelAll()
+                    //TODO ser mer på det på Søndag - rune
                 }
             } catch (e: Exception) {
                 Log.w(TAG, "Exception catched in trying to get images from api: $apiEndPoint", e)
-                AndroidNetworking.cancel(tagName)
             } finally {
                 val endPointName = apiEndPoint.substring(apiEndPoint.lastIndexOf("/") + 1)
                 val upperCaseOnFirstLetterEndPointName = endPointName.substring(0, 1).uppercase() + endPointName.substring(1)

@@ -105,6 +105,7 @@ class FullscreenActivity:AppCompatActivity() {
         } else {
             CoroutineScope(Dispatchers.IO).launch {
 
+                // looper to handle queues in thread
                 // elvis operator to check if Looper.myLooper() is null, if it's null it will execute Looper.prepare()
                 Looper.myLooper() ?: Looper.prepare()
 
