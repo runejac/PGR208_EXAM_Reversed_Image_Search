@@ -17,6 +17,8 @@ Reversed Image Search 📱🔍✍(◔◡◔) EXAM
 * [x] Nytt design - Stian
 * [ ] Bildene som bruker velger å save til DB, bør også legges til i download folder på telefonen (det står i eksamensteksten)
 * [ ] Hvis det ikke er en bildefil som velges, bør det times ut eller med Toast til bruker
+* [ ] På savedactivity: Få fullscreen der også, med bilde som er søkt på i toppen i fullscreen mode i tillegg til en basket ikon-knapp for sletting av bildet
+* [ ] Evt. andre ting dere kommer på
 * [ ] Evt. andre ting dere kommer på
 * [ ] Evt. andre ting dere kommer på
 
