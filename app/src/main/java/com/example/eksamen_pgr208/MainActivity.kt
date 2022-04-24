@@ -42,15 +42,6 @@ class MainActivity : AppCompatActivity() {
 
     // Variables
     private var fabClicked = false
-
-    private var fabOpenPlusSign : FloatingActionButton? = null
-    private var fabAddImage : FloatingActionButton? = null
-    private var fabSearch : FloatingActionButton? = null
-    var imageFromCameraOrGallery : ImageView? = null
-    var tvIntroStepOne : TextView? = null
-    var tvIntroStepTwo : TextView? = null
-    var tvNoResultsFound : TextView? = null
-    var uploadProgressbar : ProgressBar? = null
     private var exit = false
     var liveDataUploadImage : MutableLiveData<String> = MutableLiveData<String>()
     var liveDataImageSearchedOn : MutableLiveData<String> = MutableLiveData<String>()
@@ -71,31 +62,12 @@ class MainActivity : AppCompatActivity() {
 
         AndroidNetworking.initialize(applicationContext)
 
-        // Controlling Fragments
-        /*val navView: BottomNavigationView = binding.bottomNavigationView
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
-        val navController = navHostFragment.navController
-        navView.setupWithNavController(navController)*/
-
-        // getting xml components
-        fabOpenPlusSign = binding.fabOpenPlus
-        imageFromCameraOrGallery = binding.addedImageFromEitherCameraOrMemory
-        uploadProgressbar = binding.uploadProgressBar
-        tvIntroStepOne = binding.tvIntro
-        tvIntroStepTwo = binding.tvIntroStepTwo
-        tvNoResultsFound = binding.tvNoResultsFound
-        fabSearch = binding.fabSearch
-        fabAddImage = binding.fabAddImage
-
-
-
-
         // elements to be shown or not on onCreate
-        uploadProgressbar?.visibility = View.GONE
-        tvIntroStepOne?.visibility = View.VISIBLE
-        tvIntroStepTwo?.visibility = View.GONE
-        tvNoResultsFound?.visibility = View.GONE
-        fabSearch?.visibility = View.GONE
+        binding.uploadProgressBar.visibility = View.GONE
+        binding.tvIntro.visibility = View.VISIBLE
+        binding.tvIntroStepTwo.visibility = View.GONE
+        binding.tvNoResultsFound.visibility = View.GONE
+        binding.fabSearch.visibility = View.GONE
 
 
         // Get bottom navigation shadow be gone
@@ -141,11 +113,6 @@ class MainActivity : AppCompatActivity() {
 
         }
 
-
-
-
-
-
     }
 
     override fun onDestroy() {
@@ -180,21 +147,21 @@ class MainActivity : AppCompatActivity() {
 
     private fun setAnimation(fabClicked: Boolean) {
         if(!fabClicked) {
-            fabAddImage?.visibility = View.VISIBLE
+            binding.fabAddImage.visibility = View.VISIBLE
         } else {
-            fabAddImage?.visibility = View.INVISIBLE
+            binding.fabAddImage.visibility = View.INVISIBLE
         }
     }
 
     private fun setVisibility(fabClicked: Boolean) {
         if(!fabClicked) {
-            fabSearch?.startAnimation(fromBottom)
-            fabAddImage?.startAnimation(fromBottom)
-            fabOpenPlusSign?.startAnimation(rotateOpen)
+            binding.fabSearch.startAnimation(fromBottom)
+            binding.fabAddImage.startAnimation(fromBottom)
+            binding.fabOpenPlus.startAnimation(rotateOpen)
         } else {
-            fabSearch?.startAnimation(toBottom)
-            fabAddImage?.startAnimation(toBottom)
-            fabOpenPlusSign?.startAnimation(rotateClose)
+            binding.fabSearch.startAnimation(toBottom)
+            binding.fabAddImage.startAnimation(toBottom)
+            binding.fabOpenPlus.startAnimation(rotateClose)
         }
     }
 
@@ -215,21 +182,21 @@ class MainActivity : AppCompatActivity() {
         when (resultCode) {
             RESULT_OK -> {
 
-                tvNoResultsFound?.visibility = View.GONE
-                fabSearch?.visibility = View.VISIBLE
+                binding.tvNoResultsFound.visibility = View.GONE
+                binding.fabSearch.visibility = View.VISIBLE
 
 
                 val (filePath, fileName) = imageChosen(data)
 
                 try {
-                    fabSearch?.setOnClickListener {
+                    binding.fabSearch.setOnClickListener {
 
                         ApiServices.uploadImage(this@MainActivity, filePath!!)
                         ApiServices.getImages(this@MainActivity)
 
-                        tvNoResultsFound?.visibility = View.INVISIBLE
-                        uploadProgressbar?.visibility = View.VISIBLE
-                        tvIntroStepTwo?.visibility = View.VISIBLE
+                        binding.tvNoResultsFound.visibility = View.INVISIBLE
+                        binding.uploadProgressBar.visibility = View.VISIBLE
+                        binding.tvIntroStepTwo.visibility = View.VISIBLE
 
 
                         Toast.makeText(
@@ -252,11 +219,11 @@ class MainActivity : AppCompatActivity() {
                             if(apisThatReturnedEmptyArray.equals(3)) {
                                 Log.i("MainActivity", "${apisThatReturnedEmptyArray}/3 API endpoints did not give any result")
                                 println("from the first if: $apisThatReturnedEmptyArray")
-                                uploadProgressbar?.visibility = View.GONE
-                                imageFromCameraOrGallery?.visibility = View.GONE
-                                tvNoResultsFound?.visibility = View.VISIBLE
-                                tvIntroStepTwo?.visibility = View.GONE
-                                fabSearch?.visibility = View.GONE
+                                binding.uploadProgressBar.visibility = View.GONE
+                                binding.addedImageFromEitherCameraOrMemory.visibility = View.GONE
+                                binding.tvNoResultsFound.visibility = View.VISIBLE
+                                binding.tvIntroStepTwo.visibility = View.GONE
+                                binding.fabSearch.visibility = View.GONE
 
 
                                 ApiServices.liveDataAllEndPointsCouldNotFindImages.value = 0
@@ -268,8 +235,8 @@ class MainActivity : AppCompatActivity() {
                             }
                         }
                     }
-                    tvNoResultsFound?.visibility = View.GONE
-                    fabSearch?.visibility = View.VISIBLE
+                    binding.tvNoResultsFound.visibility = View.GONE
+                    binding.fabSearch.visibility = View.VISIBLE
                     Toast.makeText(this, "Image: $fileName chosen", Toast.LENGTH_SHORT).show()
 
 
@@ -292,30 +259,25 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
-
     private fun imageChosen(data: Intent?): Pair<String?, String?> {
-        tvIntroStepOne?.visibility = View.GONE
-        tvIntroStepTwo?.visibility = View.VISIBLE
-        imageFromCameraOrGallery?.visibility = View.VISIBLE
+        binding.tvIntro.visibility = View.GONE
+        binding.tvIntroStepTwo.visibility = View.VISIBLE
+        binding.addedImageFromEitherCameraOrMemory.visibility = View.VISIBLE
 
         val uri: Uri = data?.data!!
         val filePath = FileUriUtils.getRealPath(this, uri)
         val fileName = FileUtil.getDocumentFile(this, uri)?.name
 
-
         liveDataImageSearchedOn.postValue(filePath!!)
-
 
         //imageSearchedOn.putExtra("image_searched_on", filePath)
 
         Glide.with(this)
             .load(filePath)
             .transform(RoundedCorners(30))
-            .into(imageFromCameraOrGallery!!)
+            .into(binding.addedImageFromEitherCameraOrMemory)
         return Pair(filePath, fileName)
     }
-
 
     private fun showCameraAndGalleryDialog() {
         // shows dialog (modal) to prompt the user to either choose camera or gallery

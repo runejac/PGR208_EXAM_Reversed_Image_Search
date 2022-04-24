@@ -61,7 +61,8 @@
 
     </LinearLayout>
 
-    <ImageView
+
+        <ImageView
             android:id="@+id/addedImageFromEitherCameraOrMemory"
             android:layout_width="wrap_content"
             android:layout_height="270dp"
@@ -72,6 +73,10 @@
             android:contentDescription="@string/added_image"
             tools:src="@drawable/browndress"
             android:layout_centerInParent="true" />
+
+
+
+
 
 
 

@@ -17,4 +17,5 @@
     <color name="background">#7093B6</color>
     <color name="btnColor">#323232</color>
     <color name="btnBG">#D5D5D5</color>
+    <color name="cardBG">#80CBC4</color>
 </resources>

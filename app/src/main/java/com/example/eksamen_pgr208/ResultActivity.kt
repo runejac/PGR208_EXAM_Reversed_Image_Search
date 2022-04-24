@@ -54,7 +54,7 @@ class ResultActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
         binding = ResultActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        rvImage = binding.rvResults
+
 
 
         try {

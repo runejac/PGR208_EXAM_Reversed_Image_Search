@@ -45,6 +45,7 @@ class SavedActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
         imageViewModel.readAllData.observe(this) { image ->
             imagesFromDbToViews(image)
             rvSavedImage.adapter = SavedAdapter(this, images = ArrayList(imagesFromDbList!!), this)
+
         }
 
 
