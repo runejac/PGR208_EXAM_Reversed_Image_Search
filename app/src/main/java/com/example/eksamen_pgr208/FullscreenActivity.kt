@@ -19,6 +19,7 @@ import android.content.pm.PackageManager
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.Bitmap
 import android.os.Looper
+import com.androidnetworking.AndroidNetworking
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -76,6 +77,11 @@ class FullscreenActivity:AppCompatActivity() {
         binding.ibCancel.setOnClickListener {
             finish()
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        AndroidNetworking.forceCancelAll()
     }
 
 

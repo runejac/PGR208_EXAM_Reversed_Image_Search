@@ -24,15 +24,16 @@ class ApiServices {
     companion object : LifecycleObserver {
 
         private const val TAG = "ApiServices"
-        val emptyArrayListFromApiCalls : ArrayList<String> = ArrayList(3)
+        private val emptyArrayListFromApiCalls : ArrayList<String> = ArrayList(3)
         val liveDataAllEndPointsCouldNotFindImages : MutableLiveData<Int> = MutableLiveData<Int>()
 
-        fun uploadImage(mainActivity: MainActivity, filePath: String) {
+        fun uploadImageNetworkRequest(mainActivity: MainActivity, filePath: String) {
 
-            CoroutineScope(Dispatchers.IO).launch {
+
                 Log.i(TAG,"Starting UPLOAD request...")
 
-            val okHttpClient = OkHttpClient.Builder()
+                // http logging
+                val okHttpClient = OkHttpClient.Builder()
                 .addNetworkInterceptor(StethoInterceptor())
                 .build()
 
@@ -40,9 +41,11 @@ class ApiServices {
                     .addMultipartFile("image", File(filePath))
                     .addMultipartParameter("content-type", "image/png")
                     .setTag("imageUpload")
+                    .setExecutor(Executors.newSingleThreadExecutor())
                     .setPriority(Priority.HIGH)
                     .setOkHttpClient(okHttpClient)
                     .build()
+
                     // Lambda function used
                     .setUploadProgressListener { bytesUploaded, bytesUploadedTotal ->
                         Log.i(TAG, "Bytes uploaded: $bytesUploaded/$bytesUploadedTotal")
@@ -70,15 +73,16 @@ class ApiServices {
                                 Log.d(TAG, "Error as object: $apiError")
                                 Toast.makeText(mainActivity, "Error in uploading image, contact service provider", Toast.LENGTH_LONG).show()
                             } else {
+                                // FIXME krasjer når man bruker Profiler modus i Android Studio, vet ikke hvorfor
                                 Toast.makeText(mainActivity, "Error in uploading image, check your internet connection", Toast.LENGTH_LONG).show()
-                                Log.e(TAG, "Error on UPLOAD request, no internet connection")
+                                Log.e(TAG, "Error on UPLOAD request, no internet connection or something more fatal is faulty causing this error", error)
                             }
                         }
                     })
-            }
         }
 
-        fun getImages(mainActivity: MainActivity) {
+
+        fun getImagesNetworkRequest(mainActivity: MainActivity) {
 
             // parsing response
             val gson: Gson
@@ -91,13 +95,12 @@ class ApiServices {
                     Toast.makeText(mainActivity, "No images found OR ERROR!", Toast.LENGTH_SHORT).show()
                 } else {
 
-                    CoroutineScope(Dispatchers.IO).launch {
-
                         val tagNameGoogle = "google"
                         Log.i(TAG,"Starting GET request at Google...")
                         AndroidNetworking.get(Constants.API_GET_GOOGLE)
                             .addQueryParameter("url", res)
                             .setTag(tagNameGoogle)
+                            .setExecutor(Executors.newSingleThreadExecutor())
                             .setPriority(Priority.HIGH)
                             .build()
                             .getAsString(object : StringRequestListener {
@@ -113,13 +116,12 @@ class ApiServices {
                             })
                         }
 
-                    CoroutineScope(Dispatchers.IO).launch {
-
                         val tagNameTineye = "tineye"
                         Log.i(TAG, "Starting GET request at Tineye...")
                         AndroidNetworking.get(Constants.API_GET_TINEYE)
                             .addQueryParameter("url", res)
                             .setTag(tagNameTineye)
+                            .setExecutor(Executors.newSingleThreadExecutor())
                             .setPriority(Priority.HIGH)
                             .build()
                             .getAsString(object : StringRequestListener {
@@ -133,9 +135,6 @@ class ApiServices {
                                     Log.e(TAG, "ErrorDetail from GET request at Tineye: ${anError?.errorDetail}")
                                 }
                             })
-                        }
-
-                    CoroutineScope(Dispatchers.IO).launch {
 
 
                         val tagNameBing = "bing"
@@ -143,6 +142,7 @@ class ApiServices {
                         AndroidNetworking.get(Constants.API_GET_BING)
                             .addQueryParameter("url", res)
                             .setTag(tagNameBing)
+                            .setExecutor(Executors.newSingleThreadExecutor())
                             .setPriority(Priority.HIGH)
                             .build()
                             .getAsString(object : StringRequestListener {
@@ -157,8 +157,7 @@ class ApiServices {
                                 }
                             })
                         }
-                }
-            }
+
         }
 
 
@@ -186,7 +185,7 @@ class ApiServices {
                     Log.w(TAG, "Can not handle zero-length arrays")
 
 
-                    // checking if we are getting empty arrays from providers
+                    // checking if we are getting empty arrays from providers for further use
                     if (convertedResponse.toString().endsWith("[]")) {
 
                         CoroutineScope(Dispatchers.IO).launch {
@@ -212,10 +211,8 @@ class ApiServices {
                     Log.i(TAG, "Using $apiEndPoint")
                     Log.i(TAG, "Response from $apiEndPoint is $convertedResponse")
                     mainActivity.liveDataGetImages.postValue(convertedResponse)
-                    //TODO lurer faen meg på om denne her gjorde susen:
                     Log.i(TAG, "Got response from at least 1/3 providers, rest will be cancelled intentionally.")
                     AndroidNetworking.cancelAll()
-                    //TODO ser mer på det på Søndag - rune
                 }
             } catch (e: Exception) {
                 Log.w(TAG, "Exception catched in trying to get images from api: $apiEndPoint", e)

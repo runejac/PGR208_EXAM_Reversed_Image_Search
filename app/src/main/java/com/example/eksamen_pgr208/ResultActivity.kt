@@ -7,6 +7,7 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.androidnetworking.AndroidNetworking
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.eksamen_pgr208.adapters.ResultsAdapter
@@ -87,6 +88,11 @@ class ResultActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
                 else -> false
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        AndroidNetworking.forceCancelAll()
     }
 
 

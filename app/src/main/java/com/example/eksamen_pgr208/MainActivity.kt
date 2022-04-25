@@ -23,9 +23,11 @@ import com.github.dhaval2404.imagepicker.util.FileUtil
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.*
+import okhttp3.OkHttpClient
+import java.util.concurrent.TimeUnit
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
     // Fab animations
     private val rotateOpen: Animation by lazy { AnimationUtils.loadAnimation(this, R.anim.rotate_open_anim) }
@@ -48,13 +50,13 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        /*val okHttpClient = OkHttpClient().newBuilder()
-            .connectTimeout(120, TimeUnit.SECONDS)
-            .readTimeout(120, TimeUnit.SECONDS)
-            .writeTimeout(120, TimeUnit.SECONDS)
-            .build()*/
+        val okHttpClient = OkHttpClient().newBuilder()
+            .connectTimeout(60, TimeUnit.SECONDS)
+            .readTimeout(60, TimeUnit.SECONDS)
+            .writeTimeout(60, TimeUnit.SECONDS)
+            .build()
 
-        AndroidNetworking.initialize(applicationContext)
+        AndroidNetworking.initialize(applicationContext, okHttpClient)
 
         // elements to be shown or not on onCreate
         binding.uploadProgressBar.visibility = View.GONE
@@ -112,12 +114,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        println("hellofromondestroy")
-    }
-
-    override fun onResume() {
-        super.onResume()
-        //Toast.makeText(this, "This is resume", Toast.LENGTH_LONG).show()
+        AndroidNetworking.forceCancelAll()
     }
 
 
@@ -167,7 +164,6 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-
     private fun imageChooser(resultCode: Int, data: Intent?) {
 
         when (resultCode) {
@@ -179,8 +175,11 @@ class MainActivity : AppCompatActivity() {
                 try {
                     binding.fabSearch.setOnClickListener {
 
-                        ApiServices.uploadImage(this@MainActivity, filePath!!)
-                        ApiServices.getImages(this@MainActivity)
+                        // ensures nullsafety
+                        filePath?.let {
+                            ApiServices.uploadImageNetworkRequest(this@MainActivity, filePath)
+                            ApiServices.getImagesNetworkRequest(this@MainActivity)
+                        }
 
                         binding.tvNoResultsFound.visibility = View.INVISIBLE
                         binding.uploadProgressBar.visibility = View.VISIBLE
@@ -193,16 +192,10 @@ class MainActivity : AppCompatActivity() {
                             Toast.LENGTH_LONG
                         ).show()
 
-                        /**
-                        tror faen ikke vi trenger noe av det her under
-                        la til en cancelAll så fort vi har fått respons fra 1 endpoint, ser ut som det gjorde susen
-                         prøv gjerne dere, å søk etter bilde nr. 2 mens de to andre søkene fortsatt går
-                         (det går ikke nå, men prøv).
-                         Koden under er KUN nødvendig dersom INGEN av 3 endepointsa gir noe resultat
-                         Så vi lar den stå. Når alle 3 er ferdige kicker denne og da vil det uansett
-                         ikke være noen request som venter, så dette tror jeg er good nå
-                         */
 
+                        // observing the arraylist populated, if there is populated with 3 empty
+                        // arrays it will prompt the user with an red error message that no results
+                        // were found, try another image
                         ApiServices.liveDataAllEndPointsCouldNotFindImages.observe(this) {apisThatReturnedEmptyArray ->
                             if(apisThatReturnedEmptyArray.equals(3)) {
                                 Log.i("MainActivity", "${apisThatReturnedEmptyArray}/3 API endpoints did not give any result")
@@ -214,8 +207,8 @@ class MainActivity : AppCompatActivity() {
                                 binding.fabSearch.visibility = View.GONE
 
 
+                                // resetting the value to 0
                                 ApiServices.liveDataAllEndPointsCouldNotFindImages.value = 0
-
 
                                 println("from the first if but 2nd print: $apisThatReturnedEmptyArray")
                             } else if (apisThatReturnedEmptyArray < 3 || apisThatReturnedEmptyArray > 3) {
@@ -223,6 +216,8 @@ class MainActivity : AppCompatActivity() {
                             }
                         }
                     }
+
+                    // text to be show after a new image is chosen either from gallery or camera
                     binding.tvNoResultsFound.visibility = View.GONE
                     binding.fabSearch.visibility = View.VISIBLE
                     Toast.makeText(this, "Image: $fileName chosen", Toast.LENGTH_SHORT).show()
@@ -247,6 +242,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+
     private fun imageChosen(data: Intent?): Pair<String?, String?> {
         binding.tvIntro.visibility = View.GONE
         binding.tvIntroStepTwo.visibility = View.VISIBLE
@@ -260,8 +256,6 @@ class MainActivity : AppCompatActivity() {
         liveDataImageSearchedOn.let {
             it?.postValue(filePath!!)
         }
-
-
 
         Glide.with(this)
             .load(filePath)

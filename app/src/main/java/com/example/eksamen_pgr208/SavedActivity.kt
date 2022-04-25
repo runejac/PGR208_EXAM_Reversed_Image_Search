@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.androidnetworking.AndroidNetworking
 import com.example.eksamen_pgr208.adapters.ResultsAdapter
 import com.example.eksamen_pgr208.adapters.SavedAdapter
 import com.example.eksamen_pgr208.data.Image
@@ -72,6 +73,11 @@ class SavedActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
             }
         }
 
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        AndroidNetworking.forceCancelAll()
     }
 
 
