@@ -3,10 +3,10 @@
     <style name="Theme.Eksamen_pgr208" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">#191919</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorPrimaryVariant">@color/warm_orange</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">#228C9C</item>
+        <item name="colorSecondary">@color/warm_orange</item>
         <item name="colorSecondaryVariant">#186773</item>
         <item name="colorOnSecondary">@color/white</item>
         <!-- Status bar color. -->

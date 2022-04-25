@@ -66,6 +66,7 @@ open class MainActivity : AppCompatActivity() {
         binding.tvNoResultsFound.visibility = View.GONE
         binding.tvNoInternet.visibility = View.GONE
         binding.fabSearch.visibility = View.GONE
+        binding.tvLoading.visibility = View.GONE
 
 
         // Get bottom navigation shadow be gone
@@ -184,8 +185,9 @@ open class MainActivity : AppCompatActivity() {
                         }
 
                         binding.tvNoResultsFound.visibility = View.GONE
+                        binding.tvIntroStepTwo.visibility = View.GONE
                         binding.uploadProgressBar.visibility = View.VISIBLE
-                        binding.tvIntroStepTwo.visibility = View.VISIBLE
+                        binding.tvLoading.visibility = View.VISIBLE
 
 
                         Toast.makeText(
@@ -201,6 +203,7 @@ open class MainActivity : AppCompatActivity() {
                     binding.tvNoResultsFound.visibility = View.GONE
                     binding.tvNoInternet.visibility = View.GONE
                     binding.fabSearch.visibility = View.VISIBLE
+                    binding.tvLoading.visibility = View.GONE
                     Toast.makeText(this, "Image: $fileName chosen", Toast.LENGTH_SHORT).show()
 
 

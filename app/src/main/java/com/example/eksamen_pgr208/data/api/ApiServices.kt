@@ -189,6 +189,8 @@ class ApiServices {
                     // checking if we are getting empty arrays from providers for further use
                     if (convertedResponse.toString().endsWith("[]")) {
 
+                        // running this on a separate thread in the background
+                        // to activate the observe at utils/ErrorDisplay.kt
                         CoroutineScope(Dispatchers.IO).launch {
 
                             // Elvis operator to check if it exists a looper, if not it will prepare one

@@ -49,6 +49,16 @@
 
         <TextView
                 android:gravity="center"
+                android:id="@+id/tv_loading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins"
+                android:text="Fetching results..."
+                android:textSize="16sp"
+                />
+
+        <TextView
+                android:gravity="center"
                 android:textColor="#FC8686"
                 android:id="@+id/tv_no_results_found"
                 android:layout_width="wrap_content"
@@ -97,47 +107,48 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:indeterminateOnly="true"
-        android:indeterminateTint="#86FFFFFF"
+        android:indeterminateTint="#FFFFFF"
             />
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:orientation="horizontal"
-        android:gravity="end"
-        android:layout_marginBottom="60dp"
-        >
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal"
+            android:gravity="end"
+            android:layout_marginBottom="60dp">
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_search"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
-            android:visibility="invisible"
-            android:clickable="true"
-            android:focusable="true"
-            android:layout_marginBottom="10dp"
-            app:srcCompat="@drawable/ic_baseline_search_white" />
+                android:id="@+id/fab_search"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:visibility="invisible"
+                android:clickable="true"
+                android:focusable="true"
+                android:layout_marginBottom="10dp"
+                app:srcCompat="@drawable/ic_baseline_search_white" />
+
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_add_image"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:visibility="invisible"
-            android:layout_marginBottom="10dp"
-            app:srcCompat="@drawable/ic_add_photo" />
+                android:id="@+id/fab_add_image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:visibility="invisible"
+                android:layout_marginBottom="10dp"
+                app:srcCompat="@drawable/ic_add_photo" />
+
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_open_plus"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:layout_marginBottom="10dp"
-            app:srcCompat="@drawable/ic_add" />
+                android:id="@+id/fab_open_plus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:layout_marginBottom="10dp"
+                app:srcCompat="@drawable/ic_add" />
     </LinearLayout>
 
 

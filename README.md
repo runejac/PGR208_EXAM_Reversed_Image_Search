@@ -52,7 +52,7 @@ Reversed Image Search 📱🔍✍(◔◡◔) EXAM
   operator by pointing to parts of code where it was used and discussing what edge cases it is meant to handle.
 * [ ] **Hard** (8p): [MainActivity @ 74, 96] [ResultActivity @ 73] [SavedActivity @ 59] [ApiService @ 47, 88] Make use of lambdas and higher order functions when processing data
   that is similar, but not exactly the same. Discuss the code in the report as well as pros, cons, and alternative code structure.
-* [ ] **Hard** (4p): Make use of threads or coroutines to make asynchronous operations. Your UI should never freeze until some operation is being executed. Discuss in the report your async code and try to time it by using Android Studio tools or timer in the code for each iteration of your operation. What is the best/worst case scenario of the operation you decided to make asynchronous?
+* [ ] **Hard** (4p): [ImageViewModel @ 23, 29] Make use of threads or coroutines to make asynchronous operations. Your UI should never freeze until some operation is being executed. Discuss in the report your async code and try to time it by using Android Studio tools or timer in the code for each iteration of your operation. What is the best/worst case scenario of the operation you decided to make asynchronous?
 * [ ] **Hard** (8p): Store and retrieve images as blobs in/from the SQLite database.
   Describe and discuss the database structure in detail. What are the pros / cons / alternatives considering a commercial version of your application.
 * [ ] **Hard** (3p): Create callbacks across the application to let the parent class / view
