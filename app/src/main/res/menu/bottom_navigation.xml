@@ -4,13 +4,6 @@
         android:id="@+id/home"
         android:title="Home"
         android:icon="@drawable/ic_baseline_home_white" />
-
-    <item
-        android:id="@+id/camera"
-        android:title=""
-        android:icon="@color/transparent" />
-
-
     <item
         android:id="@+id/saved"
         android:title="Saved"

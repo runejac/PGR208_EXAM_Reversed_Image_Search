@@ -55,7 +55,7 @@ Reversed Image Search 📱🔍✍(◔◡◔) EXAM
 * [ ] **Hard** (4p): [ImageViewModel @ 23, 29] Make use of threads or coroutines to make asynchronous operations. Your UI should never freeze until some operation is being executed. Discuss in the report your async code and try to time it by using Android Studio tools or timer in the code for each iteration of your operation. What is the best/worst case scenario of the operation you decided to make asynchronous?
 * [ ] **Hard** (8p): Store and retrieve images as blobs in/from the SQLite database.
   Describe and discuss the database structure in detail. What are the pros / cons / alternatives considering a commercial version of your application.
-* [ ] **Hard** (3p): Create callbacks across the application to let the parent class / view
+* [ ] **Hard** (3p):  [Helpers @ 24] Create callbacks across the application to let the parent class / view
   know when something is changing. Write about all your callbacks in the report and why they are useful for the information flow in your app.
 * [ ] Soft (8p): Make (or extend existing) classes with methods and companion classes to
   process images. Make use of constructors, overloading, properties, overriding, and interfaces where it is appropriate. Discuss pros, cons, and alternative code structure in the report by referencing your code.
