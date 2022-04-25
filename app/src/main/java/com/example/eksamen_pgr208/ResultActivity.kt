@@ -1,51 +1,28 @@
 package com.example.eksamen_pgr208
 
-import android.animation.AnimatorSet
-import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.RoundedCorner
-import android.view.View
-import android.view.animation.Animation
-import android.view.animation.ScaleAnimation
-import android.widget.Button
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.get
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.androidnetworking.AndroidNetworking
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.eksamen_pgr208.adapters.ResultsAdapter
-import com.example.eksamen_pgr208.data.Image
 import com.example.eksamen_pgr208.data.ImageViewModel
 import com.example.eksamen_pgr208.data.api.ImageModelResultItem
 import com.example.eksamen_pgr208.databinding.ResultActivityBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import kotlinx.android.synthetic.main.image_rv_layout.*
-import kotlinx.android.synthetic.main.result_activity.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import java.lang.NullPointerException
-import java.util.ArrayList
+import java.util.*
 
 private const val TAG = "ResultActivity"
 
 class ResultActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
-    private lateinit var rvImage : RecyclerView
     private lateinit var imageViewModel : ImageViewModel
     private lateinit var binding : ResultActivityBinding
     private var images : ArrayList<ImageModelResultItem> = ArrayList()
     private var imageSearchedOn : String = ""
-
 
 
     @SuppressLint("ResourceType")
@@ -55,14 +32,14 @@ class ResultActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
         setContentView(binding.root)
 
 
-
-
+        // using intent from Mainactivity to show images searched on
         try {
             imageSearchedOn = intent.getStringExtra("image_searched_on")!!
         } catch (e: NullPointerException) {
             Log.e(TAG, "Catched a NullPointerException. $imageSearchedOn is null", e)
         }
 
+        // same as above, just for the results
         try {
             images = intent.getParcelableArrayListExtra("images")!!
         } catch (e: NullPointerException) {
@@ -72,10 +49,10 @@ class ResultActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
         imageViewModel = ViewModelProvider(this)[ImageViewModel::class.java]
 
         val layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-        rvImage.layoutManager = layoutManager
+        binding.rvResults.layoutManager = layoutManager
 
-        // send image objects to adapter
-        rvImage.adapter = ResultsAdapter(this, images = ArrayList<ImageModelResultItem>(images), this)
+        // send image results objects to adapter, to be used in recyclerview
+        binding.rvResults.adapter = ResultsAdapter(this, images = ArrayList<ImageModelResultItem>(images), this)
 
 
         // showing image searched on
@@ -92,6 +69,7 @@ class ResultActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
         nav.background = null
 
 
+        // navbar
         nav.setOnItemSelectedListener { item ->
             when(item.itemId) {
                 R.id.home -> {
@@ -119,6 +97,7 @@ class ResultActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
 
     override fun onImageClick(position: Int) {
 
+        // intents image clicked on to pass to FullscreenActivity for further functionality
         images.let {
             val imageClicked = Intent(this, FullscreenActivity::class.java)
             imageClicked.putExtra("imageclicked", images[position])

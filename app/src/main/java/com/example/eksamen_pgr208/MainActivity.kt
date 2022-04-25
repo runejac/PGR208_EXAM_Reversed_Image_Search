@@ -1,10 +1,7 @@
 package com.example.eksamen_pgr208
 
-import android.Manifest
-import android.app.Activity
 import android.app.Dialog
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -24,11 +21,8 @@ import com.github.dhaval2404.imagepicker.ImagePicker
 import com.github.dhaval2404.imagepicker.util.FileUriUtils
 import com.github.dhaval2404.imagepicker.util.FileUtil
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.*
-import android.widget.Toast
-import androidx.core.app.ActivityCompat
 
 
 class MainActivity : AppCompatActivity() {
@@ -44,7 +38,7 @@ class MainActivity : AppCompatActivity() {
     private var fabClicked = false
     private var exit = false
     var liveDataUploadImage : MutableLiveData<String> = MutableLiveData<String>()
-    var liveDataImageSearchedOn : MutableLiveData<String> = MutableLiveData<String>()
+    private var liveDataImageSearchedOn : MutableLiveData<String>? = MutableLiveData<String>()
     var liveDataGetImages : MutableLiveData<ImageModelResult> = MutableLiveData<ImageModelResult>()
     private lateinit var binding : ActivityMainBinding
 
@@ -102,14 +96,17 @@ class MainActivity : AppCompatActivity() {
 
         liveDataGetImages.observe(this){ item ->
 
-            liveDataImageSearchedOn.observe(this){imageSearchedOn ->
+            liveDataImageSearchedOn.let {
 
+                it?.observe(this){imageSearchedOn ->
 
-                val imagesArray = Intent(this, ResultActivity::class.java)
-                imagesArray.putExtra("images", item)
-                imagesArray.putExtra("image_searched_on", imageSearchedOn)
-                startActivity(imagesArray)
+                    val imagesArray = Intent(this, ResultActivity::class.java)
+                    imagesArray.putExtra("images", item)
+                    imagesArray.putExtra("image_searched_on", imageSearchedOn)
+                    startActivity(imagesArray)
+                }
             }
+
 
         }
 
@@ -268,9 +265,11 @@ class MainActivity : AppCompatActivity() {
         val filePath = FileUriUtils.getRealPath(this, uri)
         val fileName = FileUtil.getDocumentFile(this, uri)?.name
 
-        liveDataImageSearchedOn.postValue(filePath!!)
+        // null checker
+        liveDataImageSearchedOn.let {
+            it?.postValue(filePath!!)
+        }
 
-        //imageSearchedOn.putExtra("image_searched_on", filePath)
 
         Glide.with(this)
             .load(filePath)

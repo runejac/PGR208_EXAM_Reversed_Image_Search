@@ -9,15 +9,14 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.example.eksamen_pgr208.MainActivity
 import com.example.eksamen_pgr208.R
+import com.example.eksamen_pgr208.ResultActivity
 import com.example.eksamen_pgr208.data.api.ImageModelResultItem
 import kotlinx.android.synthetic.main.image_rv_layout.view.*
-import kotlinx.android.synthetic.main.result_activity.view.*
 
 class ResultsAdapter(val context: Context?,
                      private val images: ArrayList<ImageModelResultItem>,
-                     private val listener: RecyclerClick
+                     private val listener: ResultActivity
                     ): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -54,8 +53,6 @@ class ResultsAdapter(val context: Context?,
         init {
             image.setOnClickListener(this)
         }
-
-        val imageResult = itemView.image_result!!
     }
 
     interface RecyclerClick{
