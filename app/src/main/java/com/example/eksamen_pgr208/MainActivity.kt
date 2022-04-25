@@ -112,6 +112,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+
     override fun onDestroy() {
         super.onDestroy()
         println("hellofromondestroy")
@@ -171,10 +172,6 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun imageChooser(resultCode: Int, data: Intent?) {
-
-
-        // TODO Et eller annet som gjør at ved andre gangs søk i samme session, sendes det dobbelt opp med requests.
-
 
         when (resultCode) {
             RESULT_OK -> {
@@ -269,6 +266,7 @@ class MainActivity : AppCompatActivity() {
         liveDataImageSearchedOn.let {
             it?.postValue(filePath!!)
         }
+
 
 
         Glide.with(this)

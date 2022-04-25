@@ -68,6 +68,7 @@ class FullscreenActivity:AppCompatActivity() {
                         Toast.makeText(this, "Image not saved", Toast.LENGTH_SHORT).show()
                     }
                     .show()
+                // Elvis operator
             } ?: Log.e(TAG, "Error occured while saving image")
         }
 

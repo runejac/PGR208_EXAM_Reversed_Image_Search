@@ -7,17 +7,17 @@ Reversed Image Search 📱🔍✍(◔◡◔) EXAM
 ### Egne notater (slettes før levering):
 * [x] Få på plass "Results" (omgjøre navn til "Saved" imo), dette blir trolig en custom
   view der vi viser hva som er lagret i DB, søke-bildet og resultater fra bilde søkt på
-* [ ] Få navigasjonsbaren til å bli med uansett hvilket fragment/activity man er på
+* [x] Få navigasjonsbaren til å bli med uansett hvilket fragment/activity man er på
 * [x] Implementere SQLite med Room (husk hvorfor dette er så jævlig bra for vi må justifye bruk av Room)
-* [ ] Få UI logisk, riktig og til å se pen ut, uten tekst oppå hverandre. Kun ha nødvendig tekst som er forståelig for brukeren
-* [ ] Se om vi kan bruke kun 1 stk RecyclerViewAdapter som heter f.eks. SavedAndResultAdapter, de to som brukes nå er "helt" like mener jeg- RDJ
-* [ ] Gi brukeren feedback når alle 3 endepunktene gir [] (f.eks. ansiktsbilde rune har) - RDJ
-* [ ] Enlarge image med AnimatorSet eller AnimationSet med en onclick, også potensielt ha knapp som lagrer bilde etter det. Først på ResultActivity også kanskje implementere det samme på SavedActivity. - RDJ
+* [x] Få UI logisk, riktig og til å se pen ut, uten tekst oppå hverandre. Kun ha nødvendig tekst som er forståelig for brukeren
+* [x] Gi brukeren feedback når alle 3 endepunktene gir [] (f.eks. ansiktsbilde rune har) - RDJ
+* [x] Enlarge image med AnimatorSet eller AnimationSet med en onclick, også potensielt ha knapp som lagrer bilde etter det. Først på ResultActivity også kanskje implementere det samme på SavedActivity. - RDJ
 * [x] Handle exceptions, ikke nødvendigvis exception thrown på tomt array [] - RDJ
 * [x] Nytt design - Stian
-* [ ] Bildene som bruker velger å save til DB, bør også legges til i download folder på telefonen (det står i eksamensteksten)
+* [x] Bildene som bruker velger å save til DB, bør også legges til i download folder på telefonen (det står i eksamensteksten)
 * [ ] Hvis det ikke er en bildefil som velges, bør det times ut eller med Toast til bruker
 * [ ] På savedactivity: Få fullscreen der også, med bilde som er søkt på i toppen i fullscreen mode i tillegg til en basket ikon-knapp for sletting av bildet
+* [ ] Adde timeout på get (60sec ish)
 * [ ] Evt. andre ting dere kommer på
 * [ ] Evt. andre ting dere kommer på
 * [ ] Evt. andre ting dere kommer på
@@ -27,9 +27,9 @@ Reversed Image Search 📱🔍✍(◔◡◔) EXAM
 * Prioritise NullPointerExceptions, these are the worst and have a huge impact on
   application usability
 * Prototype quick (tror ikke dette teller noe å levere, så det kan vi droppe?)
-* Split code according to the MVC guidelines (vi bruker MVVM?)
+* Split code according to the MVC guidelines
 * Make a copy of server responses during the development process to reduce the load on
-  the server (tjah, mjaeh, njae)
+  the server
 
 ### Application Requirements
 
@@ -37,18 +37,18 @@ Reversed Image Search 📱🔍✍(◔◡◔) EXAM
 * [x] Use intents to pass data
 * [x] Use non-UI-blocking requests to the server
 * [x] User SQLite database to store data
-* [ ] Create at least one reasonably complex custom view
+* [ ] Create at least one reasonably complex custom view (venter på svar fra Boris)
 * [x] Use Kotlin as a main programming language (some Java is acceptable when re-using
   the code found online)
 * [x] Make use of all the end-points on the server
-* [ ] Exception handling (e.g. no network connection)
-* [ ] Make sure to handle all the Android lifecycle states (the app will be paused, resumed,
-  stopped, etc. during testing)
+* [x] Exception handling (e.g. no network connection)
+* [x] Make sure to handle all the Android lifecycle states (the app will be paused, resumed,
+  stopped, etc. during testing) (det gjør vi med LiveData)
 * [x] Make use of res/drawable, res/layout, and res/values
 * [ ] Both in code and in the report students are required to put comments and/or explicitly state which of the sub-requirements from Table 3 they are targeting.
 
 ### Sub requirements (disse skal vi henvise til i koden, hvor det er brukt, filnavn og linjenr.)
-* [ ] **Hard** (8p): Show that you understand when it is appropriate to use the elvis
+* [x] **Hard** (8p): [ApiServices @ 192, FullscreenActivity @ 71] Show that you understand when it is appropriate to use the elvis
   operator by pointing to parts of code where it was used and discussing what edge cases it is meant to handle.
 * [ ] **Hard** (8p): Make use of lambdas and higher order functions when processing data
   that is similar, but not exactly the same. Discuss the code in the report as well as pros, cons, and alternative code structure.
@@ -80,5 +80,5 @@ Reversed Image Search 📱🔍✍(◔◡◔) EXAM
 * [ ] (3p) Use of Android OS services will be rewarded (e.g. battery level, microphone, GPS, etc.)
 * [x] (3p) Compress images to save memory
 * [ ] (3p) Use bound service for downloading the data periodically
-* [ ] (6p) Make your own drawables (Hand/Adobe painted or Drawable-programmed in Android
-  Studio)
+* [x] (6p) Make your own drawables (Hand/Adobe painted or Drawable-programmed in Android
+  Studio) (husk å legg denne i rapporten og henvis til "bottom_border.xml")

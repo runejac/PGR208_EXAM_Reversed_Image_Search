@@ -29,7 +29,7 @@ class ApiServices {
 
         fun uploadImage(mainActivity: MainActivity, filePath: String) {
 
-            //CoroutineScope(Dispatchers.IO).launch {
+            CoroutineScope(Dispatchers.IO).launch {
                 Log.i(TAG,"Starting UPLOAD request...")
 
             val okHttpClient = OkHttpClient.Builder()
@@ -42,7 +42,6 @@ class ApiServices {
                     .setTag("imageUpload")
                     .setPriority(Priority.HIGH)
                     .setOkHttpClient(okHttpClient)
-                    //.setExecutor(Executors.newSingleThreadExecutor())
                     .build()
                     .setUploadProgressListener { bytesUploaded, bytesUploadedTotal ->
                         Log.i(TAG, "Bytes uploaded: $bytesUploaded/$bytesUploadedTotal")
@@ -75,7 +74,7 @@ class ApiServices {
                             }
                         }
                     })
-            //}
+            }
         }
 
         fun getImages(mainActivity: MainActivity) {
@@ -91,7 +90,7 @@ class ApiServices {
                     Toast.makeText(mainActivity, "No images found OR ERROR!", Toast.LENGTH_SHORT).show()
                 } else {
 
-                    //CoroutineScope(Dispatchers.IO).launch {
+                    CoroutineScope(Dispatchers.IO).launch {
 
                         val tagNameGoogle = "google"
                         Log.i(TAG,"Starting GET request at Google...")
@@ -99,7 +98,6 @@ class ApiServices {
                             .addQueryParameter("url", res)
                             .setTag(tagNameGoogle)
                             .setPriority(Priority.HIGH)
-                            //.setExecutor(Executors.newSingleThreadExecutor())
                             .build()
                             .getAsString(object : StringRequestListener {
                                 override fun onResponse(response: String?) {
@@ -112,9 +110,9 @@ class ApiServices {
                                     Log.e(TAG, "ErrorDetail from GET request at Google: ${anError?.errorDetail}")
                                 }
                             })
-                        //}
+                        }
 
-                    //CoroutineScope(Dispatchers.IO).launch {
+                    CoroutineScope(Dispatchers.IO).launch {
 
                         val tagNameTineye = "tineye"
                         Log.i(TAG, "Starting GET request at Tineye...")
@@ -122,7 +120,6 @@ class ApiServices {
                             .addQueryParameter("url", res)
                             .setTag(tagNameTineye)
                             .setPriority(Priority.HIGH)
-                            //.setExecutor(Executors.newSingleThreadExecutor())
                             .build()
                             .getAsString(object : StringRequestListener {
                                 override fun onResponse(response: String?) {
@@ -135,9 +132,9 @@ class ApiServices {
                                     Log.e(TAG, "ErrorDetail from GET request at Tineye: ${anError?.errorDetail}")
                                 }
                             })
-                        //}
+                        }
 
-                    //CoroutineScope(Dispatchers.IO).launch {
+                    CoroutineScope(Dispatchers.IO).launch {
 
 
                         val tagNameBing = "bing"
@@ -146,7 +143,6 @@ class ApiServices {
                             .addQueryParameter("url", res)
                             .setTag(tagNameBing)
                             .setPriority(Priority.HIGH)
-                            //.setExecutor(Executors.newSingleThreadExecutor())
                             .build()
                             .getAsString(object : StringRequestListener {
                                 override fun onResponse(response: String?) {
@@ -159,7 +155,7 @@ class ApiServices {
                                     Log.e(TAG, "ErrorDetail from GET request at Bing: ${anError?.errorDetail}")
                                 }
                             })
-                        //}
+                        }
                 }
             }
         }
@@ -189,33 +185,22 @@ class ApiServices {
                     Log.w(TAG, "Can not handle zero-length arrays")
 
 
+                    // checking if we are getting empty arrays from providers
                     if (convertedResponse.toString().endsWith("[]")) {
 
                         CoroutineScope(Dispatchers.IO).launch {
-                            // litt usikker på om vi trenger denne her
+
+                            // Elvis operator
                             Looper.myLooper() ?: Looper.prepare()
 
-                            Log.i(TAG, "Hello from endswith method?")
+                            // using list here to be populated, used as a checker if we get empty array from all 3 providers
+                            // telling the UI and user that no result were found
                             emptyArrayListFromApiCalls.add(convertedResponse.toString())
                             Log.i(TAG, "Size on array from ApiServices is: $emptyArrayListFromApiCalls")
 
-
-                            /**
-                                Denne fungerer ikke HELT optimalt fordi det enten sendes
-                                2 stk requests etter 2nd gang i samme session
-                                eller at ikke arraylisten rekker å slettes før
-                                den poster value til liveData i MainActivity
-                                Spørsom det er noe vits å bruke liveData her, kan hende
-                                det er nok med bare ArrayList, og at sjekken fortsatt skjer
-                                i MainActivity
-                                Skal se på det på Søndag - rune
-                             */
-
                             if (emptyArrayListFromApiCalls.size > 2) {
-
                                 liveDataAllEndPointsCouldNotFindImages.postValue(
                                     emptyArrayListFromApiCalls.size)
-
                                 emptyArrayListFromApiCalls.clear()
                             }
                         }
