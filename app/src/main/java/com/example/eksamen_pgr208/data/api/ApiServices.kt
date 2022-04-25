@@ -19,6 +19,7 @@ import kotlinx.coroutines.*
 import okhttp3.OkHttpClient
 import java.io.File
 import java.util.concurrent.Executors
+import java.util.concurrent.TimeUnit
 
 
 class ApiServices {
@@ -28,14 +29,16 @@ class ApiServices {
         // http logging
         private val okHttpClient = OkHttpClient.Builder().addNetworkInterceptor(StethoInterceptor()).build()
         private val emptyArrayListFromApiCalls : ArrayList<String> = ArrayList(3)
+        private val okHttpClientTimeoutTimer = OkHttpClient().newBuilder()
+            .connectTimeout(60, TimeUnit.SECONDS)
+            .readTimeout(60, TimeUnit.SECONDS)
+            .writeTimeout(60, TimeUnit.SECONDS)
+            .build()
         val liveDataAllEndPointsCouldNotFindImages : MutableLiveData<Int> = MutableLiveData<Int>()
 
         fun uploadImageNetworkRequest(mainActivity: MainActivity, filePath: String) {
 
-
                 Log.i(TAG,"Starting UPLOAD request...")
-
-
 
                 AndroidNetworking.upload(Constants.API_UPLOAD_URL)
                     .addMultipartFile("image", File(filePath))
@@ -43,10 +46,9 @@ class ApiServices {
                     .setTag("imageUpload")
                     .setExecutor(Executors.newSingleThreadExecutor())
                     .setPriority(Priority.HIGH)
-                    .setOkHttpClient(okHttpClient)
+                        // TODO teste om timeout fungerer, men NÅ er faktisk serveren til Boris nede, gir 502 bad gateway
+                    .setOkHttpClient(okHttpClientTimeoutTimer)
                     .build()
-
-                    // Lambda function used
                     .setUploadProgressListener { bytesUploaded, bytesUploadedTotal ->
                         Log.i(TAG, "Bytes uploaded: $bytesUploaded/$bytesUploadedTotal")
                         if (bytesUploaded == bytesUploadedTotal) {
@@ -65,17 +67,39 @@ class ApiServices {
                             }
                         }
                         override fun onError(error: ANError) {
-                            if (error.errorCode != 0) {
-                                Log.d(TAG, "onError errorCode: ${error.errorCode}")
-                                Log.d(TAG, "onError errorBody: ${error.errorBody}")
-                                Log.d(TAG, "onError errorDetail: ${error.errorDetail}")
-                                val apiError: ApiServices = error.getErrorAsObject(ApiServices::class.java)
-                                Log.d(TAG, "Error as object: $apiError")
-                                Toast.makeText(mainActivity, "Error in uploading image, contact service provider", Toast.LENGTH_LONG).show()
-                            } else {
-                                ErrorDisplayer.displayErrorToUserIfNoInternet(mainActivity)
-                                Toast.makeText(mainActivity, "Error in uploading image, check your internet connection", Toast.LENGTH_LONG).show()
-                                Log.e(TAG, "Error on UPLOAD request, no internet connection or something more fatal is faulty causing this error", error)
+
+                            Log.i(TAG, "Status code: ${error.errorCode}")
+
+                            when {
+                                error.errorCode == 0 -> {
+                                    // e.g. no internet etc.
+                                    ErrorDisplayer.displayErrorToUserIfNoInternet(mainActivity, error)
+                                    Log.e(TAG, "Error on UPLOAD request, no internet connection or a " +
+                                            "fatal error are causing this error." +
+                                            "\nError code: ${error.errorCode}" +
+                                            "\nError body below:" +
+                                            "\n${error.errorBody}", error)
+                                }
+                                error.errorCode in 400..499 -> {
+                                    // if error is client related
+                                    ErrorDisplayer.displayErrorToUserIfNoInternet(mainActivity, error)
+                                    Log.e(TAG, "Error on UPLOAD request." +
+                                            "\nError code: ${error.errorCode}" +
+                                            "\nError body below:" +
+                                            "\n${error.errorBody}", error)
+                                    Log.e(TAG, "onError errorCode: ${error.errorCode}")
+                                    Log.e(TAG, "onError errorBody: ${error.errorBody}")
+                                    Log.e(TAG, "onError errorDetail: ${error.errorDetail}")
+                                    val apiError: ApiServices = error.getErrorAsObject(ApiServices::class.java)
+                                    Log.e(TAG, "Error as object from ApiServices: $apiError")
+                                }
+                                error.errorCode >= 500 -> {
+                                    // if error is server related
+                                    ErrorDisplayer.displayErrorToUserEndpointFaultiness(mainActivity, error)
+                                    Log.e(TAG, "Error on UPLOAD request, faulty at server side." +
+                                            "\nError code: ${error.errorCode}" +
+                                            "\nError body below:\n" + error.errorBody, error)
+                                }
                             }
                         }
                     })

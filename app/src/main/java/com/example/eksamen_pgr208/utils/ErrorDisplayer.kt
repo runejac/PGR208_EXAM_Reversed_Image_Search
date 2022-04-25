@@ -2,6 +2,7 @@ package com.example.eksamen_pgr208.utils
 
 import android.util.Log
 import android.view.View
+import com.androidnetworking.error.ANError
 import com.example.eksamen_pgr208.MainActivity
 import com.example.eksamen_pgr208.data.api.ApiServices
 
@@ -35,12 +36,25 @@ class ErrorDisplayer {
             }
         }
 
-        fun displayErrorToUserIfNoInternet(mainActivity: MainActivity) {
-                mainActivity.binding.uploadProgressBar.visibility = View.GONE
-                mainActivity.binding.addedImageFromEitherCameraOrMemory.visibility = View.GONE
-                mainActivity.binding.tvNoInternet.visibility = View.VISIBLE
-                mainActivity.binding.tvIntroStepTwo.visibility = View.GONE
-                mainActivity.binding.fabSearch.visibility = View.GONE
+        fun displayErrorToUserIfNoInternet(mainActivity: MainActivity, error: ANError) {
+            mainActivity.binding.tvNoInternet.text = "Woops! Check your internet connection and try again. Error code: ${error.errorCode}"
+            mainActivity.binding.tvNoInternet.visibility = View.VISIBLE
+            mainActivity.binding.tvLoading.visibility = View.GONE
+            mainActivity.binding.uploadProgressBar.visibility = View.GONE
+            mainActivity.binding.addedImageFromEitherCameraOrMemory.visibility = View.GONE
+            mainActivity.binding.tvIntroStepTwo.visibility = View.GONE
+            mainActivity.binding.fabSearch.visibility = View.GONE
+        }
+
+        fun displayErrorToUserEndpointFaultiness(mainActivity: MainActivity, error: ANError) {
+            mainActivity.binding.tvEndpointFaultiness.text = "Woops! Error at server side, please try again later or contact service provider. " +
+                    "Error code: ${error.errorCode} ${error.errorDetail}"
+            mainActivity.binding.uploadProgressBar.visibility = View.GONE
+            mainActivity.binding.addedImageFromEitherCameraOrMemory.visibility = View.GONE
+            mainActivity.binding.tvIntroStepTwo.visibility = View.GONE
+            mainActivity.binding.fabSearch.visibility = View.GONE
+            mainActivity.binding.tvLoading.visibility = View.GONE
+            mainActivity.binding.tvEndpointFaultiness.visibility = View.VISIBLE
         }
     }
 }

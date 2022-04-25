@@ -19,7 +19,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_results"
         android:layout_width="0dp"
-        android:layout_height="450dp"
+        android:layout_height="550dp"
         android:background="@drawable/bottom_border"
         android:paddingTop="2dp"
         app:layout_constraintEnd_toEndOf="parent"

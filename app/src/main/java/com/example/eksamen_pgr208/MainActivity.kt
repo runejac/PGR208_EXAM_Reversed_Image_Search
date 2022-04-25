@@ -51,13 +51,7 @@ open class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val okHttpClient = OkHttpClient().newBuilder()
-            .connectTimeout(60, TimeUnit.SECONDS)
-            .readTimeout(60, TimeUnit.SECONDS)
-            .writeTimeout(60, TimeUnit.SECONDS)
-            .build()
-
-        AndroidNetworking.initialize(applicationContext, okHttpClient)
+        AndroidNetworking.initialize(applicationContext)
 
         // elements to be shown or not on onCreate
         binding.uploadProgressBar.visibility = View.GONE
@@ -67,6 +61,7 @@ open class MainActivity : AppCompatActivity() {
         binding.tvNoInternet.visibility = View.GONE
         binding.fabSearch.visibility = View.GONE
         binding.tvLoading.visibility = View.GONE
+        binding.tvEndpointFaultiness.visibility = View.GONE
 
 
         // Get bottom navigation shadow be gone
@@ -176,6 +171,7 @@ open class MainActivity : AppCompatActivity() {
             RESULT_OK -> {
 
                 binding.tvNoResultsFound.visibility = View.GONE
+                binding.tvEndpointFaultiness.visibility = View.GONE
                 binding.fabSearch.visibility = View.VISIBLE
                 val (filePath, fileName) = imageChosen(data)
                 try {
@@ -188,6 +184,7 @@ open class MainActivity : AppCompatActivity() {
                         }
 
                         binding.tvNoResultsFound.visibility = View.GONE
+                        binding.tvEndpointFaultiness.visibility = View.GONE
                         binding.tvIntroStepTwo.visibility = View.GONE
                         binding.uploadProgressBar.visibility = View.VISIBLE
                         binding.tvLoading.visibility = View.VISIBLE
@@ -205,6 +202,7 @@ open class MainActivity : AppCompatActivity() {
                     // text to be show after a new image is chosen either from gallery or camera
                     binding.tvNoResultsFound.visibility = View.GONE
                     binding.tvNoInternet.visibility = View.GONE
+                    binding.tvEndpointFaultiness.visibility = View.GONE
                     binding.fabSearch.visibility = View.VISIBLE
                     binding.tvLoading.visibility = View.GONE
                     Toast.makeText(this, "Image: $fileName chosen", Toast.LENGTH_SHORT).show()
