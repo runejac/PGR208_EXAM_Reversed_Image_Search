@@ -56,6 +56,7 @@ class SavedActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
         nav.background = null
 
         // navbar
+        // Lambda function used
         nav.setOnItemSelectedListener { item ->
             when(item.itemId) {
                 R.id.home -> {

@@ -50,7 +50,7 @@ Reversed Image Search 📱🔍✍(◔◡◔) EXAM
 ### Sub requirements (disse skal vi henvise til i koden, hvor det er brukt, filnavn og linjenr.)
 * [x] **Hard** (8p): [ApiServices @ 192, FullscreenActivity @ 71] Show that you understand when it is appropriate to use the elvis
   operator by pointing to parts of code where it was used and discussing what edge cases it is meant to handle.
-* [ ] **Hard** (8p): Make use of lambdas and higher order functions when processing data
+* [ ] **Hard** (8p): [MainActivity @ 74, 96] [ResultActivity @ 73] [SavedActivity @ 59] [ApiService @ 47, 88] Make use of lambdas and higher order functions when processing data
   that is similar, but not exactly the same. Discuss the code in the report as well as pros, cons, and alternative code structure.
 * [ ] **Hard** (4p): Make use of threads or coroutines to make asynchronous operations. Your UI should never freeze until some operation is being executed. Discuss in the report your async code and try to time it by using Android Studio tools or timer in the code for each iteration of your operation. What is the best/worst case scenario of the operation you decided to make asynchronous?
 * [ ] **Hard** (8p): Store and retrieve images as blobs in/from the SQLite database.

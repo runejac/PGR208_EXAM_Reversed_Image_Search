@@ -69,8 +69,15 @@ class MainActivity : AppCompatActivity() {
         nav.selectedItemId = R.id.home
         nav.background = null
 
-        // Onclick Listeners
+        fab_open_plus.setOnClickListener {
+            onAddButtonClicked()
+        }
 
+        fab_add_image.setOnClickListener {
+            showCameraAndGalleryDialog()
+        }
+
+        // Lambda function used
         nav.setOnItemSelectedListener { item ->
             when(item.itemId) {
                 R.id.home -> {
@@ -86,14 +93,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        fab_open_plus.setOnClickListener {
-            onAddButtonClicked()
-        }
-
-        fab_add_image.setOnClickListener {
-           showCameraAndGalleryDialog()
-        }
-
+        // Lambda function used
         liveDataGetImages.observe(this){ item ->
 
             liveDataImageSearchedOn.let {
@@ -106,10 +106,7 @@ class MainActivity : AppCompatActivity() {
                     startActivity(imagesArray)
                 }
             }
-
-
         }
-
     }
 
 
@@ -178,10 +175,7 @@ class MainActivity : AppCompatActivity() {
 
                 binding.tvNoResultsFound.visibility = View.GONE
                 binding.fabSearch.visibility = View.VISIBLE
-
-
                 val (filePath, fileName) = imageChosen(data)
-
                 try {
                     binding.fabSearch.setOnClickListener {
 
