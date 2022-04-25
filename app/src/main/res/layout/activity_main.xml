@@ -57,6 +57,16 @@
                 android:text="Woops! Could not find any images from one or several providers, please choose another image and try again!"
                 android:textSize="16sp"
                 />
+        <TextView
+                android:gravity="center"
+                android:textColor="#FC8686"
+                android:id="@+id/tv_no_internet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins"
+                android:text="Woops! Check your internet connection."
+                android:textSize="16sp"
+                />
 
 
     </LinearLayout>

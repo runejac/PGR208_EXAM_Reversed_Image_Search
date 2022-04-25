@@ -1,6 +1,5 @@
 package com.example.eksamen_pgr208
 
-import android.app.Dialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -17,6 +16,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.eksamen_pgr208.data.api.ApiServices
 import com.example.eksamen_pgr208.data.api.ImageModelResult
 import com.example.eksamen_pgr208.databinding.ActivityMainBinding
+import com.example.eksamen_pgr208.utils.ErrorDisplayer
 import com.example.eksamen_pgr208.utils.Helpers
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.github.dhaval2404.imagepicker.util.FileUriUtils
@@ -28,7 +28,7 @@ import okhttp3.OkHttpClient
 import java.util.concurrent.TimeUnit
 
 
-class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
+open class MainActivity : AppCompatActivity() {
 
     // Fab animations
     private val rotateOpen: Animation by lazy { AnimationUtils.loadAnimation(this, R.anim.rotate_open_anim) }
@@ -41,9 +41,9 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     private var fabClicked = false
     private var exit = false
     var liveDataUploadImage : MutableLiveData<String> = MutableLiveData<String>()
-    private var liveDataImageSearchedOn : MutableLiveData<String>? = MutableLiveData<String>()
     var liveDataGetImages : MutableLiveData<ImageModelResult> = MutableLiveData<ImageModelResult>()
-    private lateinit var binding : ActivityMainBinding
+    private var liveDataImageSearchedOn : MutableLiveData<String>? = MutableLiveData<String>()
+    lateinit var binding : ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,6 +64,7 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         binding.tvIntro.visibility = View.VISIBLE
         binding.tvIntroStepTwo.visibility = View.GONE
         binding.tvNoResultsFound.visibility = View.GONE
+        binding.tvNoInternet.visibility = View.GONE
         binding.fabSearch.visibility = View.GONE
 
 
@@ -182,7 +183,7 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
                             ApiServices.getImagesNetworkRequest(this@MainActivity)
                         }
 
-                        binding.tvNoResultsFound.visibility = View.INVISIBLE
+                        binding.tvNoResultsFound.visibility = View.GONE
                         binding.uploadProgressBar.visibility = View.VISIBLE
                         binding.tvIntroStepTwo.visibility = View.VISIBLE
 
@@ -192,34 +193,13 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
                             "Please wait, searching for similar images...",
                             Toast.LENGTH_LONG
                         ).show()
-
-
-                        // observing the arraylist populated, if there is populated with 3 empty
-                        // arrays it will prompt the user with an red error message that no results
-                        // were found, try another image
-                        ApiServices.liveDataAllEndPointsCouldNotFindImages.observe(this) {apisThatReturnedEmptyArray ->
-                            if(apisThatReturnedEmptyArray.equals(3)) {
-                                Log.i("MainActivity", "${apisThatReturnedEmptyArray}/3 API endpoints did not give any result")
-                                println("from the first if: $apisThatReturnedEmptyArray")
-                                binding.uploadProgressBar.visibility = View.GONE
-                                binding.addedImageFromEitherCameraOrMemory.visibility = View.GONE
-                                binding.tvNoResultsFound.visibility = View.VISIBLE
-                                binding.tvIntroStepTwo.visibility = View.GONE
-                                binding.fabSearch.visibility = View.GONE
-
-
-                                // resetting the value to 0
-                                ApiServices.liveDataAllEndPointsCouldNotFindImages.value = 0
-
-                                println("from the first if but 2nd print: $apisThatReturnedEmptyArray")
-                            } else if (apisThatReturnedEmptyArray < 3 || apisThatReturnedEmptyArray > 3) {
-                                println("from the else: $apisThatReturnedEmptyArray")
-                            }
-                        }
+                        // displays error message to user if arraylist inside is 3 in size
+                        ErrorDisplayer.displayErrorToUserIfNoEndpointHaveResult(this)
                     }
 
                     // text to be show after a new image is chosen either from gallery or camera
                     binding.tvNoResultsFound.visibility = View.GONE
+                    binding.tvNoInternet.visibility = View.GONE
                     binding.fabSearch.visibility = View.VISIBLE
                     Toast.makeText(this, "Image: $fileName chosen", Toast.LENGTH_SHORT).show()
 

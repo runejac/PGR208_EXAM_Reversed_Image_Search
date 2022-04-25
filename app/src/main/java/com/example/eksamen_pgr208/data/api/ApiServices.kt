@@ -11,6 +11,7 @@ import com.androidnetworking.error.ANError
 import com.androidnetworking.interfaces.StringRequestListener
 import com.example.eksamen_pgr208.MainActivity
 import com.example.eksamen_pgr208.common.Constants
+import com.example.eksamen_pgr208.utils.ErrorDisplayer
 import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -24,6 +25,8 @@ class ApiServices {
     companion object : LifecycleObserver {
 
         private const val TAG = "ApiServices"
+        // http logging
+        private val okHttpClient = OkHttpClient.Builder().addNetworkInterceptor(StethoInterceptor()).build()
         private val emptyArrayListFromApiCalls : ArrayList<String> = ArrayList(3)
         val liveDataAllEndPointsCouldNotFindImages : MutableLiveData<Int> = MutableLiveData<Int>()
 
@@ -32,10 +35,7 @@ class ApiServices {
 
                 Log.i(TAG,"Starting UPLOAD request...")
 
-                // http logging
-                val okHttpClient = OkHttpClient.Builder()
-                .addNetworkInterceptor(StethoInterceptor())
-                .build()
+
 
                 AndroidNetworking.upload(Constants.API_UPLOAD_URL)
                     .addMultipartFile("image", File(filePath))
@@ -73,7 +73,7 @@ class ApiServices {
                                 Log.d(TAG, "Error as object: $apiError")
                                 Toast.makeText(mainActivity, "Error in uploading image, contact service provider", Toast.LENGTH_LONG).show()
                             } else {
-                                // FIXME krasjer når man bruker Profiler modus i Android Studio, vet ikke hvorfor
+                                ErrorDisplayer.displayErrorToUserIfNoInternet(mainActivity)
                                 Toast.makeText(mainActivity, "Error in uploading image, check your internet connection", Toast.LENGTH_LONG).show()
                                 Log.e(TAG, "Error on UPLOAD request, no internet connection or something more fatal is faulty causing this error", error)
                             }
@@ -144,6 +144,7 @@ class ApiServices {
                             .setTag(tagNameBing)
                             .setExecutor(Executors.newSingleThreadExecutor())
                             .setPriority(Priority.HIGH)
+                            //.setOkHttpClient(okHttpClient)
                             .build()
                             .getAsString(object : StringRequestListener {
                                 override fun onResponse(response: String?) {
@@ -190,7 +191,7 @@ class ApiServices {
 
                         CoroutineScope(Dispatchers.IO).launch {
 
-                            // Elvis operator
+                            // Elvis operator to check if it exists a looper, if not it will prepare one
                             Looper.myLooper() ?: Looper.prepare()
 
                             // using list here to be populated, used as a checker if we get empty array from all 3 providers
@@ -202,15 +203,16 @@ class ApiServices {
                                 liveDataAllEndPointsCouldNotFindImages.postValue(
                                     emptyArrayListFromApiCalls.size)
                                 emptyArrayListFromApiCalls.clear()
+                                AndroidNetworking.cancelAll()
                             }
                         }
                     }
                 }
 
                 else {
+                    mainActivity.liveDataGetImages.postValue(convertedResponse)
                     Log.i(TAG, "Using $apiEndPoint")
                     Log.i(TAG, "Response from $apiEndPoint is $convertedResponse")
-                    mainActivity.liveDataGetImages.postValue(convertedResponse)
                     Log.i(TAG, "Got response from at least 1/3 providers, rest will be cancelled intentionally.")
                     AndroidNetworking.cancelAll()
                 }
