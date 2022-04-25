@@ -153,18 +153,32 @@
 
 
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottomNavigationView"
+    <com.google.android.material.bottomappbar.BottomAppBar
+        android:background="@color/white"
+        android:id="@+id/bottomappbar"
+        android:layout_gravity="bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:itemBackground="@color/semigray"
-        android:background="@color/transparent"
-        app:itemTextColor="@drawable/selector"
+        app:fabCradleMargin="10dp"
+        app:fabCradleRoundedCornerRadius="10dp"
+        app:contentInsetEnd="0dp"
+        android:backgroundTint="@color/navigationbar"
+        app:contentInsetStart="0dp"
+        app:fabCradleVerticalOffset="10dp"
         android:layout_alignParentBottom="true"
-        app:menu="@menu/bottom_navigation">
+        tools:ignore="BottomAppBar">
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottomNavigationView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:itemBackground="@color/navigationbar"
+            android:background="@color/navigationbar"
+            app:itemTextColor="@drawable/selector"
+            android:layout_alignParentBottom="true"
+            app:itemHorizontalTranslationEnabled="true"
+            app:menu="@menu/bottom_navigation"/>
 
-
-    </com.google.android.material.bottomnavigation.BottomNavigationView>
+    </com.google.android.material.bottomappbar.BottomAppBar>
 
 
 
