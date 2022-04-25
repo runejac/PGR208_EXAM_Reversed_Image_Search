@@ -30,7 +30,7 @@ class ResultsAdapter(val context: Context?,
             Glide.with(it.applicationContext)
                 .load(images[position].image_link)
                 .fitCenter()
-                .transform(RoundedCorners(30))
+                .transform(RoundedCorners(15))
                 .into(holder.itemView.image_result)
         } ?: Log.e("ResultsAdapter", "Could not load images into recycler view for some reason")
 

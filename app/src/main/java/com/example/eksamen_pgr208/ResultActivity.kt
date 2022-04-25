@@ -60,7 +60,7 @@ class ResultActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
         Glide.with(this)
             .load(imageSearchedOn)
             .fitCenter()
-            .transform(RoundedCorners(30))
+            .transform(RoundedCorners(15))
             .into(binding.ivSearched)
 
 

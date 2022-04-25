@@ -246,7 +246,7 @@ open class MainActivity : AppCompatActivity() {
 
         Glide.with(this)
             .load(filePath)
-            .transform(RoundedCorners(30))
+            .transform(RoundedCorners(15))
             .into(binding.addedImageFromEitherCameraOrMemory)
         return Pair(filePath, fileName)
     }

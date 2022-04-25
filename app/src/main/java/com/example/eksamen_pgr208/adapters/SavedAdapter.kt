@@ -25,7 +25,7 @@ class SavedAdapter(val context: Context?, private var images: ArrayList<String>,
 
         Glide.with(context!!.applicationContext).load(images[position])
             .fitCenter()
-            .transform(RoundedCorners(30))
+            .transform(RoundedCorners(15))
             .into(holder.itemView.image_result)
 
     }
