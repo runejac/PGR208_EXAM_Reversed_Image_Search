@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+
     tools:context=".MainActivity"
    >
 
@@ -104,56 +105,73 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:orientation="horizontal"
-        android:gravity="end"
         android:layout_marginBottom="60dp"
-        >
+        android:gravity="end"
+        android:orientation="horizontal">
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_search"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="20dp"
-            android:visibility="invisible"
+            android:layout_marginBottom="10dp"
             android:clickable="true"
             android:focusable="true"
-            android:layout_marginBottom="10dp"
+            android:visibility="invisible"
             app:srcCompat="@drawable/ic_baseline_search_white" />
+
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_add_image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="20dp"
+            android:layout_marginBottom="10dp"
             android:clickable="true"
             android:focusable="true"
             android:visibility="invisible"
-            android:layout_marginBottom="10dp"
             app:srcCompat="@drawable/ic_add_photo" />
+
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_open_plus"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="20dp"
+            android:layout_marginBottom="10dp"
             android:clickable="true"
             android:focusable="true"
-            android:layout_marginBottom="10dp"
             app:srcCompat="@drawable/ic_add" />
     </LinearLayout>
 
-
-
+<com.google.android.material.bottomappbar.BottomAppBar
+    android:background="@color/white"
+    android:id="@+id/bottomappbar"
+    android:layout_gravity="bottom"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:fabCradleMargin="10dp"
+    app:fabCradleRoundedCornerRadius="10dp"
+    app:contentInsetEnd="0dp"
+    android:backgroundTint="@color/navigationbar"
+    app:contentInsetStart="0dp"
+    app:fabCradleVerticalOffset="10dp"
+    android:layout_alignParentBottom="true"
+    tools:ignore="BottomAppBar">
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:itemBackground="@color/semigray"
-        android:background="@color/transparent"
+        app:itemBackground="@color/navigationbar"
+        android:background="@color/navigationbar"
         app:itemTextColor="@drawable/selector"
         android:layout_alignParentBottom="true"
-        app:menu="@menu/bottom_navigation">
+        app:itemHorizontalTranslationEnabled="true"
+        app:menu="@menu/bottom_navigation"/>
+
+</com.google.android.material.bottomappbar.BottomAppBar>
 
 
-    </com.google.android.material.bottomnavigation.BottomNavigationView>
+
+
 
 
 

@@ -133,13 +133,16 @@ open class MainActivity : AppCompatActivity() {
         }
     }
 
+
+
     private fun onAddButtonClicked() {
         setVisibility(fabClicked)
         setAnimation(fabClicked)
         fabClicked = !fabClicked
+
     }
 
-    private fun setAnimation(fabClicked: Boolean) {
+     fun setAnimation(fabClicked: Boolean) {
         if(!fabClicked) {
             binding.fabAddImage.visibility = View.VISIBLE
         } else {
