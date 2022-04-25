@@ -43,7 +43,7 @@ class ApiServices {
                     .setTag("imageUpload")
                     .setExecutor(Executors.newSingleThreadExecutor())
                     .setPriority(Priority.HIGH)
-                    .setOkHttpClient(okHttpClient)
+                    //.setOkHttpClient(okHttpClient)
                     .build()
 
                     // Lambda function used
