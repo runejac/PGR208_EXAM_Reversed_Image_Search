@@ -17,6 +17,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.eksamen_pgr208.data.api.ApiServices
 import com.example.eksamen_pgr208.data.api.ImageModelResult
 import com.example.eksamen_pgr208.databinding.ActivityMainBinding
+import com.example.eksamen_pgr208.utils.Helpers
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.github.dhaval2404.imagepicker.util.FileUriUtils
 import com.github.dhaval2404.imagepicker.util.FileUtil
@@ -74,7 +75,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         fab_add_image.setOnClickListener {
-            showCameraAndGalleryDialog()
+            Helpers.showCameraAndGalleryDialog(this)
         }
 
         // Lambda function used
@@ -247,6 +248,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+
     private fun imageChosen(data: Intent?): Pair<String?, String?> {
         binding.tvIntro.visibility = View.GONE
         binding.tvIntroStepTwo.visibility = View.VISIBLE
@@ -270,37 +272,6 @@ class MainActivity : AppCompatActivity() {
         return Pair(filePath, fileName)
     }
 
-    private fun showCameraAndGalleryDialog() {
-        // shows dialog (modal) to prompt the user to either choose camera or gallery
-        val camOrGallDialog = Dialog(this)
-        camOrGallDialog.setContentView(R.layout.dialog_camera_or_gallery)
-        camOrGallDialog.setTitle("Choose source: ")
 
-        val btnGallery : ImageButton = camOrGallDialog.findViewById(R.id.btn_gallery)
-        val btnCamera : ImageButton = camOrGallDialog.findViewById(R.id.btn_camera)
-
-        btnGallery.setOnClickListener {
-            ImagePicker.with(this)
-                .galleryOnly()
-                .galleryMimeTypes(arrayOf("image/*"))
-                .maxResultSize(600, 600)
-                .compress(1024)
-                .start()
-            camOrGallDialog.dismiss()
-
-            println("gallery clicked")
-        }
-
-        btnCamera.setOnClickListener {
-            ImagePicker.with(this)
-                .cameraOnly()
-                .maxResultSize(600, 600)
-                .compress(1024)
-                .start()
-            camOrGallDialog.dismiss()
-            println("camera clicked")
-        }
-        camOrGallDialog.show()
-    }
 
 }

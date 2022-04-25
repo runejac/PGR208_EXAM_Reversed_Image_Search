@@ -41,7 +41,7 @@ class ApiServices {
                     .addMultipartParameter("content-type", "image/png")
                     .setTag("imageUpload")
                     .setPriority(Priority.HIGH)
-                    .setOkHttpClient(okHttpClient)
+                    //.setOkHttpClient(okHttpClient)
                     .build()
                     // Lambda function used
                     .setUploadProgressListener { bytesUploaded, bytesUploadedTotal ->
