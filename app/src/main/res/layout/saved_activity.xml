@@ -20,10 +20,11 @@
         android:text="My saved images" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:background="@drawable/bottom_border"
         android:id="@+id/rv_saved"
         android:layout_width="0dp"
-        android:layout_height="550dp"
-        android:padding="10dp"
+        android:layout_height="600dp"
+        android:paddingTop="2dp"
         app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
