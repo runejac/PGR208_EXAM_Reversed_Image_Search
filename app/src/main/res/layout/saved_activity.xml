@@ -11,25 +11,24 @@
         android:id="@+id/text_saved"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="My saved images"
         android:textAlignment="center"
         android:textSize="20sp"
-        android:padding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:text="My saved images" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:background="@drawable/bottom_border"
         android:id="@+id/rv_saved"
         android:layout_width="0dp"
-        android:layout_height="500dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bottom_border"
         android:paddingTop="2dp"
         app:layout_constraintBottom_toTopOf="@+id/bottomappbar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_saved"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/text_saved" />
 
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/bottomappbar"
@@ -46,16 +45,13 @@
         app:fabCradleVerticalOffset="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rv_saved"
         tools:ignore="BottomAppBar">
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottomNavigationView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
             android:background="@color/navigationbar"
             app:itemBackground="@color/navigationbar"
             app:itemHorizontalTranslationEnabled="true"
