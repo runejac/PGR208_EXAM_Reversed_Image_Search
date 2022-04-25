@@ -70,6 +70,7 @@ class ResultActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
 
 
         // navbar
+        // Lambda function used
         nav.setOnItemSelectedListener { item ->
             when(item.itemId) {
                 R.id.home -> {

@@ -44,6 +44,7 @@ class ApiServices {
                     .setOkHttpClient(okHttpClient)
                     //.setExecutor(Executors.newSingleThreadExecutor())
                     .build()
+                    // Lambda function used
                     .setUploadProgressListener { bytesUploaded, bytesUploadedTotal ->
                         Log.i(TAG, "Bytes uploaded: $bytesUploaded/$bytesUploadedTotal")
                         if (bytesUploaded == bytesUploadedTotal) {
@@ -84,7 +85,7 @@ class ApiServices {
             val gson: Gson
             val gsonBuilder = GsonBuilder()
             gson = gsonBuilder.create()
-
+            // Lambda function used
             mainActivity.liveDataUploadImage.observe(mainActivity) { res ->
 
                 if (res.isEmpty()) {
