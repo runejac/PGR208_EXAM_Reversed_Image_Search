@@ -1,11 +1,10 @@
 package com.example.eksamen_pgr208.data
 
 import android.content.Context
-import androidx.room.Database
-import androidx.room.Room
-import androidx.room.RoomDatabase
+import androidx.room.*
 
 @Database(entities = [Image::class], version = 1)
+//@TypeConverters(DataConverters::class)
 abstract class ImageDatabase: RoomDatabase() {
 
     abstract fun imageDao(): ImageDao

@@ -90,7 +90,7 @@ class FullscreenActivity:AppCompatActivity() {
         try {
             val thumbNailLink = images.thumbnail_link
             val imageLink = images.image_link
-            val image = Image(0, thumbNailLink, imageLink)
+            val image = Image(0)
             imageViewModel.addImage(image)
             println(image)
             saveImage()
