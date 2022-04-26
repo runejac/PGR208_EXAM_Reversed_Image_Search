@@ -6,8 +6,10 @@ class ImageRepo(private val imageDao: ImageDao) {
 
     val readAllData: LiveData<List<Image>> = imageDao.readAllData()
 
-    suspend fun addImage(image: Image) {
-        imageDao.addImage(image)
+    suspend fun addImage2(image: Image) {
+        val a = imageDao.addImage3(image)
+        println("image from addImage2 fra ImageRepo.kt: " + image)
+        println("imageDao.addImage(image): " + a)
     }
 
     // Deleting an image based on the image_link string

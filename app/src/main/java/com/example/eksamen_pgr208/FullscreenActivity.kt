@@ -20,6 +20,7 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.Bitmap
 import android.os.Build
 import android.os.Looper
+import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import com.androidnetworking.AndroidNetworking
 import kotlinx.coroutines.CoroutineScope
@@ -27,6 +28,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.*
 import java.nio.file.Files
+import android.graphics.BitmapFactory
+
+
+
 
 
 private const val TAG = "FullscreenActivity"
@@ -38,13 +43,14 @@ class FullscreenActivity:AppCompatActivity() {
     private lateinit var imageViewModel : ImageViewModel
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = FullscreenActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         val data : ImageModelResultItem? = intent.getParcelableExtra("imageclicked")
-        imageViewModel = ViewModelProvider(this)[ImageViewModel::class.java]
+        imageViewModel = ImageViewModel(this.application) /*ViewModelProvider(this)[ImageViewModel::class.java]*/
 
         binding.fabSaveImage.bringToFront()
 
@@ -90,12 +96,10 @@ class FullscreenActivity:AppCompatActivity() {
     private fun addToDatabase(images: ByteArray) {
 
         Log.i(TAG, "images before: $images")
-
         val image = Image(0, images)
-
+        Log.i(TAG, "images after: $image")
         try {
-            imageViewModel.addImage(image)
-            Log.i(TAG, "image after: $image")
+            imageViewModel.addImage1(image)
             Toast.makeText(this, "Successfully added image to database!", Toast.LENGTH_LONG).show()
             Log.i(TAG, "${image.image} added to database")
         } catch (e: Exception) {
@@ -106,6 +110,8 @@ class FullscreenActivity:AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     @Suppress("BlockingMethodInNonBlockingContext")
     private fun saveImage() {
+
+        var file : File? = null
 
         // checking if the user has already permitted access to write external storage
         if (!verifyPermissions()) {
@@ -128,36 +134,67 @@ class FullscreenActivity:AppCompatActivity() {
                 val drawable = binding.fullscreenImage.drawable as BitmapDrawable
                 val bitmap = drawable.bitmap
 
-                val file = File(dir, System.currentTimeMillis().toString() + ".png")
+                file = File(dir, System.currentTimeMillis().toString() + ".png")
                 try {
                     outputStream = FileOutputStream(file)
-                    Log.i(TAG, "Successfully saved ${file.name} to the ${dir.name} folder")
-
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 10, outputStream)
+                    Log.i(TAG, "Successfully saved ${file!!.name} to the ${dir.name} folder")
+                    outputStream.flush()
+                    outputStream.close()
                 } catch (e: FileNotFoundException) {
                     e.stackTraceToString()
                     Log.e(TAG, "Catched FileNotFoundException while trying to save image in storage", e)
-                }
+                } finally {
 
-                bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
+                    val compressed = saveBitmapToFile(file!!)
 
-                Toast.makeText(this@FullscreenActivity, "Image saved in 'Download' folder", Toast.LENGTH_SHORT).show()
-                try {
-                    outputStream?.flush()
-                } catch (e: IOException) {
-                    e.stackTraceToString()
-                    Log.e(TAG, "Catched IOException in trying to flush the content to outputStream while saving image in storage", e)
-                }
-                try {
-                    outputStream?.close()
+                    val imageByteArray : ByteArray = Files.readAllBytes(compressed?.toPath())
 
-                    val imageByteArray : ByteArray = Files.readAllBytes(file.toPath())
                     addToDatabase(imageByteArray)
-
-                } catch (e: IOException) {
-                    e.stackTraceToString()
-                    Log.e(TAG, "Catched IOException in trying to close outputStream while saving image in storage", e)
                 }
+                Toast.makeText(this@FullscreenActivity, "Image saved in 'Download' folder", Toast.LENGTH_SHORT).show()
             }
+
+        }
+    }
+
+    // from stackoverflow https://stackoverflow.com/questions/18573774/how-to-reduce-an-image-file-size-before-uploading-to-a-server
+    private fun saveBitmapToFile(file: File): File? {
+        return try {
+
+            // BitmapFactory options to downsize the image
+            val o = BitmapFactory.Options()
+            o.inJustDecodeBounds = true
+            o.inSampleSize = 6
+            // factor of downsizing the image
+            var inputStream = FileInputStream(file)
+            //Bitmap selectedBitmap = null;
+            BitmapFactory.decodeStream(inputStream, null, o)
+            inputStream.close()
+
+            // The new size we want to scale to
+            val REQUIRED_SIZE = 75
+
+            // Find the correct scale value. It should be the power of 2.
+            var scale = 1
+            while (o.outWidth / scale / 2 >= REQUIRED_SIZE &&
+                o.outHeight / scale / 2 >= REQUIRED_SIZE
+            ) {
+                scale *= 2
+            }
+            val o2 = BitmapFactory.Options()
+            o2.inSampleSize = scale
+            inputStream = FileInputStream(file)
+            val selectedBitmap = BitmapFactory.decodeStream(inputStream, null, o2)
+            inputStream.close()
+
+            // here i override the original image file
+            file.createNewFile()
+            val outputStream = FileOutputStream(file)
+            selectedBitmap!!.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+            file
+        } catch (e: java.lang.Exception) {
+            null
         }
     }
 

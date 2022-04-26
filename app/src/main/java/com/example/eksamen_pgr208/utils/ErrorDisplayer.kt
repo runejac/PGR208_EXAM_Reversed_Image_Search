@@ -19,11 +19,13 @@ class ErrorDisplayer {
                         "${apisThatReturnedEmptyArray}/3 API endpoints did not give any result"
                     )
                     println("from the first if: $apisThatReturnedEmptyArray")
+                    mainActivity.binding.tvNoResultsFound.text = "Woops! Could not find any images from one or several providers, please choose another image and try again!"
                     mainActivity.binding.uploadProgressBar.visibility = View.GONE
+                    mainActivity.binding.tvLoading.visibility = View.GONE
                     mainActivity.binding.addedImageFromEitherCameraOrMemory.visibility = View.GONE
-                    mainActivity.binding.tvNoResultsFound.visibility = View.VISIBLE
                     mainActivity.binding.tvIntroStepTwo.visibility = View.GONE
                     mainActivity.binding.fabSearch.visibility = View.GONE
+                    mainActivity.binding.tvNoResultsFound.visibility = View.VISIBLE
 
 
                     // resetting the value to 0

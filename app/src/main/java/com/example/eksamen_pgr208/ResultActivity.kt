@@ -40,6 +40,8 @@ class ResultActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
             Log.e(TAG, "Catched a NullPointerException. $imageSearchedOn is null", e)
         }
 
+
+
         // same as above, just for the results
         try {
             images = intent.getParcelableArrayListExtra("images")!!

@@ -33,22 +33,24 @@ class SavedActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
 
         imageViewModel = ViewModelProvider(this)[ImageViewModel::class.java]
 
-        // setting the layout
-        val layoutManager = StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
-        binding.rvSaved.layoutManager = layoutManager
+
 
 
         // using data with livedata from database, to be used in adapter recyclerview
         imageViewModel.readAllData.observe(this) { image ->
 
             // adding image_link from db to new list
-            imagesFromDbToViews(image)
+            //imagesFromDbToViews(image)
 
-            imagesFromDbList?.let {
-                binding.rvSaved.adapter = SavedAdapter(this, images = ArrayList(imagesFromDbList!!), this)
-            } ?: Log.e(TAG, "Error in trying to send arguments from $TAG to SavedAdapter")
+            //imagesFromDbList?.let {
+            binding.rvSaved.adapter = SavedAdapter(this, image, this)
+            //} ?: Log.e(TAG, "Error in trying to send arguments from $TAG to SavedAdapter")
 
         }
+
+        // setting the layout
+        val layoutManager = StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
+        binding.rvSaved.layoutManager = layoutManager
 
 
         // Get bottom navigation shadow be gone
@@ -111,8 +113,16 @@ class SavedActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
 
 
     // from database to list
-    private fun imagesFromDbToViews(image: List<Image>) {
+/*    private fun imagesFromDbToViews(image: List<Image>) {
+
+        *//*image.forEach { item ->
+            println(item.image)
+        }*//*
+
+
         imagesFromDbList = image.map(Image::image) as ArrayList<Image>
+
+
         Log.i(TAG, "Images from database to list to be used in view: $imagesFromDbList")
-    }
+    }*/
 }

@@ -13,7 +13,7 @@ import com.example.eksamen_pgr208.SavedActivity
 import com.example.eksamen_pgr208.data.Image
 import kotlinx.android.synthetic.main.image_rv_layout.view.*
 
-class SavedAdapter(val context: Context?, private var images: ArrayList<Image>, private val listener: SavedActivity): RecyclerView.Adapter<RecyclerView.ViewHolder>()   {
+class SavedAdapter(val context: Context?, private var images: List<Image>, private val listener: SavedActivity): RecyclerView.Adapter<RecyclerView.ViewHolder>()   {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -24,7 +24,7 @@ class SavedAdapter(val context: Context?, private var images: ArrayList<Image>, 
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
-        Glide.with(context!!.applicationContext).load(images[position])
+        Glide.with(context!!.applicationContext).load(images[position].image)
             .fitCenter()
             .transform(RoundedCorners(15))
             .into(holder.itemView.image_result)

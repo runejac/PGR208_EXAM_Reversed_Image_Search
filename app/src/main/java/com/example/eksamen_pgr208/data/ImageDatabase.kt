@@ -3,7 +3,7 @@ package com.example.eksamen_pgr208.data
 import android.content.Context
 import androidx.room.*
 
-@Database(entities = [Image::class], version = 1)
+@Database(entities = [Image::class], version = 1, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class ImageDatabase: RoomDatabase() {
 

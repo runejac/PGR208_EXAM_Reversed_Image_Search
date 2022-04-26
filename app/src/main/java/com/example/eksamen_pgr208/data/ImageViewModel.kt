@@ -4,7 +4,6 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
-import com.example.eksamen_pgr208.data.api.ImageModelResultItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -19,9 +18,11 @@ class ImageViewModel(application: Application): AndroidViewModel(application) {
         readAllData = repo.readAllData
     }
 
-    fun addImage(image: Image) {
+    fun addImage1(image: Image) {
         viewModelScope.launch(Dispatchers.IO) {
-            repo.addImage(image)
+            //ImageDatabase.getDataBase(this@ImageViewModel.getApplication()).imageDao().addImage3(image)
+            println("image from addImage1: " + image.toString())
+            repo.addImage2(image)
         }
     }
 
