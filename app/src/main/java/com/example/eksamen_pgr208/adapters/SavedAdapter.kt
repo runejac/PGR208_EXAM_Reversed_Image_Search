@@ -10,9 +10,10 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.eksamen_pgr208.R
 import com.example.eksamen_pgr208.SavedActivity
+import com.example.eksamen_pgr208.data.Image
 import kotlinx.android.synthetic.main.image_rv_layout.view.*
 
-class SavedAdapter(val context: Context?, private var images: ArrayList<String>, private val listener: SavedActivity): RecyclerView.Adapter<RecyclerView.ViewHolder>()   {
+class SavedAdapter(val context: Context?, private var images: ArrayList<Image>, private val listener: SavedActivity): RecyclerView.Adapter<RecyclerView.ViewHolder>()   {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {

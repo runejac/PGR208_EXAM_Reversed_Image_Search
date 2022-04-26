@@ -23,7 +23,7 @@ class SavedActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
 
     private lateinit var imageViewModel : ImageViewModel
     private lateinit var binding : SavedActivityBinding
-    private var imagesFromDbList : ArrayList<String>? = null
+    private var imagesFromDbList : ArrayList<Image>? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -112,7 +112,7 @@ class SavedActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
 
     // from database to list
     private fun imagesFromDbToViews(image: List<Image>) {
-        imagesFromDbList = image.map(Image::image) as ArrayList<String>
+        imagesFromDbList = image.map(Image::image) as ArrayList<Image>
         Log.i(TAG, "Images from database to list to be used in view: $imagesFromDbList")
     }
 }

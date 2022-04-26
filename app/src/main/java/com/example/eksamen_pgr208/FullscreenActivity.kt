@@ -18,14 +18,15 @@ import androidx.core.app.ActivityCompat
 import android.content.pm.PackageManager
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
+import android.os.Build
 import android.os.Looper
-import android.util.Base64
+import androidx.annotation.RequiresApi
 import com.androidnetworking.AndroidNetworking
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.*
+import java.nio.file.Files
 
 
 private const val TAG = "FullscreenActivity"
@@ -64,7 +65,7 @@ class FullscreenActivity:AppCompatActivity() {
                     .setTitle("Save image")
                     .setMessage("Do you want to save the image?")
                     .setPositiveButton("Yes") { dialog, _ ->
-                        addToDatabase(data)
+                        saveImage()
                         finish()
                     }
                     .setNegativeButton("No") { dialog, _ ->
@@ -86,14 +87,15 @@ class FullscreenActivity:AppCompatActivity() {
         AndroidNetworking.forceCancelAll()
     }
 
-    private fun addToDatabase(images: ImageModelResultItem) {
+    private fun addToDatabase(images: ByteArray) {
+
+        Log.i(TAG, "images before: $images")
+
+        val image = Image(0, images)
+
         try {
-            val imageBytes = Base64.decode(images.image_link, 0)
-            val imageBitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
-            val image = Image(0, imageBitmap)
             imageViewModel.addImage(image)
-            println(image)
-            saveImage()
+            Log.i(TAG, "image after: $image")
             Toast.makeText(this, "Successfully added image to database!", Toast.LENGTH_LONG).show()
             Log.i(TAG, "${image.image} added to database")
         } catch (e: Exception) {
@@ -101,6 +103,7 @@ class FullscreenActivity:AppCompatActivity() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     @Suppress("BlockingMethodInNonBlockingContext")
     private fun saveImage() {
 
@@ -129,11 +132,14 @@ class FullscreenActivity:AppCompatActivity() {
                 try {
                     outputStream = FileOutputStream(file)
                     Log.i(TAG, "Successfully saved ${file.name} to the ${dir.name} folder")
+
                 } catch (e: FileNotFoundException) {
                     e.stackTraceToString()
                     Log.e(TAG, "Catched FileNotFoundException while trying to save image in storage", e)
                 }
+
                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
+
                 Toast.makeText(this@FullscreenActivity, "Image saved in 'Download' folder", Toast.LENGTH_SHORT).show()
                 try {
                     outputStream?.flush()
@@ -143,6 +149,10 @@ class FullscreenActivity:AppCompatActivity() {
                 }
                 try {
                     outputStream?.close()
+
+                    val imageByteArray : ByteArray = Files.readAllBytes(file.toPath())
+                    addToDatabase(imageByteArray)
+
                 } catch (e: IOException) {
                     e.stackTraceToString()
                     Log.e(TAG, "Catched IOException in trying to close outputStream while saving image in storage", e)
