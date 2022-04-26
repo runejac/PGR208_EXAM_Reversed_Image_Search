@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.room.*
 
 @Database(entities = [Image::class], version = 1)
-//@TypeConverters(DataConverters::class)
+@TypeConverters(Converters::class)
 abstract class ImageDatabase: RoomDatabase() {
 
     abstract fun imageDao(): ImageDao

@@ -18,7 +18,9 @@ import androidx.core.app.ActivityCompat
 import android.content.pm.PackageManager
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Looper
+import android.util.Base64
 import com.androidnetworking.AndroidNetworking
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -84,23 +86,20 @@ class FullscreenActivity:AppCompatActivity() {
         AndroidNetworking.forceCancelAll()
     }
 
-
-
     private fun addToDatabase(images: ImageModelResultItem) {
         try {
-            val thumbNailLink = images.thumbnail_link
-            val imageLink = images.image_link
-            val image = Image(0)
+            val imageBytes = Base64.decode(images.image_link, 0)
+            val imageBitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+            val image = Image(0, imageBitmap)
             imageViewModel.addImage(image)
             println(image)
             saveImage()
             Toast.makeText(this, "Successfully added image to database!", Toast.LENGTH_LONG).show()
-            Log.i(TAG, "${image.image_link} added to database")
+            Log.i(TAG, "${image.image} added to database")
         } catch (e: Exception) {
             Log.e(TAG, "Crash in saving to database", e)
         }
     }
-
 
     @Suppress("BlockingMethodInNonBlockingContext")
     private fun saveImage() {

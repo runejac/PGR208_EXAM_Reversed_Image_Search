@@ -112,7 +112,7 @@ class SavedActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
 
     // from database to list
     private fun imagesFromDbToViews(image: List<Image>) {
-        imagesFromDbList = image.map(Image::image_link) as ArrayList<String>
+        imagesFromDbList = image.map(Image::image) as ArrayList<String>
         Log.i(TAG, "Images from database to list to be used in view: $imagesFromDbList")
     }
 }

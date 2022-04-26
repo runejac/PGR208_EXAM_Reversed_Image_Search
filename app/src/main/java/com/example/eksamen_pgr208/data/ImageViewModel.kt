@@ -25,7 +25,7 @@ class ImageViewModel(application: Application): AndroidViewModel(application) {
         }
     }
 
-    fun deleteImage(image: String) {
+    fun deleteImage(image: Image) {
         viewModelScope.launch(Dispatchers.IO) {
             repo.deleteImage(image)
         }
