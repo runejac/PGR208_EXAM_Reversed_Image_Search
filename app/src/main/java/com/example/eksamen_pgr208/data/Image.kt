@@ -4,8 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-// Image entity using only the thumbnail_link and the image_link
-// because those were the only properties we needed according to the exam text
+// Image entity using a bytearray and saving as blob in database
 @Entity(tableName = "image_table")
 data class Image(
     @PrimaryKey(autoGenerate = true)
