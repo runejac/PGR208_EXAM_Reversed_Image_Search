@@ -138,7 +138,7 @@ open class MainActivity : AppCompatActivity() {
 
     }
 
-     fun setAnimation(fabClicked: Boolean) {
+    private fun setAnimation(fabClicked: Boolean) {
         if(!fabClicked) {
             binding.fabAddImage.visibility = View.VISIBLE
         } else {

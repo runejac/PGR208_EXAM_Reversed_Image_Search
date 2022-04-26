@@ -46,7 +46,7 @@ class ApiServices {
                     .setTag("imageUpload")
                     .setExecutor(Executors.newSingleThreadExecutor())
                     .setPriority(Priority.HIGH)
-                        // TODO teste om timeout fungerer, men NÅ er faktisk serveren til Boris nede, gir 502 bad gateway
+                    // fixme timeout fungerer ikke.... prøvd å sette på 5 sek, nop
                     .setOkHttpClient(okHttpClientTimeoutTimer)
                     .build()
                     .setUploadProgressListener { bytesUploaded, bytesUploadedTotal ->
@@ -168,7 +168,6 @@ class ApiServices {
                             .setTag(tagNameBing)
                             .setExecutor(Executors.newSingleThreadExecutor())
                             .setPriority(Priority.HIGH)
-                            //.setOkHttpClient(okHttpClient)
                             .build()
                             .getAsString(object : StringRequestListener {
                                 override fun onResponse(response: String?) {
@@ -228,7 +227,9 @@ class ApiServices {
                             if (emptyArrayListFromApiCalls.size > 2) {
                                 liveDataAllEndPointsCouldNotFindImages.postValue(
                                     emptyArrayListFromApiCalls.size)
+                                // resetting arraylist for the next search
                                 emptyArrayListFromApiCalls.clear()
+                                // ensures to cancel all pending requests
                                 AndroidNetworking.cancelAll()
                             }
                         }
@@ -236,6 +237,7 @@ class ApiServices {
                 }
 
                 else {
+                    // posting response to livedata to be used in MainActivity
                     mainActivity.liveDataGetImages.postValue(convertedResponse)
                     Log.i(TAG, "Using $apiEndPoint")
                     Log.i(TAG, "Response from $apiEndPoint is $convertedResponse")
@@ -245,6 +247,7 @@ class ApiServices {
             } catch (e: Exception) {
                 Log.w(TAG, "Exception catched in trying to get images from api: $apiEndPoint", e)
             } finally {
+                // only for logging purposes
                 val endPointName = apiEndPoint.substring(apiEndPoint.lastIndexOf("/") + 1)
                 val upperCaseOnFirstLetterEndPointName = endPointName.substring(0, 1).uppercase() + endPointName.substring(1)
                 Log.i(TAG, "GET request from API: '$upperCaseOnFirstLetterEndPointName' done")

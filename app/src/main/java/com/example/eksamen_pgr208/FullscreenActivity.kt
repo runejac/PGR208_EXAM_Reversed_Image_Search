@@ -156,7 +156,7 @@ class FullscreenActivity:AppCompatActivity() {
             // BitmapFactory options to downsize the image
             val options = BitmapFactory.Options()
             options.inJustDecodeBounds = true
-            options.inDensity = 6
+            options.inDensity = 10
             // factor of downsizing the image
             var inputStream = FileInputStream(file)
 
@@ -164,7 +164,7 @@ class FullscreenActivity:AppCompatActivity() {
             inputStream.close()
 
             // The new size we want to scale to
-            val size = 150
+            val size = 250
 
             // Find the correct scale value. It should be the power of 2.
             var scale = 1

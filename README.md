@@ -15,9 +15,9 @@ Reversed Image Search 📱🔍✍(◔◡◔) EXAM
 * [x] Handle exceptions, ikke nødvendigvis exception thrown på tomt array [] - RDJ
 * [x] Nytt design - Stian
 * [x] Bildene som bruker velger å save til DB, bør også legges til i download folder på telefonen (det står i eksamensteksten)
-* [ ] Hvis det ikke er en bildefil som velges, bør det times ut eller med Toast til bruker
+* [x] Hvis det ikke er en bildefil som velges, bør det times ut eller med Toast til bruker
 * [ ] På savedactivity: Få fullscreen der også, med bilde som er søkt på i toppen i fullscreen mode i tillegg til en basket ikon-knapp for sletting av bildet
-* [ ] Adde timeout på get (60sec ish)
+* [ ] Adde timeout på upload (60sec ish)
 * [ ] Evt. andre ting dere kommer på
 * [ ] Evt. andre ting dere kommer på
 * [ ] Evt. andre ting dere kommer på
@@ -37,27 +37,27 @@ Reversed Image Search 📱🔍✍(◔◡◔) EXAM
 * [x] Use intents to pass data
 * [x] Use non-UI-blocking requests to the server
 * [x] User SQLite database to store data
-* [ ] Create at least one reasonably complex custom view (venter på svar fra Boris)
+* [x] Create at least one reasonably complex custom view (MainActivity: Argumenter for det i rapport. Vi har ikke tatt hensyn til å lage egne custom view components, da det ikke har vært i pensum(NOTE: notér mer på rapport om dette punket))
 * [x] Use Kotlin as a main programming language (some Java is acceptable when re-using
   the code found online)
 * [x] Make use of all the end-points on the server
 * [x] Exception handling (e.g. no network connection)
 * [x] Make sure to handle all the Android lifecycle states (the app will be paused, resumed,
-  stopped, etc. during testing) (det gjør vi med LiveData)
+  stopped, etc. during testing) (det gjør vi med LiveData(NOTE: skriver vi om dette i rapporten?))
 * [x] Make use of res/drawable, res/layout, and res/values
 * [ ] Both in code and in the report students are required to put comments and/or explicitly state which of the sub-requirements from Table 3 they are targeting.
 
 ### Sub requirements (disse skal vi henvise til i koden, hvor det er brukt, filnavn og linjenr.)
-* [x] **Hard** (8p): [ApiServices @ 192, FullscreenActivity @ 71] Show that you understand when it is appropriate to use the elvis
+* [x] **Hard** (8p): [ApiServices @ 221] [FullscreenActivity @ 80, 118] Show that you understand when it is appropriate to use the elvis
   operator by pointing to parts of code where it was used and discussing what edge cases it is meant to handle.
-* [ ] **Hard** (8p): [MainActivity @ 74, 96] [ResultActivity @ 73] [SavedActivity @ 59] [ApiService @ 47, 88] Make use of lambdas and higher order functions when processing data
+* [x] **Hard** (8p): [MainActivity @ 74, 96] [ResultActivity @ 73] [SavedActivity @ 59] [ApiService @ 47, 88] Make use of lambdas and higher order functions when processing data
   that is similar, but not exactly the same. Discuss the code in the report as well as pros, cons, and alternative code structure.
-* [ ] **Hard** (4p): [ImageViewModel @ 23, 29] Make use of threads or coroutines to make asynchronous operations. Your UI should never freeze until some operation is being executed. Discuss in the report your async code and try to time it by using Android Studio tools or timer in the code for each iteration of your operation. What is the best/worst case scenario of the operation you decided to make asynchronous?
-* [ ] **Hard** (8p): Store and retrieve images as blobs in/from the SQLite database.
+* [x] **Hard** (4p): [ImageViewModel @ 25, 31] [ApiServices @ 221] Make use of threads or coroutines to make asynchronous operations. Your UI should never freeze until some operation is being executed. Discuss in the report your async code and try to time it by using Android Studio tools or timer in the code for each iteration of your operation. What is the best/worst case scenario of the operation you decided to make asynchronous?
+* [x] **Hard** (8p): [Image @ 12] Store and retrieve images as blobs in/from the SQLite database.
   Describe and discuss the database structure in detail. What are the pros / cons / alternatives considering a commercial version of your application.
-* [ ] **Hard** (3p):  [Helpers @ 24] Create callbacks across the application to let the parent class / view
+* [x] **Hard** (3p):  [MainActivity @ 73] Create callbacks across the application to let the parent class / view
   know when something is changing. Write about all your callbacks in the report and why they are useful for the information flow in your app.
-* [ ] Soft (8p): Make (or extend existing) classes with methods and companion classes to
+* [ ] Soft (8p): [Helpers @ 15] Make (or extend existing) classes with methods and companion classes to
   process images. Make use of constructors, overloading, properties, overriding, and interfaces where it is appropriate. Discuss pros, cons, and alternative code structure in the report by referencing your code.
 * [ ] Soft (8p): Implement your own RecyclerView adapter and discuss the view you used for
   each row in detail in the report.

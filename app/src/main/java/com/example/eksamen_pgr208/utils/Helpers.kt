@@ -12,9 +12,6 @@ class Helpers  {
     companion object {
 
 
-
-        // TODO se om vi kan få refaktorert noe metoder som har med bilde, valg av bilde, save osv her etter hvert
-        // Make callbacks
         fun showCameraAndGalleryDialog(mainActivity: MainActivity) {
             // shows dialog (modal) to prompt the user to either choose camera or gallery
             val camOrGallDialog = Dialog(mainActivity)

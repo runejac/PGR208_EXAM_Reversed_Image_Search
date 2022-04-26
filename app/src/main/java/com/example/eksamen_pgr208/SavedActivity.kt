@@ -33,9 +33,6 @@ class SavedActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
 
         imageViewModel = ViewModelProvider(this)[ImageViewModel::class.java]
 
-
-
-
         // using data with livedata from database, to be used in adapter recyclerview
         imageViewModel.readAllData.observe(this) { image ->
 

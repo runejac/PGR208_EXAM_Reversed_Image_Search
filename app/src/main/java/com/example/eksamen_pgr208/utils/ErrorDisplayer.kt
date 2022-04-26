@@ -27,19 +27,14 @@ class ErrorDisplayer {
                     mainActivity.binding.fabSearch.visibility = View.GONE
                     mainActivity.binding.tvNoResultsFound.visibility = View.VISIBLE
 
-
                     // resetting the value to 0
                     ApiServices.liveDataAllEndPointsCouldNotFindImages.value = 0
-
-                    println("from the first if but 2nd print: $apisThatReturnedEmptyArray")
-                } else if (apisThatReturnedEmptyArray < 3 || apisThatReturnedEmptyArray > 3) {
-                    println("from the else: $apisThatReturnedEmptyArray")
                 }
             }
         }
 
         fun displayErrorToUserIfNoInternet(mainActivity: MainActivity, error: ANError) {
-            mainActivity.binding.tvNoInternet.text = "Woops! Check your internet connection and try again. Error code: ${error.errorCode}"
+            mainActivity.binding.tvNoInternet.text = "Woops! Check your internet connection and try again.\nError code: ${error.errorCode}"
             mainActivity.binding.tvNoInternet.visibility = View.VISIBLE
             mainActivity.binding.tvLoading.visibility = View.GONE
             mainActivity.binding.uploadProgressBar.visibility = View.GONE
@@ -49,8 +44,8 @@ class ErrorDisplayer {
         }
 
         fun displayErrorToUserEndpointFaultiness(mainActivity: MainActivity, error: ANError) {
-            mainActivity.binding.tvEndpointFaultiness.text = "Woops! Error at server side, please try again later or contact service provider. " +
-                    "Error code: ${error.errorCode} ${error.errorDetail}"
+            mainActivity.binding.tvEndpointFaultiness.text = "Woops! Error at server side, please try again later or contact service provider." +
+                    "\nError code: ${error.errorCode} ${error.errorDetail}"
             mainActivity.binding.uploadProgressBar.visibility = View.GONE
             mainActivity.binding.addedImageFromEitherCameraOrMemory.visibility = View.GONE
             mainActivity.binding.tvIntroStepTwo.visibility = View.GONE
