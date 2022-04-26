@@ -23,7 +23,7 @@ class SavedActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
 
     private lateinit var imageViewModel : ImageViewModel
     private lateinit var binding : SavedActivityBinding
-    private var imagesFromDbList : ArrayList<Image>? = null
+    private var imagesFromDbListMirror : List<Image>? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,7 +39,7 @@ class SavedActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
         // using data with livedata from database, to be used in adapter recyclerview
         imageViewModel.readAllData.observe(this) { image ->
 
-            imagesFromDbList = image as ArrayList<Image>
+            imagesFromDbListMirror = image as ArrayList<Image>
 
             // adding image_link from db to new list
             binding.rvSaved.adapter = SavedAdapter(this, image, this)
@@ -56,7 +56,7 @@ class SavedActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
         nav.background = null
 
         // navbar
-        // Lambda function used
+        // Lambda function
         nav.setOnItemSelectedListener { item ->
             when(item.itemId) {
                 R.id.home -> {
@@ -83,10 +83,9 @@ class SavedActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
     private fun deleteFromDatabase(imagePos: Int) {
 
         try {
-            imagesFromDbList?.get(imagePos)?.let { itemPos ->
+            imagesFromDbListMirror?.get(imagePos)?.let { itemPos ->
                 imageViewModel.deleteImage(itemPos)
                 Toast.makeText(this, "Image deleted!", Toast.LENGTH_SHORT).show()
-                Log.i(TAG, "${imagesFromDbList!![imagePos]} deleted from database")
             }
         } catch (e: Exception) {
             Log.e(TAG, "Crash in deleting image", e)

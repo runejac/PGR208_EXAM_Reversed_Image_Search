@@ -6,7 +6,6 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.eksamen_pgr208.data.Image
@@ -20,7 +19,6 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.Bitmap
 import android.os.Build
 import android.os.Looper
-import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import com.androidnetworking.AndroidNetworking
 import kotlinx.coroutines.CoroutineScope
@@ -71,6 +69,7 @@ class FullscreenActivity:AppCompatActivity() {
                     .setMessage("Do you want to save the image?")
                     .setPositiveButton("Yes") { dialog, _ ->
                         saveImage()
+                        Toast.makeText(this, "Successfully added image to database!", Toast.LENGTH_SHORT).show()
                         finish()
                     }
                     .setNegativeButton("No") { dialog, _ ->
@@ -92,25 +91,20 @@ class FullscreenActivity:AppCompatActivity() {
         AndroidNetworking.forceCancelAll()
     }
 
-    private fun addToDatabase(images: ByteArray) {
 
-        Log.i(TAG, "images before: $images")
+    private fun addToDatabase(images: ByteArray) {
         val image = Image(0, images)
-        Log.i(TAG, "images after: $image")
         try {
-            imageViewModel.addImage1(image)
-            Toast.makeText(this, "Successfully added image to database!", Toast.LENGTH_LONG).show()
-            Log.i(TAG, "${image.image} added to database")
+            imageViewModel.addImage(image)
+            Log.i(TAG, "Object reference: ${image.image} added to database as blob")
         } catch (e: Exception) {
-            Log.e(TAG, "Crash in saving to database", e)
+            Log.e(TAG, "Exception catched in saving to database", e)
         }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     @Suppress("BlockingMethodInNonBlockingContext")
     private fun saveImage() {
-
-        var file : File? = null
 
         // checking if the user has already permitted access to write external storage
         if (!verifyPermissions()) {
@@ -123,7 +117,7 @@ class FullscreenActivity:AppCompatActivity() {
                 // elvis operator to check if Looper.myLooper() is null, if it's null it will execute Looper.prepare()
                 Looper.myLooper() ?: Looper.prepare()
 
-                var outputStream : OutputStream? = null
+                val outputStream : OutputStream
                 val dir = File(Environment.getExternalStorageDirectory(), "Download")
                 if (!dir.exists()) {
                     // makes folder if it does not exist
@@ -133,18 +127,20 @@ class FullscreenActivity:AppCompatActivity() {
                 val drawable = binding.fullscreenImage.drawable as BitmapDrawable
                 val bitmap = drawable.bitmap
 
-                file = File(dir, System.currentTimeMillis().toString() + ".png")
+                val file = File(dir, System.currentTimeMillis().toString() + ".png")
                 try {
                     outputStream = FileOutputStream(file)
-                    bitmap.compress(Bitmap.CompressFormat.PNG, 10, outputStream)
-                    Log.i(TAG, "Successfully saved ${file!!.name} to the ${dir.name} folder")
+                    // compress file that are stored in storage
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
+                    Log.i(TAG, "Successfully saved ${file.name} to the ${dir.name} folder")
                     outputStream.flush()
                     outputStream.close()
                 } catch (e: FileNotFoundException) {
                     e.stackTraceToString()
                     Log.e(TAG, "Catched FileNotFoundException while trying to save image in storage", e)
                 } finally {
-                    val compressed = saveBitmapToFile(file!!)
+                    // compress file that are soon going to be byteArray before it gets added to database
+                    val compressed = fileCompresser(file)
                     val imageByteArray : ByteArray = Files.readAllBytes(compressed?.toPath())
                     addToDatabase(imageByteArray)
                 }
@@ -154,43 +150,43 @@ class FullscreenActivity:AppCompatActivity() {
         }
     }
 
-    // from stackoverflow https://stackoverflow.com/questions/18573774/how-to-reduce-an-image-file-size-before-uploading-to-a-server
-    private fun saveBitmapToFile(file: File): File? {
+    private fun fileCompresser(file: File): File? {
         return try {
 
             // BitmapFactory options to downsize the image
-            val o = BitmapFactory.Options()
-            o.inJustDecodeBounds = true
-            o.inSampleSize = 6
+            val options = BitmapFactory.Options()
+            options.inJustDecodeBounds = true
+            options.inDensity = 6
             // factor of downsizing the image
             var inputStream = FileInputStream(file)
-            //Bitmap selectedBitmap = null;
-            BitmapFactory.decodeStream(inputStream, null, o)
+
+            BitmapFactory.decodeStream(inputStream, null, options)
             inputStream.close()
 
             // The new size we want to scale to
-            val REQUIRED_SIZE = 75
+            val size = 150
 
             // Find the correct scale value. It should be the power of 2.
             var scale = 1
-            while (o.outWidth / scale / 2 >= REQUIRED_SIZE &&
-                o.outHeight / scale / 2 >= REQUIRED_SIZE
+            while (options.outWidth / scale / 2 >= size &&
+                options.outHeight / scale / 2 >= size
             ) {
                 scale *= 2
             }
-            val o2 = BitmapFactory.Options()
-            o2.inSampleSize = scale
+            val options2 = BitmapFactory.Options()
+            options2.inSampleSize = scale
             inputStream = FileInputStream(file)
-            val selectedBitmap = BitmapFactory.decodeStream(inputStream, null, o2)
+            val selectedBitmap = BitmapFactory.decodeStream(inputStream, null, options2)
             inputStream.close()
 
-            // here i override the original image file
+            // here we override the original image file
             file.createNewFile()
             val outputStream = FileOutputStream(file)
-            selectedBitmap!!.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+            selectedBitmap!!.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
             file
-        } catch (e: java.lang.Exception) {
-            null
+        } catch (e: Exception) {
+            Log.e(TAG, "Exception catched in fileCompresser", e)
+            return null
         }
     }
 

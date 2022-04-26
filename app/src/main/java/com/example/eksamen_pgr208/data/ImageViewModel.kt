@@ -1,6 +1,9 @@
 package com.example.eksamen_pgr208.data
 
 import android.app.Application
+import android.os.Looper
+import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
@@ -18,11 +21,9 @@ class ImageViewModel(application: Application): AndroidViewModel(application) {
         readAllData = repo.readAllData
     }
 
-    fun addImage1(image: Image) {
+    fun addImage(image: Image) {
         viewModelScope.launch(Dispatchers.IO) {
-            //ImageDatabase.getDataBase(this@ImageViewModel.getApplication()).imageDao().addImage3(image)
-            println("image from addImage1: " + image.toString())
-            repo.addImage2(image)
+            repo.addImage(image)
         }
     }
 
