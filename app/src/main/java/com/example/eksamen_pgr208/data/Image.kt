@@ -13,8 +13,7 @@ data class Image(
     @ColumnInfo(typeAffinity = ColumnInfo.BLOB)
     var image: ByteArray? = null
 ) {
-
-/*    override fun equals(other: Any?): Boolean {
+    override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
 
@@ -33,6 +32,5 @@ data class Image(
         var result = id
         result = 31 * result + (image?.contentHashCode() ?: 0)
         return result
-    }*/
-
+    }
 }

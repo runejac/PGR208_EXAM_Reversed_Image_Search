@@ -50,10 +50,9 @@ class FullscreenActivity:AppCompatActivity() {
         setContentView(binding.root)
 
         val data : ImageModelResultItem? = intent.getParcelableExtra("imageclicked")
-        imageViewModel = ImageViewModel(this.application) /*ViewModelProvider(this)[ImageViewModel::class.java]*/
+        imageViewModel = ImageViewModel(this.application)
 
         binding.fabSaveImage.bringToFront()
-
 
         Glide.with(this)
             .load(data?.image_link)
@@ -145,11 +144,8 @@ class FullscreenActivity:AppCompatActivity() {
                     e.stackTraceToString()
                     Log.e(TAG, "Catched FileNotFoundException while trying to save image in storage", e)
                 } finally {
-
                     val compressed = saveBitmapToFile(file!!)
-
                     val imageByteArray : ByteArray = Files.readAllBytes(compressed?.toPath())
-
                     addToDatabase(imageByteArray)
                 }
                 Toast.makeText(this@FullscreenActivity, "Image saved in 'Download' folder", Toast.LENGTH_SHORT).show()

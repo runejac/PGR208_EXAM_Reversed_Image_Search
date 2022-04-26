@@ -39,13 +39,10 @@ class SavedActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
         // using data with livedata from database, to be used in adapter recyclerview
         imageViewModel.readAllData.observe(this) { image ->
 
+            imagesFromDbList = image as ArrayList<Image>
+
             // adding image_link from db to new list
-            //imagesFromDbToViews(image)
-
-            //imagesFromDbList?.let {
             binding.rvSaved.adapter = SavedAdapter(this, image, this)
-            //} ?: Log.e(TAG, "Error in trying to send arguments from $TAG to SavedAdapter")
-
         }
 
         // setting the layout
@@ -94,7 +91,6 @@ class SavedActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
         } catch (e: Exception) {
             Log.e(TAG, "Crash in deleting image", e)
         }
-
     }
 
     // targeting the image to be deleted
@@ -110,19 +106,4 @@ class SavedActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
             }
             .show()
     }
-
-
-    // from database to list
-/*    private fun imagesFromDbToViews(image: List<Image>) {
-
-        *//*image.forEach { item ->
-            println(item.image)
-        }*//*
-
-
-        imagesFromDbList = image.map(Image::image) as ArrayList<Image>
-
-
-        Log.i(TAG, "Images from database to list to be used in view: $imagesFromDbList")
-    }*/
 }
