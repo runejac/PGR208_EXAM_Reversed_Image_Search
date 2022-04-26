@@ -16,6 +16,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.eksamen_pgr208.data.api.ApiServices
 import com.example.eksamen_pgr208.data.api.ImageModelResult
 import com.example.eksamen_pgr208.databinding.ActivityMainBinding
+import com.example.eksamen_pgr208.utils.AnimationCallback
 import com.example.eksamen_pgr208.utils.ErrorDisplayer
 import com.example.eksamen_pgr208.utils.Helpers
 import com.github.dhaval2404.imagepicker.ImagePicker
@@ -69,8 +70,31 @@ open class MainActivity : AppCompatActivity() {
         nav.selectedItemId = R.id.home
         nav.background = null
 
+        // Using callback
         fab_open_plus.setOnClickListener {
-            onAddButtonClicked()
+            onAddButtonClicked(object: AnimationCallback {
+                override fun setAnimation(fabClicked: Boolean) {
+                    super.setAnimation(fabClicked)
+                    if(!fabClicked) {
+                        binding.fabAddImage.visibility = View.VISIBLE
+                    } else {
+                        binding.fabAddImage.visibility = View.INVISIBLE
+                    }
+                }
+
+                override fun setVisibility(fabClicked: Boolean) {
+                    super.setVisibility(fabClicked)
+                    if(!fabClicked) {
+                        binding.fabSearch.startAnimation(fromBottom)
+                        binding.fabAddImage.startAnimation(fromBottom)
+                        binding.fabOpenPlus.startAnimation(rotateOpen)
+                    } else {
+                        binding.fabSearch.startAnimation(toBottom)
+                        binding.fabAddImage.startAnimation(toBottom)
+                        binding.fabOpenPlus.startAnimation(rotateClose)
+                    }
+                }
+            })
         }
 
         fab_add_image.setOnClickListener {
@@ -108,6 +132,12 @@ open class MainActivity : AppCompatActivity() {
             }
         }
     }
+    // Animation callback function
+    fun onAddButtonClicked(animCallback: AnimationCallback) {
+        animCallback.setVisibility(fabClicked)
+        animCallback.setAnimation(fabClicked)
+        fabClicked = !fabClicked
+    }
 
 
     override fun onDestroy() {
@@ -131,32 +161,9 @@ open class MainActivity : AppCompatActivity() {
 
 
 
-    private fun onAddButtonClicked() {
-        setVisibility(fabClicked)
-        setAnimation(fabClicked)
-        fabClicked = !fabClicked
 
-    }
 
-    private fun setAnimation(fabClicked: Boolean) {
-        if(!fabClicked) {
-            binding.fabAddImage.visibility = View.VISIBLE
-        } else {
-            binding.fabAddImage.visibility = View.INVISIBLE
-        }
-    }
 
-    private fun setVisibility(fabClicked: Boolean) {
-        if(!fabClicked) {
-            binding.fabSearch.startAnimation(fromBottom)
-            binding.fabAddImage.startAnimation(fromBottom)
-            binding.fabOpenPlus.startAnimation(rotateOpen)
-        } else {
-            binding.fabSearch.startAnimation(toBottom)
-            binding.fabAddImage.startAnimation(toBottom)
-            binding.fabOpenPlus.startAnimation(rotateClose)
-        }
-    }
 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

@@ -27,9 +27,14 @@
             android:textColor="@color/title"
             android:fontFamily="@font/poppinsbold"
             android:text="Reversed Image Search"
-            android:textSize="30sp"
+            android:textSize="20sp"
             />
 
+        <ImageView
+            android:layout_width="200dp"
+            android:layout_height="150dp"
+            android:elevation="10dp"
+            android:src="@drawable/ic_cameravector" />
 
         <TextView
                 android:gravity="center"
