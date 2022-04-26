@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+
     tools:context=".MainActivity"
 
    >
@@ -14,8 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:layout_marginEnd="20dp"
-        android:layout_marginStart="20dp"
+        android:layout_margin="20dp"
         android:orientation="vertical">
 
 
@@ -24,9 +24,10 @@
             android:id="@+id/tv_header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/poppins"
+            android:textColor="@color/title"
+            android:fontFamily="@font/poppinsbold"
             android:text="Reversed Image Search"
-            android:textSize="28sp"
+            android:textSize="30sp"
             />
 
 
@@ -139,7 +140,7 @@
             android:scaleX="0.8"
             android:scaleY="0.8"
             android:layout_gravity="center"
-            android:layout_marginEnd="20dp"
+            android:layout_marginEnd="15dp"
             app:srcCompat="@drawable/ic_baseline_search_white"/>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -152,7 +153,7 @@
                 android:scaleY="0.8"
                 android:layout_gravity="center"
                 android:visibility="invisible"
-                android:layout_marginEnd="20dp"
+                android:layout_marginEnd="15dp"
                 android:layout_marginBottom="5dp"
                 app:srcCompat="@drawable/ic_add_photo"
             />
@@ -164,7 +165,7 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:layout_gravity="center"
-                android:layout_marginEnd="20dp"
+                android:layout_marginEnd="15dp"
                 android:layout_marginBottom="20dp"
                 app:srcCompat="@drawable/ic_add" />
     </LinearLayout>
