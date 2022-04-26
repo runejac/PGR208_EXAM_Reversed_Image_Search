@@ -12,7 +12,6 @@ class ImageRepo(private val imageDao: ImageDao) {
         println("imageDao.addImage(image): " + a)
     }
 
-    // Deleting an image based on the image_link string
     fun deleteImage(image: Image) {
         imageDao.deleteImage(image)
     }

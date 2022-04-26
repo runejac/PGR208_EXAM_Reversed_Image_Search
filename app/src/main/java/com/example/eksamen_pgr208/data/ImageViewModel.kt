@@ -20,7 +20,6 @@ class ImageViewModel(application: Application): AndroidViewModel(application) {
 
     fun addImage1(image: Image) {
         viewModelScope.launch(Dispatchers.IO) {
-            //ImageDatabase.getDataBase(this@ImageViewModel.getApplication()).imageDao().addImage3(image)
             println("image from addImage1: " + image.toString())
             repo.addImage2(image)
         }
