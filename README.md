@@ -55,7 +55,7 @@ Reversed Image Search 📱🔍✍(◔◡◔) EXAM
 * [x] Soft (3p): Have more than one Activity / Fragment (up to you which one you use). Explain
   why you decided to use Activities and/or Fragments.
 * [x] Hard (4p): Pass the data as Parcelable between Activities / fragments
-* [ ] Soft (8p): Extend a 3rd-party complex view or make your own. Document what parts of
+* [x] Soft (8p): Extend a 3rd-party complex view or make your own. Document what parts of
   the code you have written yourself if the view is downloaded from somewhere.
 * [ ] **REPORT (35p)**: (More info in the exam text)
 * [x] (3p) How well you followed the rules / guidelines / suggestions / how attentive you were when reading this task description

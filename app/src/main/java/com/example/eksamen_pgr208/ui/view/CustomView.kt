@@ -11,7 +11,7 @@ import android.widget.TextView
 
 class CustomView : View {
     private val rect : Rect = Rect()
-    private val paint : Paint = Paint()
+    private val paint : Paint = Paint(Paint.ANTI_ALIAS_FLAG)
 
     val view : CustomView? = null
 
@@ -21,17 +21,21 @@ class CustomView : View {
 
 
 
+
     val text = "Reversed Image Search"
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
-        Typeface.createFromAsset(resources, )
+
+
+
         view?.elevation
         canvas!!.getClipBounds(rect)
         val cHeight: Int = rect.height()
         val cWidth: Int = rect.width()
         paint.textAlign = Paint.Align.LEFT
         paint.textSize = 80.toFloat()
-        paint.setColor(Color.DKGRAY)
+        paint.color = Color.DKGRAY
+        paint.fontFeatureSettings = "smcp"
         paint.getTextBounds(text, 0, text.length, rect)
         val x: Float = cWidth / 2f - rect.width() / 2f - rect.left
         val y: Float = cHeight / 2f + rect.height() / 2f - rect.bottom

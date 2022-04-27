@@ -1,6 +1,7 @@
 package com.example.eksamen_pgr208.controllers
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -25,27 +26,30 @@ class FullscreenSavedActivity : AppCompatActivity() {
         imageViewModel = ImageViewModel(this.application)
 
 
-        // displays image on fullscreen from database
-        Glide.with(this)
-            .load(data?.image)
-            .transform(RoundedCorners(30))
-            .into(binding.fullscreenImageSaved)
+        data?.let {
+
+            // displays image on fullscreen from database
+            Glide.with(this)
+                .load(data.image)
+                .transform(RoundedCorners(30))
+                .into(binding.fullscreenImageSaved)
 
 
-        binding.fabDeleteImage.setOnClickListener {
+            binding.fabDeleteImage.setOnClickListener {
 
-            AlertDialog.Builder(this)
-                .setTitle("Delete image")
-                .setMessage("Do you want to delete the image?")
-                .setPositiveButton("Yes") { dialog, _ ->
-                    imageViewModel.deleteImage(data!!)
-                    Toast.makeText(this, "Image deleted from database", Toast.LENGTH_LONG).show()
-                    finish()
-                }
-                .setNegativeButton("No") { dialog, _ ->
-                    Toast.makeText(this, "Image not deleted", Toast.LENGTH_SHORT).show()
-                }
-                .show()
+                AlertDialog.Builder(this)
+                    .setTitle("Delete image")
+                    .setMessage("Do you want to delete the image?")
+                    .setPositiveButton("Yes") { dialog, _ ->
+                        imageViewModel.deleteImage(data)
+                        Toast.makeText(this, "Image deleted from database", Toast.LENGTH_LONG).show()
+                        finish()
+                    }
+                    .setNegativeButton("No") { dialog, _ ->
+                        Toast.makeText(this, "Image not deleted", Toast.LENGTH_SHORT).show()
+                    }
+                    .show()
+            }
         }
 
         binding.ibCancel.setOnClickListener {
