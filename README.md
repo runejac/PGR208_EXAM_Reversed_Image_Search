@@ -1,6 +1,6 @@
 > PGR208 Android Programming exam
 <h1 align="center">
-Reversed Image Search 📱🔍✍(◔◡◔) EXAM
+Reversed Image Search 🖼🔍📱✍(◔◡◔) EXAM
 </h1>
 
 
@@ -16,11 +16,9 @@ Reversed Image Search 📱🔍✍(◔◡◔) EXAM
 * [x] Nytt design - Stian
 * [x] Bildene som bruker velger å save til DB, bør også legges til i download folder på telefonen (det står i eksamensteksten)
 * [x] Hvis det ikke er en bildefil som velges, bør det times ut eller med Toast til bruker
-* [ ] På savedactivity: Få fullscreen der også, med bilde som er søkt på i toppen i fullscreen mode i tillegg til en basket ikon-knapp for sletting av bildet
-* [ ] Adde timeout på upload (60sec ish)
-* [ ] Evt. andre ting dere kommer på
-* [ ] Evt. andre ting dere kommer på
-* [ ] Evt. andre ting dere kommer på
+* [x] På savedactivity: Få fullscreen der også, med bilde som er søkt på i toppen i fullscreen mode i tillegg til en basket ikon-knapp for sletting av bildet
+* [x] Adde timeout på upload (60sec ish)
+
 
 ### Application Requirements
 
