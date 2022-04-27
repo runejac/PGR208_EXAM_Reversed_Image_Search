@@ -13,7 +13,7 @@ interface ImageDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addImage(imageDatabaseModel: ImageDatabaseModel): Long
 
-    @Query("SELECT * FROM image_table ORDER BY id ASC")
+    @Query("SELECT * FROM image_table ORDER BY id DESC")
     fun readAllData(): LiveData<List<ImageDatabaseModel>>
 
     @Delete
