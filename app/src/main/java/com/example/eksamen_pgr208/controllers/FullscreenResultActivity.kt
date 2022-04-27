@@ -1,4 +1,4 @@
-package com.example.eksamen_pgr208
+package com.example.eksamen_pgr208.controllers
 
 import android.Manifest
 import android.os.Bundle

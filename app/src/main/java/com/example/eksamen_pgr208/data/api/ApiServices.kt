@@ -9,7 +9,7 @@ import com.androidnetworking.AndroidNetworking
 import com.androidnetworking.common.Priority
 import com.androidnetworking.error.ANError
 import com.androidnetworking.interfaces.StringRequestListener
-import com.example.eksamen_pgr208.MainActivity
+import com.example.eksamen_pgr208.controllers.MainActivity
 import com.example.eksamen_pgr208.common.Constants
 import com.example.eksamen_pgr208.utils.ErrorDisplayer
 import com.facebook.stetho.okhttp3.StethoInterceptor

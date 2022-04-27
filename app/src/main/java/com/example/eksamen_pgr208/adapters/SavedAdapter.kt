@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.eksamen_pgr208.R
-import com.example.eksamen_pgr208.SavedActivity
+import com.example.eksamen_pgr208.controllers.SavedActivity
 import com.example.eksamen_pgr208.data.Image
 import kotlinx.android.synthetic.main.image_rv_layout.view.*
 

@@ -1,4 +1,4 @@
-package com.example.eksamen_pgr208
+package com.example.eksamen_pgr208.controllers
 
 import android.content.Intent
 import android.net.Uri
@@ -13,6 +13,7 @@ import androidx.lifecycle.MutableLiveData
 import com.androidnetworking.AndroidNetworking
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.example.eksamen_pgr208.R
 import com.example.eksamen_pgr208.data.api.ApiServices
 import com.example.eksamen_pgr208.data.api.ImageModelResult
 import com.example.eksamen_pgr208.databinding.ActivityMainBinding
@@ -25,17 +26,23 @@ import com.github.dhaval2404.imagepicker.util.FileUtil
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.*
-import okhttp3.OkHttpClient
-import java.util.concurrent.TimeUnit
 
 
 open class MainActivity : AppCompatActivity() {
 
     // Fab animations
-    private val rotateOpen: Animation by lazy { AnimationUtils.loadAnimation(this, R.anim.rotate_open_anim) }
-    private val rotateClose: Animation by lazy { AnimationUtils.loadAnimation(this, R.anim.rotate_close_anim) }
-    private val fromBottom: Animation by lazy { AnimationUtils.loadAnimation(this, R.anim.from_bottom_anim) }
-    private val toBottom: Animation by lazy {AnimationUtils.loadAnimation(this, R.anim.to_bottom_anim)}
+    private val rotateOpen: Animation by lazy { AnimationUtils.loadAnimation(this,
+        R.anim.rotate_open_anim
+    ) }
+    private val rotateClose: Animation by lazy { AnimationUtils.loadAnimation(this,
+        R.anim.rotate_close_anim
+    ) }
+    private val fromBottom: Animation by lazy { AnimationUtils.loadAnimation(this,
+        R.anim.from_bottom_anim
+    ) }
+    private val toBottom: Animation by lazy {AnimationUtils.loadAnimation(this,
+        R.anim.to_bottom_anim
+    )}
 
 
     // Variables
