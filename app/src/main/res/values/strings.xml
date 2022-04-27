@@ -5,4 +5,9 @@
     <string name="gallery_button">gallery button</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="search_this_image">Search this image</string>
+
+    <string name="title">Reversed Image Search</string>
+    <string name="subtitle">Take a photo or choose one from your gallery and get similar results back</string>
+    <string name="subtitle_two">Great! Now hit the search button to get similar results!</string>
+    <string name="fetch">Fetching results...</string>
 </resources>

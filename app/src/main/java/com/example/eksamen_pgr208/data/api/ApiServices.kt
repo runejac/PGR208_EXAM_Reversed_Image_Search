@@ -30,9 +30,9 @@ class ApiServices {
         private val okHttpClient = OkHttpClient.Builder().addNetworkInterceptor(StethoInterceptor()).build()
         private val emptyArrayListFromApiCalls : ArrayList<String> = ArrayList(3)
         private val okHttpClientTimeoutTimer = OkHttpClient().newBuilder()
-            .connectTimeout(60, TimeUnit.SECONDS)
-            .readTimeout(60, TimeUnit.SECONDS)
-            .writeTimeout(60, TimeUnit.SECONDS)
+            .connectTimeout(2, TimeUnit.SECONDS)
+            .readTimeout(2, TimeUnit.SECONDS)
+            .writeTimeout(2, TimeUnit.SECONDS)
             .build()
         val liveDataAllEndPointsCouldNotFindImages : MutableLiveData<Int> = MutableLiveData<Int>()
 
