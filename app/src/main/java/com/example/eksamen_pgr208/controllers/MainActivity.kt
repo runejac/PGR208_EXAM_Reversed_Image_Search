@@ -139,6 +139,8 @@ open class MainActivity : AppCompatActivity() {
             }
         }
     }
+
+
     // Animation callback function
     private fun onAddButtonClicked(animCallback: AnimationCallback) {
         animCallback.setVisibility(fabClicked)

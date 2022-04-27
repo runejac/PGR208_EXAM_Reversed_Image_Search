@@ -8,7 +8,7 @@
 
     tools:context=".controllers.MainActivity"
 
-   >
+    >
 
     <LinearLayout
         android:layout_marginTop="30dp"
@@ -16,27 +16,21 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:layout_margin="20dp"
+        android:clipToPadding="false"
         android:orientation="vertical">
 
         <com.example.eksamen_pgr208.ui.view.CustomView
+            android:id="@+id/custom"
             android:layout_width="match_parent"
             android:layout_height="100dp"
-            android:elevation="20dp"
-            android:background="@drawable/shadow"
+            android:elevation="2dp"
+            app:custom_font="@font/poppinsbold"
+           android:background="@drawable/custom_bg"
+
             />
 
 
 
-        <TextView
-            android:gravity="center"
-            android:id="@+id/tv_header"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#B51E1E1E"
-            android:fontFamily="@font/poppinsbold"
-            android:text="@string/reversed_image_search"
-            android:textSize="35sp"
-            />
 
         <TextView
                 android:gravity="center"
