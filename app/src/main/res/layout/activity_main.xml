@@ -18,6 +18,14 @@
         android:layout_margin="20dp"
         android:orientation="vertical">
 
+        <com.example.eksamen_pgr208.ui.view.CustomView
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:elevation="20dp"
+            android:background="@drawable/shadow"
+            />
+
+
 
         <TextView
             android:gravity="center"
