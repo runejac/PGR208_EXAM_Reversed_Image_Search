@@ -17,14 +17,15 @@
         tools:src="@drawable/browndress" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_results"
-        android:layout_width="0dp"
-        android:layout_height="550dp"
-        android:background="@drawable/bottom_border"
-        android:paddingTop="2dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iv_searched" />
+            android:id="@+id/rv_results"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/bottom_border"
+            android:paddingTop="2dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_searched"
+            app:layout_constraintBottom_toTopOf="@+id/bottomappbar" />
 
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/bottomappbar"

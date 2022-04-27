@@ -17,7 +17,7 @@ Reversed Image Search 🖼🔍📱✍(◔◡◔) EXAM
 * [x] Make use of all the end-points on the server
 * [x] Exception handling (e.g. no network connection)
 * [x] Make sure to handle all the Android lifecycle states (the app will be paused, resumed,
-  stopped, etc. during testing) 
+  stopped, etc. during testing)
 * [x] Make use of res/drawable, res/layout, and res/values
 * [x] Both in code and in the report students are required to put comments and/or explicitly state which of the sub-requirements from Table 3 they are targeting.
 
