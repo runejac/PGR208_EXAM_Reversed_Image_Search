@@ -16,7 +16,4 @@ data class ImageModelResultItem(
     val tracking_id: String
 ) : Parcelable {
 
-
 }
-
-

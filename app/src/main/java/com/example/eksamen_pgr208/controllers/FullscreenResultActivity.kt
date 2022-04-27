@@ -1,35 +1,32 @@
 package com.example.eksamen_pgr208.controllers
 
 import android.Manifest
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.drawable.BitmapDrawable
+import android.os.Build
 import android.os.Bundle
+import android.os.Environment
+import android.os.Looper
 import android.util.Log
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import com.androidnetworking.AndroidNetworking
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.eksamen_pgr208.data.Image
 import com.example.eksamen_pgr208.data.ImageViewModel
 import com.example.eksamen_pgr208.data.api.ImageModelResultItem
-import com.example.eksamen_pgr208.databinding.FullscreenActivityBinding
-import android.os.Environment
-import androidx.core.app.ActivityCompat
-import android.content.pm.PackageManager
-import android.graphics.drawable.BitmapDrawable
-import android.graphics.Bitmap
-import android.os.Build
-import android.os.Looper
-import androidx.annotation.RequiresApi
-import com.androidnetworking.AndroidNetworking
+import com.example.eksamen_pgr208.databinding.FullscreenResultActivityBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.*
 import java.nio.file.Files
-import android.graphics.BitmapFactory
-
-
-
 
 
 private const val TAG = "FullscreenActivity"
@@ -37,14 +34,14 @@ private const val TAG = "FullscreenActivity"
 class FullscreenResultActivity : AppCompatActivity() {
 
 
-    private lateinit var binding : FullscreenActivityBinding
+    private lateinit var binding : FullscreenResultActivityBinding
     private lateinit var imageViewModel : ImageViewModel
 
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = FullscreenActivityBinding.inflate(layoutInflater)
+        binding = FullscreenResultActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         // gets intent object that shows results

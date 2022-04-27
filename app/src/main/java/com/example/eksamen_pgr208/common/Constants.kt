@@ -5,6 +5,4 @@ object Constants {
     const val API_GET_BING = "http://api-edu.gtl.ai/api/v1/imagesearch/bing"
     const val API_GET_GOOGLE = "http://api-edu.gtl.ai/api/v1/imagesearch/google"
     const val API_GET_TINEYE = "http://api-edu.gtl.ai/api/v1/imagesearch/tineye"
-
-    const val API_GET_DUMMY = "http://api-edu.gtl.ai/api/v1/imagesearch/djaiodhjaiodhao"
 }

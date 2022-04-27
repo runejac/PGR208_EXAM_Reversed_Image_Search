@@ -12,9 +12,6 @@
             android:layout_rowWeight="1"
             >
 
-        <!--android:background="@drawable/image_border"
-            android:layout_margin="5dp"-->
-
     <ImageButton
             android:id="@+id/image_result"
             android:layout_width="match_parent"

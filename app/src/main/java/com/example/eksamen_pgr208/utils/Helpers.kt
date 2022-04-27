@@ -11,7 +11,6 @@ import com.github.dhaval2404.imagepicker.ImagePicker
 class Helpers  {
     companion object {
 
-
         fun showCameraAndGalleryDialog(mainActivity: MainActivity) {
             // shows dialog (modal) to prompt the user to either choose camera or gallery
             val camOrGallDialog = Dialog(mainActivity)
@@ -48,6 +47,5 @@ class Helpers  {
             }
             camOrGallDialog.show()
         }
-
     }
 }

@@ -1,32 +1,22 @@
 package com.example.eksamen_pgr208.ui.view
 
-import android.R
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
 import android.view.View
 
-import android.widget.TextView
-
-
 class CustomView : View {
     private val rect : Rect = Rect()
     private val paint : Paint = Paint(Paint.ANTI_ALIAS_FLAG)
-
-    val view : CustomView? = null
+    private val view : CustomView? = null
 
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
 
-
-
-
     val text = "Reversed Image Search"
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
-
-
 
         view?.elevation
         canvas!!.getClipBounds(rect)
@@ -42,10 +32,4 @@ class CustomView : View {
         canvas.drawText(text, x, y, paint)
 
     }
-
-
-
-
-
-
 }

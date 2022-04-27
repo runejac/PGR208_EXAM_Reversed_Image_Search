@@ -9,8 +9,8 @@ import com.example.eksamen_pgr208.data.api.ApiServices
 class ErrorDisplayer {
     companion object {
         fun displayErrorToUserIfNoEndpointHaveResult(mainActivity: MainActivity) {
-            // observing the arraylist populated, if there is populated with 3 empty
-            // arrays it will prompt the user with an red error message that no results
+            // observing the arraylist populated, if there is populated with 3 in size
+            // it will prompt the user with an red error message telling no results
             // were found, try another image
             ApiServices.liveDataAllEndPointsCouldNotFindImages.observe(mainActivity) { apisThatReturnedEmptyArray ->
                 if (apisThatReturnedEmptyArray.equals(3)) {
@@ -34,6 +34,7 @@ class ErrorDisplayer {
         }
 
         fun displayErrorToUserIfNoInternet(mainActivity: MainActivity, error: ANError) {
+            // either timeout or no internet error prompt to user
             mainActivity.binding.tvNoInternet.text = "Woops!\nTimeout error or check your internet connection and try again.\nError code: ${error.errorCode}"
             mainActivity.binding.tvNoInternet.visibility = View.VISIBLE
             mainActivity.binding.tvLoading.visibility = View.GONE
@@ -44,6 +45,7 @@ class ErrorDisplayer {
         }
 
         fun displayErrorToUserEndpointFaultiness(mainActivity: MainActivity, error: ANError) {
+            // error code 500+, server side errors to prompt user
             mainActivity.binding.tvEndpointFaultiness.text = "Woops!\nError at server side, please try again later or contact service provider." +
                     "\nError code: ${error.errorCode} ${error.errorDetail}"
             mainActivity.binding.uploadProgressBar.visibility = View.GONE

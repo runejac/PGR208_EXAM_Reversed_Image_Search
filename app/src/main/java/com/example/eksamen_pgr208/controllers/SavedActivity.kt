@@ -14,7 +14,6 @@ import com.example.eksamen_pgr208.data.ImageViewModel
 import com.example.eksamen_pgr208.databinding.SavedActivityBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-private const val TAG = "SavedActivity"
 
 class SavedActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
 
