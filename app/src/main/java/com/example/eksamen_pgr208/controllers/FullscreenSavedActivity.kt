@@ -39,6 +39,7 @@ class FullscreenSavedActivity : AppCompatActivity() {
                 .setMessage("Do you want to delete the image?")
                 .setPositiveButton("Yes") { dialog, _ ->
                     imageViewModel.deleteImage(data!!)
+                    Toast.makeText(this, "Image deleted from database", Toast.LENGTH_LONG).show()
                     finish()
                 }
                 .setNegativeButton("No") { dialog, _ ->

@@ -24,17 +24,15 @@ import java.util.concurrent.TimeUnit
 
 class ApiServices {
     companion object : LifecycleObserver {
-
         private const val TAG = "ApiServices"
-        // http logging
-        private val okHttpClient = OkHttpClient.Builder().addNetworkInterceptor(StethoInterceptor())
-            .connectTimeout(5, TimeUnit.SECONDS)
-            .callTimeout(5, TimeUnit.SECONDS)
-            .readTimeout(5, TimeUnit.SECONDS)
-            .writeTimeout(5, TimeUnit.SECONDS)
-            .build()
         private val emptyArrayListFromApiCalls : ArrayList<String> = ArrayList(3)
         val liveDataAllEndPointsCouldNotFindImages : MutableLiveData<Int> = MutableLiveData<Int>()
+        private val okHttpClientTimeout = OkHttpClient.Builder().addNetworkInterceptor(StethoInterceptor())
+            .connectTimeout(60, TimeUnit.SECONDS)
+            .callTimeout(60, TimeUnit.SECONDS)
+            .readTimeout(60, TimeUnit.SECONDS)
+            .writeTimeout(60, TimeUnit.SECONDS)
+            .build()
 
         fun uploadImageNetworkRequest(mainActivity: MainActivity, filePath: String) {
 
@@ -46,8 +44,7 @@ class ApiServices {
                     .setTag("imageUpload")
                     .setExecutor(Executors.newSingleThreadExecutor())
                     .setPriority(Priority.HIGH)
-                    // fixme timeout fungerer ikke.... prøvd å sette på 5 sek, nop
-                    .setOkHttpClient(okHttpClient)
+                    .setOkHttpClient(okHttpClientTimeout)
                     .build()
                     .setUploadProgressListener { bytesUploaded, bytesUploadedTotal ->
                         Log.i(TAG, "Bytes uploaded: $bytesUploaded/$bytesUploadedTotal")

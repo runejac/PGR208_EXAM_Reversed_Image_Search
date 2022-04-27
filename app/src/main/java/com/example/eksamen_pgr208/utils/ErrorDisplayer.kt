@@ -19,7 +19,7 @@ class ErrorDisplayer {
                         "${apisThatReturnedEmptyArray}/3 API endpoints did not give any result"
                     )
                     println("from the first if: $apisThatReturnedEmptyArray")
-                    mainActivity.binding.tvNoResultsFound.text = "Woops! Could not find any images from one or several providers, please choose another image and try again!"
+                    mainActivity.binding.tvNoResultsFound.text = "Woops!\nCould not find any images from one or several providers, please choose another image and try again!"
                     mainActivity.binding.uploadProgressBar.visibility = View.GONE
                     mainActivity.binding.tvLoading.visibility = View.GONE
                     mainActivity.binding.addedImageFromEitherCameraOrMemory.visibility = View.GONE
@@ -34,7 +34,7 @@ class ErrorDisplayer {
         }
 
         fun displayErrorToUserIfNoInternet(mainActivity: MainActivity, error: ANError) {
-            mainActivity.binding.tvNoInternet.text = "Woops! Check your internet connection and try again.\nError code: ${error.errorCode}"
+            mainActivity.binding.tvNoInternet.text = "Woops!\nTimeout error or check your internet connection and try again.\nError code: ${error.errorCode}"
             mainActivity.binding.tvNoInternet.visibility = View.VISIBLE
             mainActivity.binding.tvLoading.visibility = View.GONE
             mainActivity.binding.uploadProgressBar.visibility = View.GONE
@@ -44,7 +44,7 @@ class ErrorDisplayer {
         }
 
         fun displayErrorToUserEndpointFaultiness(mainActivity: MainActivity, error: ANError) {
-            mainActivity.binding.tvEndpointFaultiness.text = "Woops! Error at server side, please try again later or contact service provider." +
+            mainActivity.binding.tvEndpointFaultiness.text = "Woops!\nError at server side, please try again later or contact service provider." +
                     "\nError code: ${error.errorCode} ${error.errorDetail}"
             mainActivity.binding.uploadProgressBar.visibility = View.GONE
             mainActivity.binding.addedImageFromEitherCameraOrMemory.visibility = View.GONE

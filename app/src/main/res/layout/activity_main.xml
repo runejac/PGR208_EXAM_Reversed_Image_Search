@@ -87,8 +87,6 @@
                 android:fontFamily="@font/poppins"
                 android:textSize="16sp"
                 />
-
-
     </LinearLayout>
 
 
