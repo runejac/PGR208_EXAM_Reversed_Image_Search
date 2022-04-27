@@ -22,6 +22,9 @@ import com.example.eksamen_pgr208.adapter.model.ImageDatabaseModel
 import com.example.eksamen_pgr208.data.database.ImageViewModel
 import com.example.eksamen_pgr208.adapter.model.ImageResultItemModel
 import com.example.eksamen_pgr208.databinding.FullscreenResultActivityBinding
+import com.example.eksamen_pgr208.utils.fileCompresser
+import com.example.eksamen_pgr208.utils.saveImageToExternalStorage
+import com.example.eksamen_pgr208.utils.verifyPermissions
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -34,8 +37,8 @@ private const val TAG = "FullscreenActivity"
 class FullscreenResultActivity : AppCompatActivity() {
 
 
-    private lateinit var binding : FullscreenResultActivityBinding
-    private lateinit var imageViewModel : ImageViewModel
+    lateinit var binding : FullscreenResultActivityBinding
+    lateinit var imageViewModel : ImageViewModel
 
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -60,7 +63,7 @@ class FullscreenResultActivity : AppCompatActivity() {
         binding.fabSaveImage.setOnClickListener {
 
             // asks for permission to store and access users phone
-            verifyPermissions()
+            verifyPermissions(this)
 
             data?.let {
 
@@ -68,7 +71,7 @@ class FullscreenResultActivity : AppCompatActivity() {
                     .setTitle("Save image")
                     .setMessage("Do you want to save the image?")
                     .setPositiveButton("Yes") { dialog, _ ->
-                        saveImageToExternalStorage()
+                        saveImageToExternalStorage(TAG, this)
                         Toast.makeText(this, "Successfully added image to database!", Toast.LENGTH_SHORT).show()
                         finish()
                     }
@@ -89,116 +92,5 @@ class FullscreenResultActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         AndroidNetworking.forceCancelAll()
-    }
-
-
-    private fun addToDatabase(images: ByteArray) {
-        val image = ImageDatabaseModel(0, images)
-        try {
-            imageViewModel.addImage(image)
-            Log.i(TAG, "Object reference: ${image.image} added to database as blob")
-        } catch (e: Exception) {
-            Log.e(TAG, "Exception catched in saving to database", e)
-        }
-    }
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    @Suppress("BlockingMethodInNonBlockingContext")
-    private fun saveImageToExternalStorage() {
-
-        // checking if the user has already permitted access to write external storage
-        if (!verifyPermissions()) {
-            Toast.makeText(this, "This app needs permission to store photos on your device.", Toast.LENGTH_SHORT).show()
-            return
-        } else {
-            CoroutineScope(Dispatchers.IO).launch {
-
-                // looper to handle queues in thread
-                // elvis operator to check if Looper.myLooper() is null, if it's null it will execute Looper.prepare()
-                Looper.myLooper() ?: Looper.prepare()
-
-                val outputStream : OutputStream
-                val dir = File(Environment.getExternalStorageDirectory(), "Download")
-                if (!dir.exists()) {
-                    // makes folder if it does not exist
-                    dir.mkdir()
-                }
-
-                val drawable = binding.fullscreenImage.drawable as BitmapDrawable
-                val bitmap = drawable.bitmap
-
-                val file = File(dir, System.currentTimeMillis().toString() + ".png")
-                try {
-                    outputStream = FileOutputStream(file)
-                    // compress file that are stored in storage
-                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
-                    Log.i(TAG, "Successfully saved ${file.name} to the ${dir.name} folder")
-                    outputStream.flush()
-                    outputStream.close()
-                } catch (e: FileNotFoundException) {
-                    e.stackTraceToString()
-                    Log.e(TAG, "Catched FileNotFoundException while trying to save image in storage", e)
-                } finally {
-                    // compress file that are soon going to be byteArray before it gets added to database
-                    val compressed = fileCompresser(file)
-                    val imageByteArray : ByteArray = Files.readAllBytes(compressed?.toPath())
-                    addToDatabase(imageByteArray)
-                }
-            }
-            Toast.makeText(this, "Image saved in 'Download' folder", Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    private fun fileCompresser(file: File): File? {
-        return try {
-
-            // BitmapFactory options to downsize the image
-            val options = BitmapFactory.Options()
-            options.inJustDecodeBounds = true
-            options.inDensity = 10
-            // factor of downsizing the image
-            var inputStream = FileInputStream(file)
-
-            BitmapFactory.decodeStream(inputStream, null, options)
-            inputStream.close()
-
-            // The new size we want to scale to
-            val size = 250
-
-            // Find the correct scale value. It should be the power of 2.
-            var scale = 1
-            while (options.outWidth / scale / 2 >= size &&
-                options.outHeight / scale / 2 >= size
-            ) {
-                scale *= 2
-            }
-            val options2 = BitmapFactory.Options()
-            options2.inSampleSize = scale
-            inputStream = FileInputStream(file)
-            val selectedBitmap = BitmapFactory.decodeStream(inputStream, null, options2)
-            inputStream.close()
-
-            // here we override the original image file
-            file.createNewFile()
-            val outputStream = FileOutputStream(file)
-            selectedBitmap!!.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
-            file
-        } catch (e: Exception) {
-            Log.e(TAG, "Exception catched in fileCompresser", e)
-            return null
-        }
-    }
-
-
-    private fun verifyPermissions(): Boolean {
-        // ask for permissions in Android 12 I think
-        val permissionExternalMemory =
-            ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-        if (permissionExternalMemory != PackageManager.PERMISSION_GRANTED) {
-            val storagePermissionsArray = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-            ActivityCompat.requestPermissions(this, storagePermissionsArray, 1)
-            return false
-        }
-        return true
     }
 }

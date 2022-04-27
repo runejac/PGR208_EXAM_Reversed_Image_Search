@@ -12,7 +12,8 @@ import com.androidnetworking.interfaces.StringRequestListener
 import com.example.eksamen_pgr208.activities.MainActivity
 import com.example.eksamen_pgr208.adapter.model.ImageResultModel
 import com.example.eksamen_pgr208.common.Constants
-import com.example.eksamen_pgr208.utils.ErrorDisplayer
+import com.example.eksamen_pgr208.utils.displayErrorToUserEndpointFaultiness
+import com.example.eksamen_pgr208.utils.displayErrorToUserIfNoInternet
 import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -71,7 +72,7 @@ class ApiServices {
                             when {
                                 error.errorCode == 0 -> {
                                     // e.g. no internet etc.
-                                    ErrorDisplayer.displayErrorToUserIfNoInternet(mainActivity, error)
+                                    displayErrorToUserIfNoInternet(mainActivity, error)
                                     Log.e(TAG, "Error on UPLOAD request, no internet connection or a " +
                                             "fatal error are causing this error." +
                                             "\nError code: ${error.errorCode}" +
@@ -80,7 +81,7 @@ class ApiServices {
                                 }
                                 error.errorCode in 400..499 -> {
                                     // if error is client related
-                                    ErrorDisplayer.displayErrorToUserIfNoInternet(mainActivity, error)
+                                    displayErrorToUserIfNoInternet(mainActivity, error)
                                     Log.e(TAG, "Error on UPLOAD request." +
                                             "\nError code: ${error.errorCode}" +
                                             "\nError body below:" +
@@ -93,7 +94,7 @@ class ApiServices {
                                 }
                                 error.errorCode >= 500 -> {
                                     // if error is server related
-                                    ErrorDisplayer.displayErrorToUserEndpointFaultiness(mainActivity, error)
+                                    displayErrorToUserEndpointFaultiness(mainActivity, error)
                                     Log.e(TAG, "Error on UPLOAD request, faulty at server side." +
                                             "\nError code: ${error.errorCode}" +
                                             "\nError body below:\n" + error.errorBody, error)

@@ -18,8 +18,8 @@ import com.example.eksamen_pgr208.data.network.ApiServices
 import com.example.eksamen_pgr208.adapter.model.ImageResultModel
 import com.example.eksamen_pgr208.databinding.ActivityMainBinding
 import com.example.eksamen_pgr208.utils.AnimationCallback
-import com.example.eksamen_pgr208.utils.ErrorDisplayer
-import com.example.eksamen_pgr208.utils.Helpers
+import com.example.eksamen_pgr208.utils.displayErrorToUserIfNoEndpointHaveResult
+import com.example.eksamen_pgr208.utils.showCameraAndGalleryDialog
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.github.dhaval2404.imagepicker.util.FileUriUtils
 import com.github.dhaval2404.imagepicker.util.FileUtil
@@ -105,7 +105,7 @@ open class MainActivity : AppCompatActivity() {
         }
 
         fab_add_image.setOnClickListener {
-            Helpers.showCameraAndGalleryDialog(this)
+            showCameraAndGalleryDialog(this)
         }
 
         // Lambda function used
@@ -205,7 +205,7 @@ open class MainActivity : AppCompatActivity() {
                             Toast.LENGTH_LONG
                         ).show()
                         // displays error message to user if arraylist inside is 3 in size
-                        ErrorDisplayer.displayErrorToUserIfNoEndpointHaveResult(this)
+                        displayErrorToUserIfNoEndpointHaveResult(this)
                     }
 
                     // text to be show after a new image is chosen either from gallery or camera
