@@ -1,4 +1,4 @@
-package com.example.eksamen_pgr208.data.api
+package com.example.eksamen_pgr208.data.network
 
 import android.os.Looper
 import android.util.Log
@@ -9,7 +9,8 @@ import com.androidnetworking.AndroidNetworking
 import com.androidnetworking.common.Priority
 import com.androidnetworking.error.ANError
 import com.androidnetworking.interfaces.StringRequestListener
-import com.example.eksamen_pgr208.controllers.MainActivity
+import com.example.eksamen_pgr208.activities.MainActivity
+import com.example.eksamen_pgr208.adapter.model.ImageResultModel
 import com.example.eksamen_pgr208.common.Constants
 import com.example.eksamen_pgr208.utils.ErrorDisplayer
 import com.facebook.stetho.okhttp3.StethoInterceptor
@@ -195,7 +196,7 @@ class ApiServices {
             try {
                 val convertedResponse = gson.fromJson(
                     response,
-                    ImageModelResult::class.java
+                    ImageResultModel::class.java
                 )
                 if (convertedResponse == null) {
                     Log.w(TAG, "Response from $apiEndPoint is $convertedResponse")

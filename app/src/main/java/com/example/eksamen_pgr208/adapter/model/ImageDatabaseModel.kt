@@ -1,4 +1,4 @@
-package com.example.eksamen_pgr208.data
+package com.example.eksamen_pgr208.adapter.model
 
 import android.os.Parcelable
 import androidx.room.ColumnInfo
@@ -6,10 +6,10 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import kotlinx.android.parcel.Parcelize
 
-// Image entity using a bytearray and saving as blob in database
+// ImageDatabaseModel entity using a bytearray and saving as blob in database
 @Parcelize
 @Entity(tableName = "image_table")
-data class Image(
+data class ImageDatabaseModel(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
     @ColumnInfo(typeAffinity = ColumnInfo.BLOB)
@@ -20,7 +20,7 @@ data class Image(
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
 
-        other as Image
+        other as ImageDatabaseModel
 
         if (id != other.id) return false
         if (image != null) {

@@ -11,7 +11,7 @@ Reversed Image Search 📱🔍✍(◔◡◔) EXAM
 * [x] Implementere SQLite med Room (husk hvorfor dette er så jævlig bra for vi må justifye bruk av Room)
 * [x] Få UI logisk, riktig og til å se pen ut, uten tekst oppå hverandre. Kun ha nødvendig tekst som er forståelig for brukeren
 * [x] Gi brukeren feedback når alle 3 endepunktene gir [] (f.eks. ansiktsbilde rune har) - RDJ
-* [x] Enlarge image med AnimatorSet eller AnimationSet med en onclick, også potensielt ha knapp som lagrer bilde etter det. Først på ResultActivity også kanskje implementere det samme på SavedActivity. - RDJ
+* [x] Enlarge imageDatabaseModel med AnimatorSet eller AnimationSet med en onclick, også potensielt ha knapp som lagrer bilde etter det. Først på ResultActivity også kanskje implementere det samme på SavedActivity. - RDJ
 * [x] Handle exceptions, ikke nødvendigvis exception thrown på tomt array [] - RDJ
 * [x] Nytt design - Stian
 * [x] Bildene som bruker velger å save til DB, bør også legges til i download folder på telefonen (det står i eksamensteksten)

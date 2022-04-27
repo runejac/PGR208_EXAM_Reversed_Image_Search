@@ -1,15 +1,16 @@
-package com.example.eksamen_pgr208.controllers
+package com.example.eksamen_pgr208.activities
 
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.example.eksamen_pgr208.data.Image
-import com.example.eksamen_pgr208.data.ImageViewModel
+import com.example.eksamen_pgr208.adapter.model.ImageDatabaseModel
+import com.example.eksamen_pgr208.data.database.ImageViewModel
 import com.example.eksamen_pgr208.databinding.FullscreenSavedActivityBinding
+
+private const val TAG = "FullscreenSavedActivity"
 
 class FullscreenSavedActivity : AppCompatActivity() {
 
@@ -22,7 +23,7 @@ class FullscreenSavedActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         // gets intent object from SavedActivity, from the ArrayList that mirrors the database
-        val data : Image? = intent.getParcelableExtra("imageclickedfromsaved")
+        val data : ImageDatabaseModel? = intent.getParcelableExtra("imageclickedfromsaved")
         imageViewModel = ImageViewModel(this.application)
 
 

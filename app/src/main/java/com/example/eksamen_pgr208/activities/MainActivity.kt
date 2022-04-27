@@ -1,4 +1,4 @@
-package com.example.eksamen_pgr208.controllers
+package com.example.eksamen_pgr208.activities
 
 import android.content.Intent
 import android.net.Uri
@@ -14,8 +14,8 @@ import com.androidnetworking.AndroidNetworking
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.eksamen_pgr208.R
-import com.example.eksamen_pgr208.data.api.ApiServices
-import com.example.eksamen_pgr208.data.api.ImageModelResult
+import com.example.eksamen_pgr208.data.network.ApiServices
+import com.example.eksamen_pgr208.adapter.model.ImageResultModel
 import com.example.eksamen_pgr208.databinding.ActivityMainBinding
 import com.example.eksamen_pgr208.utils.AnimationCallback
 import com.example.eksamen_pgr208.utils.ErrorDisplayer
@@ -49,7 +49,7 @@ open class MainActivity : AppCompatActivity() {
     private var fabClicked = false
     private var exit = false
     var liveDataUploadImage : MutableLiveData<String> = MutableLiveData<String>()
-    var liveDataGetImages : MutableLiveData<ImageModelResult> = MutableLiveData<ImageModelResult>()
+    var liveDataGetImages : MutableLiveData<ImageResultModel> = MutableLiveData<ImageResultModel>()
     private var liveDataImageSearchedOn : MutableLiveData<String>? = MutableLiveData<String>()
     lateinit var binding : ActivityMainBinding
 
@@ -132,7 +132,7 @@ open class MainActivity : AppCompatActivity() {
                 it?.observe(this){imageSearchedOn ->
 
                     val imagesArray = Intent(this, ResultActivity::class.java)
-                    imagesArray.putExtra("images", item)
+                    imagesArray.putExtra("imageresults", item)
                     imagesArray.putExtra("image_searched_on", imageSearchedOn)
                     startActivity(imagesArray)
                 }
@@ -257,7 +257,4 @@ open class MainActivity : AppCompatActivity() {
             .into(binding.addedImageFromEitherCameraOrMemory)
         return Pair(filePath, fileName)
     }
-
-
-
 }

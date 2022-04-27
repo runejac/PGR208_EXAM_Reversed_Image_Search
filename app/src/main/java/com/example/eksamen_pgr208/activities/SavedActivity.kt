@@ -1,4 +1,4 @@
-package com.example.eksamen_pgr208.controllers
+package com.example.eksamen_pgr208.activities
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,19 +7,19 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.androidnetworking.AndroidNetworking
 import com.example.eksamen_pgr208.R
-import com.example.eksamen_pgr208.adapters.ResultsAdapter
-import com.example.eksamen_pgr208.adapters.SavedAdapter
-import com.example.eksamen_pgr208.data.Image
-import com.example.eksamen_pgr208.data.ImageViewModel
+import com.example.eksamen_pgr208.adapter.ResultsAdapter
+import com.example.eksamen_pgr208.adapter.SavedAdapter
+import com.example.eksamen_pgr208.adapter.model.ImageDatabaseModel
+import com.example.eksamen_pgr208.data.database.ImageViewModel
 import com.example.eksamen_pgr208.databinding.SavedActivityBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
+private const val TAG = "SavedActivity"
 
 class SavedActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
-
     private lateinit var imageViewModel : ImageViewModel
     private lateinit var binding : SavedActivityBinding
-    private var imagesFromDbListMirror : ArrayList<Image> = ArrayList()
+    private var imagesFromDbListMirror : ArrayList<ImageDatabaseModel> = ArrayList()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,7 +33,7 @@ class SavedActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
         imageViewModel.readAllData.observe(this) { image ->
 
             // mirrors the database list
-            imagesFromDbListMirror = image as ArrayList<Image>
+            imagesFromDbListMirror = image as ArrayList<ImageDatabaseModel>
 
             // adding image_link from db to new list
             binding.rvSaved.adapter = SavedAdapter(this, image, this)

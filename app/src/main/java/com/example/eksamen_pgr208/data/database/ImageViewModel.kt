@@ -1,17 +1,16 @@
-package com.example.eksamen_pgr208.data
+package com.example.eksamen_pgr208.data.database
 
 import android.app.Application
-import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
+import com.example.eksamen_pgr208.adapter.model.ImageDatabaseModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class ImageViewModel(application: Application): AndroidViewModel(application) {
 
-    val readAllData: LiveData<List<Image>>
+    val readAllData: LiveData<List<ImageDatabaseModel>>
     private val repo: ImageRepo
 
     init {
@@ -20,15 +19,15 @@ class ImageViewModel(application: Application): AndroidViewModel(application) {
         readAllData = repo.readAllData
     }
 
-    fun addImage(image: Image) {
+    fun addImage(imageDatabaseModel: ImageDatabaseModel) {
         viewModelScope.launch(Dispatchers.IO) {
-            repo.addImage(image)
+            repo.addImage(imageDatabaseModel)
         }
     }
 
-    fun deleteImage(image: Image) {
+    fun deleteImage(imageDatabaseModel: ImageDatabaseModel) {
         viewModelScope.launch(Dispatchers.IO) {
-            repo.deleteImage(image)
+            repo.deleteImage(imageDatabaseModel)
         }
     }
 

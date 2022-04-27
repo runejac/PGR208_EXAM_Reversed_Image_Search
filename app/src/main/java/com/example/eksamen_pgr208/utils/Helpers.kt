@@ -3,7 +3,7 @@ package com.example.eksamen_pgr208.utils
 import android.app.Dialog
 import android.graphics.drawable.ColorDrawable
 import android.widget.ImageButton
-import com.example.eksamen_pgr208.controllers.MainActivity
+import com.example.eksamen_pgr208.activities.MainActivity
 import com.example.eksamen_pgr208.R
 import com.github.dhaval2404.imagepicker.ImagePicker
 

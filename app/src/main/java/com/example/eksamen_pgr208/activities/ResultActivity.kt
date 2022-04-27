@@ -1,4 +1,4 @@
-package com.example.eksamen_pgr208.controllers
+package com.example.eksamen_pgr208.activities
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -11,9 +11,9 @@ import com.androidnetworking.AndroidNetworking
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.eksamen_pgr208.R
-import com.example.eksamen_pgr208.adapters.ResultsAdapter
-import com.example.eksamen_pgr208.data.ImageViewModel
-import com.example.eksamen_pgr208.data.api.ImageModelResultItem
+import com.example.eksamen_pgr208.adapter.ResultsAdapter
+import com.example.eksamen_pgr208.data.database.ImageViewModel
+import com.example.eksamen_pgr208.adapter.model.ImageResultItemModel
 import com.example.eksamen_pgr208.databinding.ResultActivityBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.util.*
@@ -23,7 +23,7 @@ private const val TAG = "ResultActivity"
 class ResultActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
     private lateinit var imageViewModel : ImageViewModel
     private lateinit var binding : ResultActivityBinding
-    private var images : ArrayList<ImageModelResultItem> = ArrayList()
+    private var imageModels : ArrayList<ImageResultItemModel> = ArrayList()
     private var imageSearchedOn : String = ""
 
 
@@ -34,7 +34,7 @@ class ResultActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
         setContentView(binding.root)
 
 
-        // using intent from Mainactivity to show images searched on
+        // using intent from Mainactivity to show imageModels searched on
         try {
             imageSearchedOn = intent.getStringExtra("image_searched_on")!!
         } catch (e: NullPointerException) {
@@ -45,9 +45,9 @@ class ResultActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
 
         // same as above, just for the results
         try {
-            images = intent.getParcelableArrayListExtra("images")!!
+            imageModels = intent.getParcelableArrayListExtra("imageresults")!!
         } catch (e: NullPointerException) {
-            Log.e(TAG, "Catched a NullPointerException. $images is null", e)
+            Log.e(TAG, "Catched a NullPointerException. $imageModels is null", e)
         }
 
         imageViewModel = ViewModelProvider(this)[ImageViewModel::class.java]
@@ -57,7 +57,7 @@ class ResultActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
         binding.rvResults.layoutManager = layoutManager
 
         // send image results objects to adapter, to be used in recyclerview
-        binding.rvResults.adapter = ResultsAdapter(this, images = ArrayList<ImageModelResultItem>(images), this)
+        binding.rvResults.adapter = ResultsAdapter(this, imageModels = ArrayList<ImageResultItemModel>(imageModels), this)
 
 
         // showing image searched on
@@ -109,9 +109,9 @@ class ResultActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
     override fun onImageClick(position: Int) {
 
         // intents image clicked on to pass to FullscreenActivity for further functionality
-        images.let {
+        imageModels.let {
             val imageClickedFromResult = Intent(this, FullscreenResultActivity::class.java)
-            imageClickedFromResult.putExtra("imageclickedfromresult", images[position])
+            imageClickedFromResult.putExtra("imageclickedfromresult", imageModels[position])
             startActivity(imageClickedFromResult)
         }
 

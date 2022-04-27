@@ -1,10 +1,10 @@
-package com.example.eksamen_pgr208.data.api
+package com.example.eksamen_pgr208.adapter.model
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class ImageModelResultItem(
+data class ImageResultItemModel(
     val current_date: String,
     val description: String,
     val domain: String,

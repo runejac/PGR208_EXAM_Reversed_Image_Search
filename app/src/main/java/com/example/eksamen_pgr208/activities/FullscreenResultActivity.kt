@@ -1,4 +1,4 @@
-package com.example.eksamen_pgr208.controllers
+package com.example.eksamen_pgr208.activities
 
 import android.Manifest
 import android.content.pm.PackageManager
@@ -18,9 +18,9 @@ import androidx.core.app.ActivityCompat
 import com.androidnetworking.AndroidNetworking
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.example.eksamen_pgr208.data.Image
-import com.example.eksamen_pgr208.data.ImageViewModel
-import com.example.eksamen_pgr208.data.api.ImageModelResultItem
+import com.example.eksamen_pgr208.adapter.model.ImageDatabaseModel
+import com.example.eksamen_pgr208.data.database.ImageViewModel
+import com.example.eksamen_pgr208.adapter.model.ImageResultItemModel
 import com.example.eksamen_pgr208.databinding.FullscreenResultActivityBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -45,7 +45,7 @@ class FullscreenResultActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         // gets intent object that shows results
-        val data : ImageModelResultItem? = intent.getParcelableExtra("imageclickedfromresult")
+        val data : ImageResultItemModel? = intent.getParcelableExtra("imageclickedfromresult")
         imageViewModel = ImageViewModel(this.application)
 
         binding.fabSaveImage.bringToFront()
@@ -68,7 +68,7 @@ class FullscreenResultActivity : AppCompatActivity() {
                     .setTitle("Save image")
                     .setMessage("Do you want to save the image?")
                     .setPositiveButton("Yes") { dialog, _ ->
-                        saveImage()
+                        saveImageToExternalStorage()
                         Toast.makeText(this, "Successfully added image to database!", Toast.LENGTH_SHORT).show()
                         finish()
                     }
@@ -93,7 +93,7 @@ class FullscreenResultActivity : AppCompatActivity() {
 
 
     private fun addToDatabase(images: ByteArray) {
-        val image = Image(0, images)
+        val image = ImageDatabaseModel(0, images)
         try {
             imageViewModel.addImage(image)
             Log.i(TAG, "Object reference: ${image.image} added to database as blob")
@@ -104,7 +104,7 @@ class FullscreenResultActivity : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     @Suppress("BlockingMethodInNonBlockingContext")
-    private fun saveImage() {
+    private fun saveImageToExternalStorage() {
 
         // checking if the user has already permitted access to write external storage
         if (!verifyPermissions()) {
@@ -144,9 +144,8 @@ class FullscreenResultActivity : AppCompatActivity() {
                     val imageByteArray : ByteArray = Files.readAllBytes(compressed?.toPath())
                     addToDatabase(imageByteArray)
                 }
-                Toast.makeText(this@FullscreenResultActivity, "Image saved in 'Download' folder", Toast.LENGTH_SHORT).show()
             }
-
+            Toast.makeText(this, "Image saved in 'Download' folder", Toast.LENGTH_SHORT).show()
         }
     }
 

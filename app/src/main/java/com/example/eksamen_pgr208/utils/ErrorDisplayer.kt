@@ -3,8 +3,8 @@ package com.example.eksamen_pgr208.utils
 import android.util.Log
 import android.view.View
 import com.androidnetworking.error.ANError
-import com.example.eksamen_pgr208.controllers.MainActivity
-import com.example.eksamen_pgr208.data.api.ApiServices
+import com.example.eksamen_pgr208.activities.MainActivity
+import com.example.eksamen_pgr208.data.network.ApiServices
 
 class ErrorDisplayer {
     companion object {

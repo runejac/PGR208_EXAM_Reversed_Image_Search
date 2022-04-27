@@ -1,9 +1,10 @@
-package com.example.eksamen_pgr208.data
+package com.example.eksamen_pgr208.data.database
 
 import android.content.Context
 import androidx.room.*
+import com.example.eksamen_pgr208.adapter.model.ImageDatabaseModel
 
-@Database(entities = [Image::class], version = 1)
+@Database(entities = [ImageDatabaseModel::class], version = 1)
 abstract class ImageDatabase: RoomDatabase() {
 
     abstract fun imageDao(): ImageDao
@@ -16,7 +17,7 @@ abstract class ImageDatabase: RoomDatabase() {
         @Volatile
         private var dbInstance: ImageDatabase? = null
 
-        fun getDataBase(context: Context): ImageDatabase{
+        fun getDataBase(context: Context): ImageDatabase {
             // Temporary variable to check if the database instance already exists
             val tmp = dbInstance
             if (tmp != null) {
