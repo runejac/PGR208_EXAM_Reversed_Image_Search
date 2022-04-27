@@ -4,12 +4,12 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".controllers.FullscreenResultActivity">
+        tools:context=".controllers.FullscreenSavedActivity">
 
     
 
     <ImageView
-        android:id="@+id/fullscreen_image"
+        android:id="@+id/fullscreen_image_saved"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:src="@drawable/browndress"
@@ -34,17 +34,18 @@
         android:scaleType="fitCenter"
         android:rotation="45"
         android:background="@color/transparent"
-        android:layout_margin="10dp" />
+        android:layout_margin="10dp"
+        android:contentDescription="@string/exit_fullscreen" />
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_save_image"
+        android:id="@+id/fab_delete_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center"
         android:layout_marginBottom="20dp"
-        app:srcCompat="@drawable/ic_baseline_save_24"
-        android:contentDescription="@string/save_image" />
+        app:srcCompat="@drawable/ic_baseline_delete_24"
+        android:contentDescription="@string/delete_image" />
 
 
 

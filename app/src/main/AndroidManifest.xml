@@ -18,7 +18,7 @@
         android:usesCleartextTraffic="true"
             android:requestLegacyExternalStorage="true">
         <activity
-            android:name=".MainActivity"
+            android:name=".controllers.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,9 +26,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ResultActivity" />
-        <activity android:name=".SavedActivity" />
-        <activity android:name=".FullscreenActivity" />
+        <activity android:name=".controllers.ResultActivity" />
+        <activity android:name=".controllers.SavedActivity" />
+        <activity android:name=".controllers.FullscreenResultActivity" />
+        <activity android:name=".controllers.FullscreenSavedActivity" />
 
 
     </application>

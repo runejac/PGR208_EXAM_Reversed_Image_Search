@@ -1,4 +1,4 @@
-package com.example.eksamen_pgr208
+package com.example.eksamen_pgr208.controllers
 
 import android.Manifest
 import android.os.Bundle
@@ -34,7 +34,7 @@ import android.graphics.BitmapFactory
 
 private const val TAG = "FullscreenActivity"
 
-class FullscreenActivity:AppCompatActivity() {
+class FullscreenResultActivity : AppCompatActivity() {
 
 
     private lateinit var binding : FullscreenActivityBinding
@@ -47,11 +47,13 @@ class FullscreenActivity:AppCompatActivity() {
         binding = FullscreenActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val data : ImageModelResultItem? = intent.getParcelableExtra("imageclicked")
+        // gets intent object that shows results
+        val data : ImageModelResultItem? = intent.getParcelableExtra("imageclickedfromresult")
         imageViewModel = ImageViewModel(this.application)
 
         binding.fabSaveImage.bringToFront()
 
+        // displays image on fullscreen from result
         Glide.with(this)
             .load(data?.image_link)
             .transform(RoundedCorners(30))
@@ -60,6 +62,7 @@ class FullscreenActivity:AppCompatActivity() {
 
         binding.fabSaveImage.setOnClickListener {
 
+            // asks for permission to store and access users phone
             verifyPermissions()
 
             data?.let {
@@ -144,7 +147,7 @@ class FullscreenActivity:AppCompatActivity() {
                     val imageByteArray : ByteArray = Files.readAllBytes(compressed?.toPath())
                     addToDatabase(imageByteArray)
                 }
-                Toast.makeText(this@FullscreenActivity, "Image saved in 'Download' folder", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@FullscreenResultActivity, "Image saved in 'Download' folder", Toast.LENGTH_SHORT).show()
             }
 
         }

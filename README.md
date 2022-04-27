@@ -66,7 +66,7 @@ Reversed Image Search 📱🔍✍(◔◡◔) EXAM
 ### Additional Tasks
 
 * [x] (3p) Use third-party libraries
-* [ ] (3p) Extra effort in processing images will be rewarded
+* [x] (3p) Extra effort in processing images will be rewarded
 * [x] (3p) Comprehensive design will be rewarded
 * [ ] (3p) Use of Android OS services will be rewarded (e.g. battery level, microphone, GPS, etc.)
 * [x] (3p) Compress images to save memory

@@ -1,15 +1,12 @@
-package com.example.eksamen_pgr208
+package com.example.eksamen_pgr208.controllers
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.androidnetworking.AndroidNetworking
+import com.example.eksamen_pgr208.R
 import com.example.eksamen_pgr208.adapters.ResultsAdapter
 import com.example.eksamen_pgr208.adapters.SavedAdapter
 import com.example.eksamen_pgr208.data.Image
@@ -23,7 +20,7 @@ class SavedActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
 
     private lateinit var imageViewModel : ImageViewModel
     private lateinit var binding : SavedActivityBinding
-    private var imagesFromDbListMirror : List<Image>? = null
+    private var imagesFromDbListMirror : ArrayList<Image> = ArrayList()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,14 +33,18 @@ class SavedActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
         // using data with livedata from database, to be used in adapter recyclerview
         imageViewModel.readAllData.observe(this) { image ->
 
+            // mirrors the database list
             imagesFromDbListMirror = image as ArrayList<Image>
 
             // adding image_link from db to new list
             binding.rvSaved.adapter = SavedAdapter(this, image, this)
         }
 
+        println(imagesFromDbListMirror.size)
+
+
         // setting the layout
-        val layoutManager = StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
+        val layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         binding.rvSaved.layoutManager = layoutManager
 
 
@@ -77,29 +78,12 @@ class SavedActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
     }
 
 
-    private fun deleteFromDatabase(imagePos: Int) {
-
-        try {
-            imagesFromDbListMirror?.get(imagePos)?.let { itemPos ->
-                imageViewModel.deleteImage(itemPos)
-                Toast.makeText(this, "Image deleted!", Toast.LENGTH_SHORT).show()
-            }
-        } catch (e: Exception) {
-            Log.e(TAG, "Crash in deleting image", e)
-        }
-    }
-
-    // targeting the image to be deleted
+    // targeting the image to be deleted through arraylist that mirrors database objects
     override fun onImageClick(position: Int) {
-        AlertDialog.Builder(this)
-            .setTitle("Delete image")
-            .setMessage("Do you want to delete the image?")
-            .setPositiveButton("Yes") { dialog, _ ->
-                deleteFromDatabase(position)
-            }
-            .setNegativeButton("No") { dialog, _ ->
-                Toast.makeText(this, "Image not deleted", Toast.LENGTH_SHORT).show()
-            }
-            .show()
+        imagesFromDbListMirror.let {
+                val imageClickedFromSaved = Intent(this, FullscreenSavedActivity::class.java)
+                imageClickedFromSaved.putExtra("imageclickedfromsaved", imagesFromDbListMirror[position])
+                startActivity(imageClickedFromSaved)
+        }
     }
 }

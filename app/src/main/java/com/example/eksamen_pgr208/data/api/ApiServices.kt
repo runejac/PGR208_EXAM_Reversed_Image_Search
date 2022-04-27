@@ -9,7 +9,7 @@ import com.androidnetworking.AndroidNetworking
 import com.androidnetworking.common.Priority
 import com.androidnetworking.error.ANError
 import com.androidnetworking.interfaces.StringRequestListener
-import com.example.eksamen_pgr208.MainActivity
+import com.example.eksamen_pgr208.controllers.MainActivity
 import com.example.eksamen_pgr208.common.Constants
 import com.example.eksamen_pgr208.utils.ErrorDisplayer
 import com.facebook.stetho.okhttp3.StethoInterceptor
@@ -27,13 +27,13 @@ class ApiServices {
 
         private const val TAG = "ApiServices"
         // http logging
-        private val okHttpClient = OkHttpClient.Builder().addNetworkInterceptor(StethoInterceptor()).build()
-        private val emptyArrayListFromApiCalls : ArrayList<String> = ArrayList(3)
-        private val okHttpClientTimeoutTimer = OkHttpClient().newBuilder()
-            .connectTimeout(2, TimeUnit.SECONDS)
-            .readTimeout(2, TimeUnit.SECONDS)
-            .writeTimeout(2, TimeUnit.SECONDS)
+        private val okHttpClient = OkHttpClient.Builder().addNetworkInterceptor(StethoInterceptor())
+            .connectTimeout(5, TimeUnit.SECONDS)
+            .callTimeout(5, TimeUnit.SECONDS)
+            .readTimeout(5, TimeUnit.SECONDS)
+            .writeTimeout(5, TimeUnit.SECONDS)
             .build()
+        private val emptyArrayListFromApiCalls : ArrayList<String> = ArrayList(3)
         val liveDataAllEndPointsCouldNotFindImages : MutableLiveData<Int> = MutableLiveData<Int>()
 
         fun uploadImageNetworkRequest(mainActivity: MainActivity, filePath: String) {
@@ -47,7 +47,7 @@ class ApiServices {
                     .setExecutor(Executors.newSingleThreadExecutor())
                     .setPriority(Priority.HIGH)
                     // fixme timeout fungerer ikke.... prøvd å sette på 5 sek, nop
-                    .setOkHttpClient(okHttpClientTimeoutTimer)
+                    .setOkHttpClient(okHttpClient)
                     .build()
                     .setUploadProgressListener { bytesUploaded, bytesUploadedTotal ->
                         Log.i(TAG, "Bytes uploaded: $bytesUploaded/$bytesUploadedTotal")

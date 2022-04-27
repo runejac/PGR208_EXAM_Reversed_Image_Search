@@ -1,7 +1,6 @@
 package com.example.eksamen_pgr208.data
 
 import android.app.Application
-import android.os.Looper
 import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel

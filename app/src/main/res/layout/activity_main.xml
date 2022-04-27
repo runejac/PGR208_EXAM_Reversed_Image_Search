@@ -6,11 +6,9 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
 
-    tools:context=".MainActivity"
+    tools:context=".controllers.MainActivity"
 
    >
-
-
 
     <LinearLayout
         android:layout_marginTop="30dp"
@@ -20,21 +18,17 @@
         android:layout_margin="20dp"
         android:orientation="vertical">
 
-        <com.example.eksamen_pgr208.ui.view.CustomView
-            android:layout_width="match_parent"
-            android:layout_height="100dp" />
+
         <TextView
             android:gravity="center"
             android:id="@+id/tv_header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/title"
+            android:textColor="#B51E1E1E"
             android:fontFamily="@font/poppinsbold"
-            android:text="@string/title"
-            android:textSize="20sp"
+            android:text="@string/reversed_image_search"
+            android:textSize="35sp"
             />
-
-
 
         <TextView
                 android:gravity="center"
@@ -42,7 +36,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppins"
-                android:text="@string/subtitle"
+                android:text="@string/take_a_photo_or_choose_one_from_your_gallery_and_get_similar_results_back"
                 android:textSize="16sp"
                 />
 
@@ -52,7 +46,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppins"
-                android:text="@string/subtitle_two"
+                android:text="@string/great_now_hit_the_search_button_to_get_similar_results"
                 android:textSize="16sp"
                 />
 
@@ -62,7 +56,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppins"
-                android:text="@string/fetch"
+                android:text="@string/fetching_results"
                 android:textSize="16sp"
                 />
 
@@ -93,6 +87,7 @@
                 android:fontFamily="@font/poppins"
                 android:textSize="16sp"
                 />
+
 
     </LinearLayout>
 

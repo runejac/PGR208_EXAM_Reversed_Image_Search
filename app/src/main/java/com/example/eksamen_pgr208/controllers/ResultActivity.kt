@@ -1,4 +1,4 @@
-package com.example.eksamen_pgr208
+package com.example.eksamen_pgr208.controllers
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.androidnetworking.AndroidNetworking
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.example.eksamen_pgr208.R
 import com.example.eksamen_pgr208.adapters.ResultsAdapter
 import com.example.eksamen_pgr208.data.ImageViewModel
 import com.example.eksamen_pgr208.data.api.ImageModelResultItem
@@ -51,6 +52,7 @@ class ResultActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
 
         imageViewModel = ViewModelProvider(this)[ImageViewModel::class.java]
 
+        // setting the layout
         val layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         binding.rvResults.layoutManager = layoutManager
 
@@ -108,9 +110,9 @@ class ResultActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
 
         // intents image clicked on to pass to FullscreenActivity for further functionality
         images.let {
-            val imageClicked = Intent(this, FullscreenActivity::class.java)
-            imageClicked.putExtra("imageclicked", images[position])
-            startActivity(imageClicked)
+            val imageClickedFromResult = Intent(this, FullscreenResultActivity::class.java)
+            imageClickedFromResult.putExtra("imageclickedfromresult", images[position])
+            startActivity(imageClickedFromResult)
         }
 
     }
