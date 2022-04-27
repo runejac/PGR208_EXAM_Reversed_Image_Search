@@ -22,15 +22,6 @@ Reversed Image Search 📱🔍✍(◔◡◔) EXAM
 * [ ] Evt. andre ting dere kommer på
 * [ ] Evt. andre ting dere kommer på
 
-#### Han har noen "Suggestions" (slettes før levering):
-* Use Fast Android Networking (det gjør vi)
-* Prioritise NullPointerExceptions, these are the worst and have a huge impact on
-  application usability
-* Prototype quick (tror ikke dette teller noe å levere, så det kan vi droppe?)
-* Split code according to the MVC guidelines
-* Make a copy of server responses during the development process to reduce the load on
-  the server
-
 ### Application Requirements
 
 * [x] At least one list must be handled by a RecyclerView
@@ -57,16 +48,16 @@ Reversed Image Search 📱🔍✍(◔◡◔) EXAM
   Describe and discuss the database structure in detail. What are the pros / cons / alternatives considering a commercial version of your application.
 * [x] **Hard** (3p):  [MainActivity @ 73] Create callbacks across the application to let the parent class / view
   know when something is changing. Write about all your callbacks in the report and why they are useful for the information flow in your app.
-* [ ] Soft (8p): [Helpers @ 15] Make (or extend existing) classes with methods and companion classes to
+* [x] Soft (8p): [Helpers @ 15] Make (or extend existing) classes with methods and companion classes to
   process images. Make use of constructors, overloading, properties, overriding, and interfaces where it is appropriate. Discuss pros, cons, and alternative code structure in the report by referencing your code.
-* [ ] Soft (8p): Implement your own RecyclerView adapter and discuss the view you used for
+* [x] Soft (8p): Implement your own RecyclerView adapter and discuss the view you used for
   each row in detail in the report.
-* [ ] Soft (3p): Have more than one Activity / Fragment (up to you which one you use). Explain
+* [x] Soft (3p): Have more than one Activity / Fragment (up to you which one you use). Explain
   why you decided to use Activities and/or Fragments.
 * [ ] Soft (8p): Extend a 3rd-party complex view or make your own. Document what parts of
   the code you have written yourself if the view is downloaded from somewhere.
-* [ ] **REPORT (35p)**: (Mer info om rapport i eksamens-oppgaven)
-* [ ] (3p) How well you followed the rules / guidelines / suggestions / how attentive you were when reading this task description
+* [ ] **REPORT (35p)**: (More info in the exam text)
+* [x] (3p) How well you followed the rules / guidelines / suggestions / how attentive you were when reading this task description
 
 
 
@@ -76,9 +67,9 @@ Reversed Image Search 📱🔍✍(◔◡◔) EXAM
 
 * [x] (3p) Use third-party libraries
 * [ ] (3p) Extra effort in processing images will be rewarded
-* [ ] (3p) Comprehensive design will be rewarded
+* [x] (3p) Comprehensive design will be rewarded
 * [ ] (3p) Use of Android OS services will be rewarded (e.g. battery level, microphone, GPS, etc.)
 * [x] (3p) Compress images to save memory
 * [ ] (3p) Use bound service for downloading the data periodically
 * [x] (6p) Make your own drawables (Hand/Adobe painted or Drawable-programmed in Android
-  Studio) (husk å legg denne i rapporten og henvis til "bottom_border.xml")
+  Studio) 
