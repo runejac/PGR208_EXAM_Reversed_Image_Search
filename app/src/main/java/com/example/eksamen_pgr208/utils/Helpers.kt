@@ -31,6 +31,7 @@ class Helpers  {
                     .galleryMimeTypes(arrayOf("image/*"))
                     .maxResultSize(600, 600)
                     .compress(1024)
+                    .crop()
                     .start()
                 camOrGallDialog.dismiss()
 
@@ -42,6 +43,7 @@ class Helpers  {
                     .cameraOnly()
                     .maxResultSize(600, 600)
                     .compress(1024)
+                    .crop()
                     .start()
                 camOrGallDialog.dismiss()
                 println("camera clicked")

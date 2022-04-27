@@ -133,12 +133,11 @@ open class MainActivity : AppCompatActivity() {
         }
     }
     // Animation callback function
-    fun onAddButtonClicked(animCallback: AnimationCallback) {
+    private fun onAddButtonClicked(animCallback: AnimationCallback) {
         animCallback.setVisibility(fabClicked)
         animCallback.setAnimation(fabClicked)
         fabClicked = !fabClicked
     }
-
 
     override fun onDestroy() {
         super.onDestroy()
@@ -158,12 +157,6 @@ open class MainActivity : AppCompatActivity() {
             exit = true
         }
     }
-
-
-
-
-
-
 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
