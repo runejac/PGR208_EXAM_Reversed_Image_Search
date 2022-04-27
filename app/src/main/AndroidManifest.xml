@@ -28,7 +28,8 @@
         </activity>
         <activity android:name=".controllers.ResultActivity" />
         <activity android:name=".controllers.SavedActivity" />
-        <activity android:name=".controllers.FullscreenActivity" />
+        <activity android:name=".controllers.FullscreenResultActivity" />
+        <activity android:name=".controllers.FullscreenSavedActivity" />
 
 
     </application>

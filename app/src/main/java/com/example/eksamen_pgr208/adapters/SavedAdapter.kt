@@ -43,6 +43,7 @@ class SavedAdapter(val context: Context?, private var images: List<Image>, priva
             if (position != RecyclerView.NO_POSITION) {
                 listener.onImageClick(position)
             }
+
         }
 
         init {

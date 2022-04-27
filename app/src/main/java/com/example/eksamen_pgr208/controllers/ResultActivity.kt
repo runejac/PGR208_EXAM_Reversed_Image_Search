@@ -52,6 +52,7 @@ class ResultActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
 
         imageViewModel = ViewModelProvider(this)[ImageViewModel::class.java]
 
+        // setting the layout
         val layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         binding.rvResults.layoutManager = layoutManager
 
@@ -109,9 +110,9 @@ class ResultActivity : AppCompatActivity(), ResultsAdapter.RecyclerClick {
 
         // intents image clicked on to pass to FullscreenActivity for further functionality
         images.let {
-            val imageClicked = Intent(this, FullscreenActivity::class.java)
-            imageClicked.putExtra("imageclicked", images[position])
-            startActivity(imageClicked)
+            val imageClickedFromResult = Intent(this, FullscreenResultActivity::class.java)
+            imageClickedFromResult.putExtra("imageclickedfromresult", images[position])
+            startActivity(imageClickedFromResult)
         }
 
     }
