@@ -1,8 +1,10 @@
 package com.example.eksamen_pgr208.activities
 
+import android.content.ContentUris
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import android.view.animation.Animation
@@ -50,7 +52,7 @@ open class MainActivity : AppCompatActivity() {
     private var exit = false
     var liveDataUploadImage : MutableLiveData<String> = MutableLiveData<String>()
     var liveDataGetImages : MutableLiveData<ImageResultModel> = MutableLiveData<ImageResultModel>()
-    private var liveDataImageSearchedOn : MutableLiveData<String>? = MutableLiveData<String>()
+    private var liveDataImageSearchedOn : MutableLiveData<String> = MutableLiveData<String>()
     lateinit var binding : ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -129,7 +131,7 @@ open class MainActivity : AppCompatActivity() {
 
             liveDataImageSearchedOn.let {
 
-                it?.observe(this){imageSearchedOn ->
+                it.observe(this){imageSearchedOn ->
 
                     val imagesArray = Intent(this, ResultActivity::class.java)
                     imagesArray.putExtra("imageresults", item)
@@ -138,6 +140,7 @@ open class MainActivity : AppCompatActivity() {
                 }
             }
         }
+
     }
 
 
@@ -176,63 +179,67 @@ open class MainActivity : AppCompatActivity() {
 
     private fun imageChooser(resultCode: Int, data: Intent?) {
 
-        when (resultCode) {
-            RESULT_OK -> {
+        if (resultCode == RESULT_OK) {
 
-                binding.tvNoResultsFound.visibility = View.GONE
-                binding.tvEndpointFaultiness.visibility = View.GONE
-                binding.fabSearch.visibility = View.VISIBLE
-                val (filePath, fileName) = imageChosen(data)
-                try {
-                    binding.fabSearch.setOnClickListener {
+            binding.tvNoResultsFound.visibility = View.GONE
+            binding.tvEndpointFaultiness.visibility = View.GONE
+            binding.fabSearch.visibility = View.VISIBLE
 
-                        // ensures nullsafety
-                        filePath?.let {
-                            ApiServices.uploadImageNetworkRequest(this@MainActivity, filePath)
-                            ApiServices.getImagesNetworkRequest(this@MainActivity)
-                        }
-
-                        binding.tvNoResultsFound.visibility = View.GONE
-                        binding.tvEndpointFaultiness.visibility = View.GONE
-                        binding.tvIntroStepTwo.visibility = View.GONE
-                        binding.uploadProgressBar.visibility = View.VISIBLE
-                        binding.tvLoading.visibility = View.VISIBLE
+            val (filePath, fileName) = imageChosen(data)
 
 
-                        Toast.makeText(
-                            this@MainActivity,
-                            "Please wait, searching for similar images...",
-                            Toast.LENGTH_LONG
-                        ).show()
-                        // displays error message to user if arraylist inside is 3 in size
-                        displayErrorToUserIfNoEndpointHaveResult(this)
+
+
+            try {
+                binding.fabSearch.setOnClickListener {
+
+                    // ensures nullsafety
+                    filePath?.let {
+                        ApiServices.uploadImageNetworkRequest(this@MainActivity, filePath)
+                        ApiServices.getImagesNetworkRequest(this@MainActivity)
                     }
 
-                    // text to be show after a new image is chosen either from gallery or camera
                     binding.tvNoResultsFound.visibility = View.GONE
-                    binding.tvNoInternet.visibility = View.GONE
                     binding.tvEndpointFaultiness.visibility = View.GONE
-                    binding.fabSearch.visibility = View.VISIBLE
-                    binding.tvLoading.visibility = View.GONE
-                    Toast.makeText(this, "Image: $fileName chosen", Toast.LENGTH_SHORT).show()
+                    binding.tvIntroStepTwo.visibility = View.GONE
+                    binding.uploadProgressBar.visibility = View.VISIBLE
+                    binding.tvLoading.visibility = View.VISIBLE
 
 
-                } catch (e: Exception) {
                     Toast.makeText(
-                        this,
-                        "Exception thrown when trying to choose image: ${e.message}",
-                        Toast.LENGTH_SHORT
+                        this@MainActivity,
+                        "Please wait, searching for similar images...",
+                        Toast.LENGTH_LONG
                     ).show()
-                    Log.e("MainActivity", "Catched exception", e)
+                    // displays error message to user if arraylist inside is 3 in size
+                    displayErrorToUserIfNoEndpointHaveResult(this)
                 }
+
+                // text to be show after a new image is chosen either from gallery or camera
+                binding.tvNoResultsFound.visibility = View.GONE
+                binding.tvNoInternet.visibility = View.GONE
+                binding.tvEndpointFaultiness.visibility = View.GONE
+                binding.fabSearch.visibility = View.VISIBLE
+                binding.tvLoading.visibility = View.GONE
+
+                Toast.makeText(this, "Image: $fileName chosen", Toast.LENGTH_SHORT).show()
+
+
+            } catch (e: Exception) {
+                Toast.makeText(
+                    this,
+                    "Exception thrown when trying to choose image: ${e.message}",
+                    Toast.LENGTH_SHORT
+                ).show()
+                Log.e("MainActivity", "Catched exception", e)
             }
-            ImagePicker.RESULT_ERROR -> {
-                Toast.makeText(this, ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
-                Log.wtf("MainActivity", "Error in trying to choose image occured:\n${ImagePicker.getError(data)}")
-            }
-            else -> {
-                Toast.makeText(this, "Task Cancelled", Toast.LENGTH_SHORT).show()
-            }
+        }
+        else if (resultCode == ImagePicker.RESULT_ERROR) {
+            Toast.makeText(this, ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
+            Log.wtf("MainActivity", "Error in trying to choose image occured:\n${ImagePicker.getError(data)}")
+        }
+        else {
+            Toast.makeText(this, "Task Cancelled", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -243,18 +250,18 @@ open class MainActivity : AppCompatActivity() {
         binding.addedImageFromEitherCameraOrMemory.visibility = View.VISIBLE
 
         val uri: Uri = data?.data!!
-        val filePath = FileUriUtils.getRealPath(this, uri)
+        val filePath = FileUriUtils.getRealPath(this, data.data!!)
         val fileName = FileUtil.getDocumentFile(this, uri)?.name
 
-        // null checker
-        liveDataImageSearchedOn.let {
-            it?.postValue(filePath!!)
-        }
+        liveDataImageSearchedOn.postValue(filePath!!)
 
         Glide.with(this)
             .load(filePath)
             .transform(RoundedCorners(30))
             .into(binding.addedImageFromEitherCameraOrMemory)
+
         return Pair(filePath, fileName)
     }
+
+
 }

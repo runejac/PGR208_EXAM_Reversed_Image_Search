@@ -15,6 +15,7 @@ import android.util.Log
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.example.eksamen_pgr208.R
 import com.example.eksamen_pgr208.activities.FullscreenResultActivity
@@ -67,13 +68,13 @@ fun fileCompresser(TAG: String, file: File): File? {
     }
 }
 
-fun verifyPermissions(fullscreenResultActivity: FullscreenResultActivity): Boolean {
+fun verifyPermissions(activity: AppCompatActivity): Boolean {
     // ask for permissions in Android 12 I think
     val permissionExternalMemory =
-        ActivityCompat.checkSelfPermission(fullscreenResultActivity, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE)
     if (permissionExternalMemory != PackageManager.PERMISSION_GRANTED) {
         val storagePermissionsArray = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-        ActivityCompat.requestPermissions(fullscreenResultActivity, storagePermissionsArray, 1)
+        ActivityCompat.requestPermissions(activity, storagePermissionsArray, 1)
         return false
     }
     return true
@@ -137,6 +138,9 @@ fun addToDatabase(TAG: String, fullscreenResultActivity: FullscreenResultActivit
 }
 
 fun showCameraAndGalleryDialog(mainActivity: MainActivity) {
+
+    verifyPermissions(mainActivity)
+
     // shows dialog (modal) to prompt the user to either choose camera or gallery
     val camOrGallDialog = Dialog(mainActivity)
 
