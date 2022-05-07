@@ -8,10 +8,10 @@ The API's may be down, or may not be down. I don't watch it anymore.
 ---
 
 
-1. Startpage
-   ![startpage](docs/startscreen.png)
+####Startscreen
+   ![startscreen](docs/startscreen.png)
 
-2. Choose gallery or camera
+####Choose gallery or camera
    ![choose camera or gallery](docs/mainchoosegalleryorcam.png)
    
 3. Choose image from gallery
