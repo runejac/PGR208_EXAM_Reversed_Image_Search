@@ -5,12 +5,14 @@ Reversed Image Search 🖼🔍📱✍(◔◡◔) EXAM
 
 The API's may be down, or may not be down. I don't watch it anymore.
 
+---
+
 
 1. Startpage
-![startpage](docs/startscreen.png)
+   ![startpage](docs/startscreen.png)
 
 2. Choose gallery or camera
-![choose camera or gallery](docs/mainchoosegalleryorcam.png)
+   ![choose camera or gallery](docs/mainchoosegalleryorcam.png)
    
 3. Choose image from gallery
 ![gallery pick image](docs/chooseimagefromgallery.png)
