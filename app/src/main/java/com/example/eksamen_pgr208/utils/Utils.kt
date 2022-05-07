@@ -84,6 +84,8 @@ fun verifyPermissions(activity: AppCompatActivity): Boolean {
 @Suppress("BlockingMethodInNonBlockingContext")
 fun saveImageToExternalStorage(TAG: String, fullscreenResultActivity: FullscreenResultActivity) {
 
+    verifyPermissions(fullscreenResultActivity)
+
     // checking if the user has already permitted access to write external storage
     if (!verifyPermissions(fullscreenResultActivity)) {
         Toast.makeText(fullscreenResultActivity, "This app needs permission to store photos on your device.", Toast.LENGTH_SHORT).show()
