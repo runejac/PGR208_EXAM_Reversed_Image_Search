@@ -9,7 +9,7 @@ The API's may be down, or may not be down. I don't watch it anymore.
 
 
 #### Startscreen
-<img alt="startscreen" align="center" src="docs/startscreen.png" width="400"/>
+<img alt="startscreen" src="docs/startscreen.png" width="300"/>
 
 #### Choose gallery or camera
 ![choose camera or gallery](docs/mainchoosegalleryorcam.png)
