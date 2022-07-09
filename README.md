@@ -3,7 +3,7 @@
 Reversed Image Search 🖼🔍📱✍(◔◡◔) EXAM
 </h1>
 
-The API's may be down, or may not be down. I don't watch it anymore.
+This application was made by a group of 3 and were graded to an A.
 
 ---
 
